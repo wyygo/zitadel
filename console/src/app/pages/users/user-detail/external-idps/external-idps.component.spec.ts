@@ -6,12 +6,13 @@ describe('ExternalIdpsComponent', () => {
   let component: ExternalIdpsComponent;
   let fixture: ComponentFixture<ExternalIdpsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ExternalIdpsComponent ],
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ExternalIdpsComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExternalIdpsComponent);

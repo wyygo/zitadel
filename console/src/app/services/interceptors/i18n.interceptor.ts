@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Request, UnaryInterceptor, UnaryResponse } from 'grpc-web';
 
-
 const i18nHeader = 'Accept-Language';
 @Injectable({ providedIn: 'root' })
 /**
  * Set the navigator language as header to all grpc requests
  */
 export class I18nInterceptor<TReq = unknown, TResp = unknown> implements UnaryInterceptor<TReq, TResp> {
-    constructor() { }
+  constructor() {}
 
-    public async intercept(request: Request<TReq, TResp>, invoker: any): Promise<UnaryResponse<TReq, TResp>> {
-        const metadata = request.getMetadata();
+  public async intercept(request: Request<TReq, TResp>, invoker: any): Promise<UnaryResponse<TReq, TResp>> {
+    const metadata = request.getMetadata();
 
-        const navLang = navigator.language;
-        if (navLang) {
-            metadata[i18nHeader] = navLang;
-        }
-
-        return invoker(request).then((response: any) => {
-            return response;
-        }).catch((error: any) => {
-            return Promise.reject(error);
-        });
+    const navLang = navigator.language;
+    if (navLang) {
+      metadata[i18nHeader] = navLang;
     }
+
+    return invoker(request)
+      .then((response: any) => {
+        return response;
+      })
+      .catch((error: any) => {
+        return Promise.reject(error);
+      });
+  }
 }

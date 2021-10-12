@@ -6,12 +6,13 @@ describe('AppDetailComponent', () => {
   let component: AppDetailComponent;
   let fixture: ComponentFixture<AppDetailComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AppDetailComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AppDetailComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppDetailComponent);

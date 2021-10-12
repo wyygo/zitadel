@@ -10,7 +10,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding-bottom: .5rem;
+  padding-bottom: 0.5rem;
 
   .anim-list {
     display: flex;
@@ -52,10 +52,10 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 1rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     box-sizing: border-box;
     min-height: 166px;
-    transition: box-shadow .1s ease-in;
+    transition: box-shadow 0.1s ease-in;
 
     &.inactive {
       color: var(--grey);
@@ -72,23 +72,23 @@
       display: flex;
       flex-direction: column;
       min-height: 70px;
-      padding: .5rem 1rem 0 0;
+      padding: 0.5rem 1rem 0 0;
 
       .top {
-        font-size: .8rem;
+        font-size: 0.8rem;
         margin-bottom: 0;
-        margin-top: .5rem;
+        margin-top: 0.5rem;
         color: var(--grey);
       }
 
       .name-row {
         display: flex;
         align-items: center;
-        margin: 1rem 0 .5rem 0;
+        margin: 1rem 0 0.5rem 0;
 
         .name {
           font-size: 1.2rem;
-          margin-right: .5rem;
+          margin-right: 0.5rem;
         }
 
         .state-dot {
@@ -107,11 +107,11 @@
       }
 
       .description {
-        font-size: .8rem;
+        font-size: 0.8rem;
       }
 
       .created {
-        font-size: .8rem;
+        font-size: 0.8rem;
         color: var(--grey);
       }
 
@@ -145,7 +145,7 @@
       bottom: 0;
       right: 0;
       margin: 0;
-      margin-bottom: .25rem;
+      margin-bottom: 0.25rem;
       color: var(--grey);
 
       &.selected {
@@ -154,7 +154,7 @@
     }
 
     &:hover {
-      box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
 
       .edit-button {
         opacity: 1;
@@ -176,6 +176,6 @@
 .n-items {
   flex-basis: 100%;
   padding: 0 1rem;
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: var(--grey);
 }

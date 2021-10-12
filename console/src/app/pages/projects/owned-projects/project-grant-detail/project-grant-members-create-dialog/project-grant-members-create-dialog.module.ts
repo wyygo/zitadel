@@ -11,17 +11,16 @@ import { SearchUserAutocompleteModule } from 'src/app/modules/search-user-autoco
 import { ProjectGrantMembersCreateDialogComponent } from './project-grant-members-create-dialog.component';
 
 @NgModule({
-    declarations: [ProjectGrantMembersCreateDialogComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatDialogModule,
-        MatButtonModule,
-        TranslateModule,
-        MatSelectModule,
-        InputModule,
-        SearchUserAutocompleteModule,
-    ],
+  declarations: [ProjectGrantMembersCreateDialogComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    TranslateModule,
+    MatSelectModule,
+    InputModule,
+    SearchUserAutocompleteModule,
+  ],
 })
-export class ProjectGrantMembersCreateDialogModule { }
-
+export class ProjectGrantMembersCreateDialogModule {}

@@ -18,9 +18,7 @@ enum OrgListSearchKey {
   selector: 'cnsl-org-list',
   templateUrl: './org-list.component.html',
   styleUrls: ['./org-list.component.scss'],
-  animations: [
-    enterAnimations,
-  ],
+  animations: [enterAnimations],
 })
 export class OrgListComponent implements AfterViewInit {
   public orgSearchKey: OrgListSearchKey | undefined = undefined;
@@ -36,13 +34,10 @@ export class OrgListComponent implements AfterViewInit {
   public activeOrg!: Org.AsObject;
   public OrgListSearchKey: any = OrgListSearchKey;
 
-  constructor(
-    private authService: GrpcAuthService,
-    private router: Router,
-  ) {
+  constructor(private authService: GrpcAuthService, private router: Router) {
     this.loadOrgs(10, 0);
 
-    this.authService.getActiveOrg().then(org => this.activeOrg = org);
+    this.authService.getActiveOrg().then((org) => (this.activeOrg = org));
   }
 
   public ngAfterViewInit(): void {
@@ -60,17 +55,19 @@ export class OrgListComponent implements AfterViewInit {
       query.setNameQuery(orgNameQuery);
     }
 
-    from(this.authService.listMyProjectOrgs(limit, offset, query ? [query] : undefined)).pipe(
-      map(resp => {
-        return resp.resultList;
-      }),
-      catchError(() => of([])),
-      finalize(() => this.loadingSubject.next(false)),
-    ).subscribe(views => {
-      this.dataSource = new MatTableDataSource(views);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    from(this.authService.listMyProjectOrgs(limit, offset, query ? [query] : undefined))
+      .pipe(
+        map((resp) => {
+          return resp.resultList;
+        }),
+        catchError(() => of([])),
+        finalize(() => this.loadingSubject.next(false)),
+      )
+      .subscribe((views) => {
+        this.dataSource = new MatTableDataSource(views);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
   }
 
   public selectOrg(item: Org.AsObject, event?: any): void {

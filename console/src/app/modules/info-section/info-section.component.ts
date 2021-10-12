@@ -12,7 +12,6 @@ export enum InfoSectionType {
   styleUrls: ['./info-section.component.scss'],
 })
 export class InfoSectionComponent {
-
   @Input() type: InfoSectionType = InfoSectionType.INFO;
   @Input() featureLink: string | string[] = '';
 }

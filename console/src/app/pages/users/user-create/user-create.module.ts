@@ -17,23 +17,23 @@ import { UserCreateRoutingModule } from './user-create-routing.module';
 import { UserCreateComponent } from './user-create.component';
 
 @NgModule({
-    declarations: [UserCreateComponent],
-    imports: [
-        UserCreateRoutingModule,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        TranslateModule,
-        DetailLayoutModule,
-        InputModule,
-        MatRippleModule,
-    ],
+  declarations: [UserCreateComponent],
+  imports: [
+    UserCreateRoutingModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    TranslateModule,
+    DetailLayoutModule,
+    InputModule,
+    MatRippleModule,
+  ],
 })
-export class UserCreateModule { }
+export class UserCreateModule {}

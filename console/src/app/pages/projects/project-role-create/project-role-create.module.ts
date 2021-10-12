@@ -11,17 +11,17 @@ import { ProjectRoleCreateRoutingModule } from './project-role-create-routing.mo
 import { ProjectRoleCreateComponent } from './project-role-create.component';
 
 @NgModule({
-    declarations: [ProjectRoleCreateComponent],
-    imports: [
-        ProjectRoleCreateRoutingModule,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        InputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        TranslateModule,
-    ],
+  declarations: [ProjectRoleCreateComponent],
+  imports: [
+    ProjectRoleCreateRoutingModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslateModule,
+  ],
 })
-export class ProjectRoleCreateModule { }
+export class ProjectRoleCreateModule {}

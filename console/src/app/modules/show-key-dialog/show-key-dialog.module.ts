@@ -8,13 +8,7 @@ import { TimestampToDatePipeModule } from 'src/app/pipes/timestamp-to-date-pipe/
 import { ShowKeyDialogComponent } from './show-key-dialog.component';
 
 @NgModule({
-    declarations: [ShowKeyDialogComponent],
-    imports: [
-        CommonModule,
-        TranslateModule,
-        MatButtonModule,
-        LocalizedDatePipeModule,
-        TimestampToDatePipeModule,
-    ],
+  declarations: [ShowKeyDialogComponent],
+  imports: [CommonModule, TranslateModule, MatButtonModule, LocalizedDatePipeModule, TimestampToDatePipeModule],
 })
-export class ShowKeyDialogModule { }
+export class ShowKeyDialogModule {}

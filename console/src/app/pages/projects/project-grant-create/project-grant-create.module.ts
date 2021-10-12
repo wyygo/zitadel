@@ -18,24 +18,24 @@ import { ProjectGrantCreateRoutingModule } from './project-grant-create-routing.
 import { ProjectGrantCreateComponent } from './project-grant-create.component';
 
 @NgModule({
-    declarations: [ProjectGrantCreateComponent],
-    imports: [
-        ProjectGrantCreateRoutingModule,
-        CommonModule,
-        MatAutocompleteModule,
-        MatChipsModule,
-        MatButtonModule,
-        InputModule,
-        CardModule,
-        MatCheckboxModule,
-        ProjectRolesModule,
-        MatIconModule,
-        MatTooltipModule,
-        HasRolePipeModule,
-        ReactiveFormsModule,
-        MatProgressSpinnerModule,
-        FormsModule,
-        TranslateModule,
-    ],
+  declarations: [ProjectGrantCreateComponent],
+  imports: [
+    ProjectGrantCreateRoutingModule,
+    CommonModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatButtonModule,
+    InputModule,
+    CardModule,
+    MatCheckboxModule,
+    ProjectRolesModule,
+    MatIconModule,
+    MatTooltipModule,
+    HasRolePipeModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    TranslateModule,
+  ],
 })
-export class ProjectGrantCreateModule { }
+export class ProjectGrantCreateModule {}

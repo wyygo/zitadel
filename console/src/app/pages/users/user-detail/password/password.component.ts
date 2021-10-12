@@ -43,37 +43,40 @@ export class PasswordComponent implements OnDestroy {
     private mgmtUserService: ManagementService,
     private toast: ToastService,
   ) {
-    activatedRoute.params.subscribe(data => {
+    activatedRoute.params.subscribe((data) => {
       const { id } = data;
       if (id) {
         this.userId = id;
       }
 
       const validators: Validators[] = [Validators.required];
-      this.authService.getMyPasswordComplexityPolicy().then(resp => {
-        if (resp.policy) {
-          this.policy = resp.policy;
-        }
-        if (this.policy.minLength) {
-          validators.push(Validators.minLength(this.policy.minLength));
-        }
-        if (this.policy.hasLowercase) {
-          validators.push(lowerCaseValidator);
-        }
-        if (this.policy.hasUppercase) {
-          validators.push(upperCaseValidator);
-        }
-        if (this.policy.hasNumber) {
-          validators.push(numberValidator);
-        }
-        if (this.policy.hasSymbol) {
-          validators.push(symbolValidator);
-        }
+      this.authService
+        .getMyPasswordComplexityPolicy()
+        .then((resp) => {
+          if (resp.policy) {
+            this.policy = resp.policy;
+          }
+          if (this.policy.minLength) {
+            validators.push(Validators.minLength(this.policy.minLength));
+          }
+          if (this.policy.hasLowercase) {
+            validators.push(lowerCaseValidator);
+          }
+          if (this.policy.hasUppercase) {
+            validators.push(upperCaseValidator);
+          }
+          if (this.policy.hasNumber) {
+            validators.push(numberValidator);
+          }
+          if (this.policy.hasSymbol) {
+            validators.push(symbolValidator);
+          }
 
-        this.setupForm(validators);
-      }).catch(error => {
-        this.setupForm(validators);
-      });
+          this.setupForm(validators);
+        })
+        .catch((error) => {
+          this.setupForm(validators);
+        });
     });
   }
 
@@ -98,24 +101,34 @@ export class PasswordComponent implements OnDestroy {
 
   public setInitialPassword(userId: string): void {
     if (this.passwordForm.valid && this.password && this.password.value) {
-      this.mgmtUserService.setHumanInitialPassword(userId, this.password.value).then((data: any) => {
-        this.toast.showInfo('USER.TOAST.INITIALPASSWORDSET', true);
-        window.history.back();
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      this.mgmtUserService
+        .setHumanInitialPassword(userId, this.password.value)
+        .then((data: any) => {
+          this.toast.showInfo('USER.TOAST.INITIALPASSWORDSET', true);
+          window.history.back();
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
   public setPassword(): void {
-    if (this.passwordForm.valid && this.currentPassword &&
+    if (
+      this.passwordForm.valid &&
+      this.currentPassword &&
       this.currentPassword.value &&
-      this.newPassword && this.newPassword.value && this.newPassword.valid) {
-      this.authService.updateMyPassword(this.currentPassword.value, this.newPassword.value)
+      this.newPassword &&
+      this.newPassword.value &&
+      this.newPassword.valid
+    ) {
+      this.authService
+        .updateMyPassword(this.currentPassword.value, this.newPassword.value)
         .then((data: any) => {
           this.toast.showInfo('USER.TOAST.PASSWORDCHANGED', true);
           window.history.back();
-        }).catch(error => {
+        })
+        .catch((error) => {
           this.toast.showError(error);
         });
     }

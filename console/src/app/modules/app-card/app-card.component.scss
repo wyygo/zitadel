@@ -15,7 +15,7 @@
     padding: 1rem;
     box-sizing: border-box;
     cursor: pointer;
-    animation: all .2s;
+    animation: all 0.2s;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,10 +25,10 @@
     width: 80px;
     margin: 1rem;
     text-transform: uppercase;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     font-weight: 800;
     background-color: $back;
-    transition: background-color box-shadow .3s ease-in;
+    transition: background-color box-shadow 0.3s ease-in;
 
     &.web {
       background-color: rgb(80, 110, 110);

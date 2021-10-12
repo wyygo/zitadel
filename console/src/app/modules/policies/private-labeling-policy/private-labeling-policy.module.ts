@@ -24,11 +24,7 @@ import { PrivateLabelingPolicyRoutingModule } from './private-labeling-policy-ro
 import { PrivateLabelingPolicyComponent } from './private-labeling-policy.component';
 
 @NgModule({
-  declarations: [
-    PrivateLabelingPolicyComponent,
-    PreviewComponent,
-    ColorComponent,
-  ],
+  declarations: [PrivateLabelingPolicyComponent, PreviewComponent, ColorComponent],
   imports: [
     ColorChromeModule,
     PrivateLabelingPolicyRoutingModule,
@@ -51,4 +47,4 @@ import { PrivateLabelingPolicyComponent } from './private-labeling-policy.compon
     HasFeaturePipeModule,
   ],
 })
-export class PrivateLabelingPolicyModule { }
+export class PrivateLabelingPolicyModule {}

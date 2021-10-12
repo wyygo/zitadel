@@ -14,7 +14,7 @@ export class UserListComponent {
   public type: Type = Type.TYPE_HUMAN;
 
   constructor(public translate: TranslateService, activatedRoute: ActivatedRoute) {
-    activatedRoute.data.pipe(take(1)).subscribe(params => {
+    activatedRoute.data.pipe(take(1)).subscribe((params) => {
       const { type } = params;
       this.type = type;
     });

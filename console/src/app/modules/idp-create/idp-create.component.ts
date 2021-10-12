@@ -51,27 +51,29 @@ export class IdpCreateComponent implements OnInit, OnDestroy {
       autoRegister: new FormControl(false),
     });
 
-    this.route.data.pipe(take(1)).subscribe(data => {
+    this.route.data.pipe(take(1)).subscribe((data) => {
       this.serviceType = data.serviceType;
       switch (this.serviceType) {
         case PolicyComponentServiceType.MGMT:
           this.service = this.injector.get(ManagementService as Type<ManagementService>);
           this.mappingFields = [
             OIDCMappingField.OIDC_MAPPING_FIELD_PREFERRED_USERNAME,
-            OIDCMappingField.OIDC_MAPPING_FIELD_EMAIL];
+            OIDCMappingField.OIDC_MAPPING_FIELD_EMAIL,
+          ];
           break;
         case PolicyComponentServiceType.ADMIN:
           this.service = this.injector.get(AdminService as Type<AdminService>);
           this.mappingFields = [
             OIDCMappingField.OIDC_MAPPING_FIELD_PREFERRED_USERNAME,
-            OIDCMappingField.OIDC_MAPPING_FIELD_EMAIL];
+            OIDCMappingField.OIDC_MAPPING_FIELD_EMAIL,
+          ];
           break;
       }
     });
   }
 
   public ngOnInit(): void {
-    this.subscription = this.route.params.subscribe(params => this.getData(params));
+    this.subscription = this.route.params.subscribe((params) => this.getData(params));
   }
 
   public ngOnDestroy(): void {
@@ -96,17 +98,25 @@ export class IdpCreateComponent implements OnInit, OnDestroy {
       req.setAutoRegister(this.autoRegister?.value);
 
       this.loading = true;
-      (this.service as ManagementService).addOrgOIDCIDP(req).then((idp) => {
-        setTimeout(() => {
-          this.loading = false;
-          this.router.navigate([
-            (this.serviceType === PolicyComponentServiceType.MGMT ? 'org' :
-              this.serviceType === PolicyComponentServiceType.ADMIN ? 'iam' : ''),
-            'policy', 'login']);
-        }, 2000);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      (this.service as ManagementService)
+        .addOrgOIDCIDP(req)
+        .then((idp) => {
+          setTimeout(() => {
+            this.loading = false;
+            this.router.navigate([
+              this.serviceType === PolicyComponentServiceType.MGMT
+                ? 'org'
+                : this.serviceType === PolicyComponentServiceType.ADMIN
+                ? 'iam'
+                : '',
+              'policy',
+              'login',
+            ]);
+          }, 2000);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     } else if (PolicyComponentServiceType.ADMIN) {
       const req = new AddOIDCIDPRequest();
       req.setName(this.name?.value);
@@ -119,17 +129,25 @@ export class IdpCreateComponent implements OnInit, OnDestroy {
       req.setAutoRegister(this.autoRegister?.value);
 
       this.loading = true;
-      (this.service as AdminService).addOIDCIDP(req).then((idp) => {
-        setTimeout(() => {
-          this.loading = false;
-          this.router.navigate([
-            (this.serviceType === PolicyComponentServiceType.MGMT ? 'org' :
-              this.serviceType === PolicyComponentServiceType.ADMIN ? 'iam' : ''),
-            'policy', 'login']);
-        }, 2000);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      (this.service as AdminService)
+        .addOIDCIDP(req)
+        .then((idp) => {
+          setTimeout(() => {
+            this.loading = false;
+            this.router.navigate([
+              this.serviceType === PolicyComponentServiceType.MGMT
+                ? 'org'
+                : this.serviceType === PolicyComponentServiceType.ADMIN
+                ? 'iam'
+                : '',
+              'policy',
+              'login',
+            ]);
+          }, 2000);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -192,5 +210,4 @@ export class IdpCreateComponent implements OnInit, OnDestroy {
   public get usernameMapping(): AbstractControl | null {
     return this.formGroup.get('usernameMapping');
   }
-
 }

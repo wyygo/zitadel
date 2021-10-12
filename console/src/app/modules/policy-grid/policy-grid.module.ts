@@ -13,21 +13,19 @@ import { InfoSectionModule } from '../info-section/info-section.module';
 import { PolicyGridComponent } from './policy-grid.component';
 
 @NgModule({
-    declarations: [PolicyGridComponent],
-    imports: [
-        CommonModule,
-        HasRolePipeModule,
-        HasRoleModule,
-        TranslateModule,
-        RouterModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        InfoSectionModule,
-        HasFeaturePipeModule,
-    ],
-    exports: [
-        PolicyGridComponent,
-    ],
+  declarations: [PolicyGridComponent],
+  imports: [
+    CommonModule,
+    HasRolePipeModule,
+    HasRoleModule,
+    TranslateModule,
+    RouterModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    InfoSectionModule,
+    HasFeaturePipeModule,
+  ],
+  exports: [PolicyGridComponent],
 })
-export class PolicyGridModule { }
+export class PolicyGridModule {}

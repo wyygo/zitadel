@@ -25,25 +25,26 @@ export class ProjectGrantsDataSource extends DataSource<GrantedProject.AsObject>
     const offset = pageIndex * pageSize;
 
     this.loadingSubject.next(true);
-    from(this.mgmtService.listProjectGrants(projectId, pageSize, offset)).pipe(
-      map(resp => {
-        if (resp.details?.totalResult) {
-          this.totalResult = resp.details.totalResult;
-        } else {
-          this.totalResult = 0;
-        }
-        if (resp.details?.viewTimestamp) {
-          this.viewTimestamp = resp.details?.viewTimestamp;
-        }
-        return resp.resultList;
-      }),
-      catchError(() => of([])),
-      finalize(() => this.loadingSubject.next(false)),
-    ).subscribe(grants => {
-      this.grantsSubject.next(grants);
-    });
+    from(this.mgmtService.listProjectGrants(projectId, pageSize, offset))
+      .pipe(
+        map((resp) => {
+          if (resp.details?.totalResult) {
+            this.totalResult = resp.details.totalResult;
+          } else {
+            this.totalResult = 0;
+          }
+          if (resp.details?.viewTimestamp) {
+            this.viewTimestamp = resp.details?.viewTimestamp;
+          }
+          return resp.resultList;
+        }),
+        catchError(() => of([])),
+        finalize(() => this.loadingSubject.next(false)),
+      )
+      .subscribe((grants) => {
+        this.grantsSubject.next(grants);
+      });
   }
-
 
   /**
    * Connect this data source to the table. The table will only update when

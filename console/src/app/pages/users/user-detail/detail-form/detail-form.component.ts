@@ -26,14 +26,9 @@ export class DetailFormComponent implements OnDestroy, OnChanges {
 
   private sub: Subscription = new Subscription();
 
-  constructor(
-    private fb: FormBuilder,
-    private dialog: MatDialog,
-  ) {
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {
     this.profileForm = this.fb.group({
-      userName: [{ value: '', disabled: true }, [
-        Validators.required,
-      ]],
+      userName: [{ value: '', disabled: true }, [Validators.required]],
       firstName: [{ value: '', disabled: this.disabled }, Validators.required],
       lastName: [{ value: '', disabled: this.disabled }, Validators.required],
       nickName: [{ value: '', disabled: this.disabled }],
@@ -45,9 +40,7 @@ export class DetailFormComponent implements OnDestroy, OnChanges {
 
   public ngOnChanges(): void {
     this.profileForm = this.fb.group({
-      userName: [{ value: '', disabled: true }, [
-        Validators.required,
-      ]],
+      userName: [{ value: '', disabled: true }, [Validators.required]],
       firstName: [{ value: '', disabled: this.disabled }, Validators.required],
       lastName: [{ value: '', disabled: this.disabled }, Validators.required],
       nickName: [{ value: '', disabled: this.disabled }],
@@ -59,7 +52,7 @@ export class DetailFormComponent implements OnDestroy, OnChanges {
     this.profileForm.patchValue({ userName: this.username, ...this.user.profile });
 
     if (this.preferredLanguage) {
-      this.sub = this.preferredLanguage.valueChanges.subscribe(value => {
+      this.sub = this.preferredLanguage.valueChanges.subscribe((value) => {
         this.changedLanguage.emit(value);
       });
     }
@@ -81,7 +74,7 @@ export class DetailFormComponent implements OnDestroy, OnChanges {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
       }
     });
@@ -109,5 +102,4 @@ export class DetailFormComponent implements OnDestroy, OnChanges {
   public get preferredLanguage(): AbstractControl | null {
     return this.profileForm.get('preferredLanguage');
   }
-
 }

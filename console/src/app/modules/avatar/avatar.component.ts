@@ -14,7 +14,7 @@ export class AvatarComponent implements OnInit {
   @Input() color: string = '';
   @Input() forColor: string = '';
   @Input() avatarUrl: string = '';
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     if (!this.credentials && this.forColor) {
@@ -79,7 +79,8 @@ export class AvatarComponent implements OnInit {
 
   /* eslint-disable */
   private hashCode(str: string, seed: number = 0): number {
-    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    let h1 = 0xdeadbeef ^ seed,
+      h2 = 0x41c6ce57 ^ seed;
     for (let i = 0, ch; i < str.length; i++) {
       ch = str.charCodeAt(i);
       h1 = Math.imul(h1 ^ ch, 2654435761);

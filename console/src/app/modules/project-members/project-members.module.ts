@@ -15,20 +15,20 @@ import { ProjectMembersRoutingModule } from './project-members-routing.module';
 import { ProjectMembersComponent } from './project-members.component';
 
 @NgModule({
-    declarations: [ProjectMembersComponent],
-    imports: [
-        ProjectMembersRoutingModule,
-        CommonModule,
-        HasRoleModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        TranslateModule,
-        DetailLayoutModule,
-        MatDialogModule,
-        MembersTableModule,
-        HasRolePipeModule,
-        MemberCreateDialogModule,
-    ],
+  declarations: [ProjectMembersComponent],
+  imports: [
+    ProjectMembersRoutingModule,
+    CommonModule,
+    HasRoleModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslateModule,
+    DetailLayoutModule,
+    MatDialogModule,
+    MembersTableModule,
+    HasRolePipeModule,
+    MemberCreateDialogModule,
+  ],
 })
-export class ProjectMembersModule { }
+export class ProjectMembersModule {}

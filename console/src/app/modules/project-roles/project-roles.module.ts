@@ -22,33 +22,30 @@ import { RefreshTableModule } from '../refresh-table/refresh-table.module';
 import { ProjectRoleDetailComponent } from './project-role-detail/project-role-detail.component';
 import { ProjectRolesComponent } from './project-roles.component';
 
-
 @NgModule({
-    declarations: [ProjectRolesComponent, ProjectRoleDetailComponent],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        HasRoleModule,
-        MatTableModule,
-        PaginatorModule,
-        MatDialogModule,
-        InputModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatCheckboxModule,
-        RouterModule,
-        MatTooltipModule,
-        HasRolePipeModule,
-        TranslateModule,
-        MatMenuModule,
-        TimestampToDatePipeModule,
-        RefreshTableModule,
-        LocalizedDatePipeModule,
-    ],
-    exports: [
-        ProjectRolesComponent,
-    ],
+  declarations: [ProjectRolesComponent, ProjectRoleDetailComponent],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    HasRoleModule,
+    MatTableModule,
+    PaginatorModule,
+    MatDialogModule,
+    InputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    RouterModule,
+    MatTooltipModule,
+    HasRolePipeModule,
+    TranslateModule,
+    MatMenuModule,
+    TimestampToDatePipeModule,
+    RefreshTableModule,
+    LocalizedDatePipeModule,
+  ],
+  exports: [ProjectRolesComponent],
 })
-export class ProjectRolesModule { }
+export class ProjectRolesModule {}

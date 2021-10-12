@@ -67,4 +67,4 @@ import { OrgsRoutingModule } from './orgs-routing.module';
     ZitadelTierModule,
   ],
 })
-export class OrgsModule { }
+export class OrgsModule {}

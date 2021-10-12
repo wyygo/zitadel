@@ -15,14 +15,16 @@ export class InfoRowComponent implements OnInit {
   public AppState: any = AppState;
   public copied: string = '';
 
-  public environmentMap: { [key: string]: string; } = {};
+  public environmentMap: { [key: string]: string } = {};
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     if (this.app) {
-      this.http.get('./assets/environment.json')
-        .toPromise().then((env: any) => {
+      this.http
+        .get('./assets/environment.json')
+        .toPromise()
+        .then((env: any) => {
           this.environmentMap = {
             issuer: env.issuer,
             adminServiceUrl: env.adminServiceUrl,
@@ -32,5 +34,4 @@ export class InfoRowComponent implements OnInit {
         });
     }
   }
-
 }

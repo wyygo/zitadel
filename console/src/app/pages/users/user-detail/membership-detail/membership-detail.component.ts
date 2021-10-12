@@ -25,13 +25,20 @@ export class MembershipDetailComponent implements AfterViewInit {
   @ViewChild(PaginatorComponent) public paginator!: PaginatorComponent;
   @ViewChild(MatTable) public table!: MatTable<Membership.AsObject>;
   public dataSource!: MembershipDetailDataSource;
-  public selection: SelectionModel<Membership.AsObject>
-    = new SelectionModel<Membership.AsObject>(true, []);
+  public selection: SelectionModel<Membership.AsObject> = new SelectionModel<Membership.AsObject>(true, []);
 
   public memberRoleOptions: string[] = [];
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  public displayedColumns: string[] = ['select', 'memberType', 'displayName', 'creationDate', 'changeDate', 'roles', 'actions'];
+  public displayedColumns: string[] = [
+    'select',
+    'memberType',
+    'displayName',
+    'creationDate',
+    'changeDate',
+    'roles',
+    'actions',
+  ];
 
   public loading: boolean = false;
   public memberships!: Membership.AsObject[];
@@ -47,59 +54,53 @@ export class MembershipDetailComponent implements AfterViewInit {
     private adminService: AdminService,
   ) {
     activatedRoute.params
-      .pipe(switchMap(({ id }) => {
-        return authService.user.pipe(
-          map(user => user?.id === id),
-          tap((isMe) => {
-            this.isMe = isMe;
-
-            if (isMe) {
-              this.mgmtService.getUserByID(id).then(resp => {
-                if (resp.user) {
-                  this.user = resp.user;
-                  this.dataSource = new MembershipDetailDataSource(this.mgmtService, authService);
-                  this.dataSource.loadMyMemberships(
-                    0,
-                    50,
-                  );
-                }
-              }).catch(err => {
-                console.error(err);
-              });
-            } else {
-              this.mgmtService.getUserByID(id).then(resp => {
-                if (resp.user) {
-                  this.user = resp.user;
-                  this.dataSource = new MembershipDetailDataSource(this.mgmtService, authService);
-                  this.dataSource.loadMemberships(
-                    this.user.id,
-                    0,
-                    50,
-                  );
-                }
-              }).catch(err => {
-                console.error(err);
-              });
-            }
-          }),
-        );
-      })).subscribe();
-  }
-
-  public ngAfterViewInit(): void {
-    this.paginator.page
       .pipe(
-        tap(() => this.loadMembershipsPage()),
+        switchMap(({ id }) => {
+          return authService.user.pipe(
+            map((user) => user?.id === id),
+            tap((isMe) => {
+              this.isMe = isMe;
+
+              if (isMe) {
+                this.mgmtService
+                  .getUserByID(id)
+                  .then((resp) => {
+                    if (resp.user) {
+                      this.user = resp.user;
+                      this.dataSource = new MembershipDetailDataSource(this.mgmtService, authService);
+                      this.dataSource.loadMyMemberships(0, 50);
+                    }
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
+              } else {
+                this.mgmtService
+                  .getUserByID(id)
+                  .then((resp) => {
+                    if (resp.user) {
+                      this.user = resp.user;
+                      this.dataSource = new MembershipDetailDataSource(this.mgmtService, authService);
+                      this.dataSource.loadMemberships(this.user.id, 0, 50);
+                    }
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
+              }
+            }),
+          );
+        }),
       )
       .subscribe();
   }
 
+  public ngAfterViewInit(): void {
+    this.paginator.page.pipe(tap(() => this.loadMembershipsPage())).subscribe();
+  }
+
   private loadMembershipsPage(): void {
-    this.dataSource.loadMemberships(
-      this.user.id,
-      this.paginator.pageIndex,
-      this.paginator.pageSize,
-    );
+    this.dataSource.loadMemberships(this.user.id, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
   public isAllSelected(): boolean {
@@ -109,9 +110,9 @@ export class MembershipDetailComponent implements AfterViewInit {
   }
 
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.membersSubject.value.forEach(row => this.selection.select(row));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.membersSubject.value.forEach((row) => this.selection.select(row));
   }
 
   public addMember(): void {
@@ -122,7 +123,7 @@ export class MembershipDetailComponent implements AfterViewInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp && resp.creationType !== undefined) {
         switch (resp.creationType) {
           case CreationType.IAM:
@@ -143,7 +144,7 @@ export class MembershipDetailComponent implements AfterViewInit {
   }
 
   public async loadManager(userId: string): Promise<void> {
-    this.mgmtService.listUserMemberships(userId, 100, 0, []).then(response => {
+    this.mgmtService.listUserMemberships(userId, 100, 0, []).then((response) => {
       this.memberships = response.resultList;
       this.loading = false;
     });
@@ -154,16 +155,20 @@ export class MembershipDetailComponent implements AfterViewInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      Promise.all(users.map(user => {
-        return this.adminService.addIAMMember(user.id, roles);
-      })).then(() => {
-        this.toast.showInfo('IAM.TOAST.MEMBERADDED', true);
-        setTimeout(() => {
-          this.refreshPage();
-        }, 1000);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      Promise.all(
+        users.map((user) => {
+          return this.adminService.addIAMMember(user.id, roles);
+        }),
+      )
+        .then(() => {
+          this.toast.showInfo('IAM.TOAST.MEMBERADDED', true);
+          setTimeout(() => {
+            this.refreshPage();
+          }, 1000);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -172,16 +177,20 @@ export class MembershipDetailComponent implements AfterViewInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      Promise.all(users.map(user => {
-        return this.mgmtService.addOrgMember(user.id, roles);
-      })).then(() => {
-        this.toast.showInfo('ORG.TOAST.MEMBERADDED', true);
-        setTimeout(() => {
-          this.refreshPage();
-        }, 1000);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      Promise.all(
+        users.map((user) => {
+          return this.mgmtService.addOrgMember(user.id, roles);
+        }),
+      )
+        .then(() => {
+          this.toast.showInfo('ORG.TOAST.MEMBERADDED', true);
+          setTimeout(() => {
+            this.refreshPage();
+          }, 1000);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -190,20 +199,18 @@ export class MembershipDetailComponent implements AfterViewInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      users.forEach(user => {
-        return this.mgmtService.addProjectGrantMember(
-          response.projectId,
-          response.grantId,
-          user.id,
-          roles,
-        ).then(() => {
-          this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
-          setTimeout(() => {
-            this.refreshPage();
-          }, 1000);
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+      users.forEach((user) => {
+        return this.mgmtService
+          .addProjectGrantMember(response.projectId, response.grantId, user.id, roles)
+          .then(() => {
+            this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
+            setTimeout(() => {
+              this.refreshPage();
+            }, 1000);
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       });
     }
   }
@@ -213,14 +220,16 @@ export class MembershipDetailComponent implements AfterViewInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      users.forEach(user => {
-        return this.mgmtService.addProjectMember(response.projectId, user.id, roles)
+      users.forEach((user) => {
+        return this.mgmtService
+          .addProjectMember(response.projectId, user.id, roles)
           .then(() => {
             this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
             setTimeout(() => {
               this.refreshPage();
             }, 1000);
-          }).catch(error => {
+          })
+          .catch((error) => {
             this.toast.showError(error);
           });
       });
@@ -231,11 +240,7 @@ export class MembershipDetailComponent implements AfterViewInit {
     let prom;
 
     if (membership.projectId && membership.projectGrantId && membership.userId) {
-      prom = this.mgmtService.removeProjectGrantMember(
-        membership.projectId,
-        membership.projectGrantId,
-        membership.userId,
-      );
+      prom = this.mgmtService.removeProjectGrantMember(membership.projectId, membership.projectGrantId, membership.userId);
     } else if (membership.projectId && membership.userId) {
       prom = this.mgmtService.removeProjectMember(membership.projectId, membership.userId);
     } else if (membership.orgId && membership.userId) {
@@ -245,10 +250,12 @@ export class MembershipDetailComponent implements AfterViewInit {
     }
 
     if (prom) {
-      prom.then(() => {
-        this.toast.showInfo('PROJECT.TOAST.MEMBERREMOVED', true);
-        this.refreshPage();
-      }).catch(error => this.toast.showError(error));
+      prom
+        .then(() => {
+          this.toast.showInfo('PROJECT.TOAST.MEMBERREMOVED', true);
+          this.refreshPage();
+        })
+        .catch((error) => this.toast.showError(error));
     }
   }
 

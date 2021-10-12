@@ -15,25 +15,23 @@ import { InputModule } from 'src/app/modules/input/input.module';
 import { UserCreateMachineRoutingModule } from './user-create-machine-routing.module';
 import { UserCreateMachineComponent } from './user-create-machine.component';
 
-
-
 @NgModule({
-    declarations: [UserCreateMachineComponent],
-    imports: [
-        UserCreateMachineRoutingModule,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        TranslateModule,
-        DetailLayoutModule,
-        InputModule,
-    ],
+  declarations: [UserCreateMachineComponent],
+  imports: [
+    UserCreateMachineRoutingModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    TranslateModule,
+    DetailLayoutModule,
+    InputModule,
+  ],
 })
-export class UserCreateMachineModule { }
+export class UserCreateMachineModule {}

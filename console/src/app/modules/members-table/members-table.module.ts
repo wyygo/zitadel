@@ -18,28 +18,24 @@ import { RefreshTableModule } from '../refresh-table/refresh-table.module';
 import { MembersTableComponent } from './members-table.component';
 
 @NgModule({
-    declarations: [
-        MembersTableComponent,
-    ],
-    imports: [
-        CommonModule,
-        InputModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatTableModule,
-        PaginatorModule,
-        MatSortModule,
-        MatTooltipModule,
-        FormsModule,
-        TranslateModule,
-        RefreshTableModule,
-        RouterModule,
-        AvatarModule,
-        MatButtonModule,
-    ],
-    exports: [
-        MembersTableComponent,
-    ],
+  declarations: [MembersTableComponent],
+  imports: [
+    CommonModule,
+    InputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatTableModule,
+    PaginatorModule,
+    MatSortModule,
+    MatTooltipModule,
+    FormsModule,
+    TranslateModule,
+    RefreshTableModule,
+    RouterModule,
+    AvatarModule,
+    MatButtonModule,
+  ],
+  exports: [MembersTableComponent],
 })
-export class MembersTableModule { }
+export class MembersTableModule {}

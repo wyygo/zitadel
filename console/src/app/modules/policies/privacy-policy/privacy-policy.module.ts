@@ -49,4 +49,4 @@ import { PrivacyPolicyComponent } from './privacy-policy.component';
     InfoSectionModule,
   ],
 })
-export class PrivacyPolicyModule { }
+export class PrivacyPolicyModule {}

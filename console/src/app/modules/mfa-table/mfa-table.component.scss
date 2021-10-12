@@ -5,7 +5,7 @@
 .mfa-list {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -.5rem;
+  margin: 0 -0.5rem;
 
   .mfa {
     background-color: #6a506e;
@@ -15,11 +15,11 @@
   .mfa,
   .new-mfa {
     border: 1px solid var(--grey);
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     display: grid;
     align-items: center;
     justify-content: center;
-    margin: .5rem;
+    margin: 0.5rem;
     padding: 10px;
     position: relative;
     min-height: 70px;
@@ -33,7 +33,7 @@
       transform: translateX(-50%) translateY(-50%);
       cursor: pointer;
       color: var(--warn);
-      transition: all .2s ease;
+      transition: all 0.2s ease;
 
       &[disabled] {
         display: none;
@@ -51,7 +51,7 @@
     }
 
     &.disabled {
-      opacity: .5;
+      opacity: 0.5;
       cursor: not-allowed;
     }
   }

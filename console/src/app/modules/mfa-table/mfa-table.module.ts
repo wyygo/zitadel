@@ -23,24 +23,22 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
-    declarations: [MfaTableComponent, DialogAddTypeComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule,
-        InputModule,
-        MatSelectModule,
-        MatTooltipModule,
-        TranslateModule,
-        TimestampToDatePipeModule,
-        HasRoleModule,
-        MatProgressSpinnerModule,
-        MatRippleModule,
-    ],
-    exports: [
-        MfaTableComponent,
-    ],
+  declarations: [MfaTableComponent, DialogAddTypeComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    InputModule,
+    MatSelectModule,
+    MatTooltipModule,
+    TranslateModule,
+    TimestampToDatePipeModule,
+    HasRoleModule,
+    MatProgressSpinnerModule,
+    MatRippleModule,
+  ],
+  exports: [MfaTableComponent],
 })
-export class MfaTableModule { }
+export class MfaTableModule {}

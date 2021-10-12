@@ -42,15 +42,19 @@ export class OrgIamPolicyComponent implements OnDestroy {
     if (temporg) {
       this.org = temporg;
     }
-    this.sub = this.route.data.pipe(switchMap(data => {
-      this.serviceType = data.serviceType;
-      if (this.serviceType === PolicyComponentServiceType.MGMT) {
-        this.managementService = this.injector.get(ManagementService as Type<ManagementService>);
-      }
-      return this.route.params;
-    })).subscribe(_ => {
-      this.fetchData();
-    });
+    this.sub = this.route.data
+      .pipe(
+        switchMap((data) => {
+          this.serviceType = data.serviceType;
+          if (this.serviceType === PolicyComponentServiceType.MGMT) {
+            this.managementService = this.injector.get(ManagementService as Type<ManagementService>);
+          }
+          return this.route.params;
+        }),
+      )
+      .subscribe((_) => {
+        this.fetchData();
+      });
   }
 
   public ngOnDestroy(): void {
@@ -58,7 +62,7 @@ export class OrgIamPolicyComponent implements OnDestroy {
   }
 
   public fetchData(): void {
-    this.getData().then(resp => {
+    this.getData().then((resp) => {
       if (resp?.policy) {
         this.iamData = resp.policy;
       }
@@ -83,49 +87,53 @@ export class OrgIamPolicyComponent implements OnDestroy {
     switch (this.serviceType) {
       case PolicyComponentServiceType.MGMT:
         if ((this.iamData as OrgIAMPolicy.AsObject).isDefault) {
-          this.adminService.addCustomOrgIAMPolicy(
-            this.org.id,
-            this.iamData.userLoginMustBeDomain,
-          ).then(() => {
-            this.toast.showInfo('POLICY.TOAST.SET', true);
-          }).catch(error => {
-            this.toast.showError(error);
-          });
+          this.adminService
+            .addCustomOrgIAMPolicy(this.org.id, this.iamData.userLoginMustBeDomain)
+            .then(() => {
+              this.toast.showInfo('POLICY.TOAST.SET', true);
+            })
+            .catch((error) => {
+              this.toast.showError(error);
+            });
           break;
         } else {
-          this.adminService.updateCustomOrgIAMPolicy(
-            this.org.id,
-            this.iamData.userLoginMustBeDomain,
-          ).then(() => {
-            this.toast.showInfo('POLICY.TOAST.SET', true);
-          }).catch(error => {
-            this.toast.showError(error);
-          });
+          this.adminService
+            .updateCustomOrgIAMPolicy(this.org.id, this.iamData.userLoginMustBeDomain)
+            .then(() => {
+              this.toast.showInfo('POLICY.TOAST.SET', true);
+            })
+            .catch((error) => {
+              this.toast.showError(error);
+            });
           break;
         }
       case PolicyComponentServiceType.ADMIN:
         // update Default org iam policy?
-        this.adminService.updateOrgIAMPolicy(
-          this.iamData.userLoginMustBeDomain,
-        ).then(() => {
-          this.toast.showInfo('POLICY.TOAST.SET', true);
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+        this.adminService
+          .updateOrgIAMPolicy(this.iamData.userLoginMustBeDomain)
+          .then(() => {
+            this.toast.showInfo('POLICY.TOAST.SET', true);
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
         break;
     }
   }
 
   public removePolicy(): void {
     if (this.serviceType === PolicyComponentServiceType.MGMT) {
-      this.adminService.resetCustomOrgIAMPolicyToDefault(this.org.id).then(() => {
-        this.toast.showInfo('POLICY.TOAST.RESETSUCCESS', true);
-        setTimeout(() => {
-          this.fetchData();
-        }, 1000);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      this.adminService
+        .resetCustomOrgIAMPolicyToDefault(this.org.id)
+        .then(() => {
+          this.toast.showInfo('POLICY.TOAST.RESETSUCCESS', true);
+          setTimeout(() => {
+            this.fetchData();
+          }, 1000);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 

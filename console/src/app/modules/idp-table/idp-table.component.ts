@@ -26,10 +26,8 @@ export class IdpTableComponent implements OnInit {
   @Input() service!: AdminService | ManagementService;
   @Input() disabled: boolean = false;
   @ViewChild(PaginatorComponent) public paginator!: PaginatorComponent;
-  public dataSource: MatTableDataSource<IDP.AsObject>
-    = new MatTableDataSource<IDP.AsObject>();
-  public selection: SelectionModel<IDP.AsObject>
-    = new SelectionModel<IDP.AsObject>(true, []);
+  public dataSource: MatTableDataSource<IDP.AsObject> = new MatTableDataSource<IDP.AsObject>();
+  public selection: SelectionModel<IDP.AsObject> = new SelectionModel<IDP.AsObject>(true, []);
   public idpResult!: ListIDPsResponse.AsObject | ListOrgIDPsResponse.AsObject;
   private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public loading$: Observable<boolean> = this.loadingSubject.asObservable();
@@ -39,8 +37,7 @@ export class IdpTableComponent implements OnInit {
   public IDPSTYLINGTYPE: any = IDPStylingType;
   @Input() public displayedColumns: string[] = ['select', 'name', 'config', 'dates', 'state'];
 
-  @Output() public changedSelection: EventEmitter<Array<IDP.AsObject>>
-    = new EventEmitter();
+  @Output() public changedSelection: EventEmitter<Array<IDP.AsObject>> = new EventEmitter();
 
   constructor(public translate: TranslateService, private toast: ToastService, private dialog: MatDialog) {
     this.selection.changed.subscribe(() => {
@@ -66,48 +63,49 @@ export class IdpTableComponent implements OnInit {
   }
 
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
-
 
   public changePage(event: PageEvent): void {
     this.getData(event.pageSize, event.pageIndex * event.pageSize);
   }
 
   public deactivateSelectedIdps(): void {
-    const map: Promise<any>[] = this.selection.selected.map(value => {
+    const map: Promise<any>[] = this.selection.selected.map((value) => {
       if (this.serviceType === PolicyComponentServiceType.MGMT) {
         return (this.service as ManagementService).deactivateOrgIDP(value.id);
       } else {
         return (this.service as AdminService).deactivateIDP(value.id);
       }
     });
-    Promise.all(map).then(() => {
-      this.selection.clear();
-      this.toast.showInfo('IDP.TOAST.SELECTEDDEACTIVATED', true);
-      this.refreshPage();
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    Promise.all(map)
+      .then(() => {
+        this.selection.clear();
+        this.toast.showInfo('IDP.TOAST.SELECTEDDEACTIVATED', true);
+        this.refreshPage();
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public reactivateSelectedIdps(): void {
-    const map: Promise<any>[] = this.selection.selected.map(value => {
+    const map: Promise<any>[] = this.selection.selected.map((value) => {
       if (this.serviceType === PolicyComponentServiceType.MGMT) {
         return (this.service as ManagementService).reactivateOrgIDP(value.id);
       } else {
         return (this.service as AdminService).reactivateIDP(value.id);
       }
     });
-    Promise.all(map).then(() => {
-      this.selection.clear();
-      this.toast.showInfo('IDP.TOAST.SELECTEDREACTIVATED', true);
-      this.refreshPage();
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    Promise.all(map)
+      .then(() => {
+        this.selection.clear();
+        this.toast.showInfo('IDP.TOAST.SELECTEDREACTIVATED', true);
+        this.refreshPage();
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public removeIdp(idp: IDP.AsObject): void {
@@ -121,26 +119,32 @@ export class IdpTableComponent implements OnInit {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
         if (this.serviceType === PolicyComponentServiceType.MGMT) {
-          (this.service as ManagementService).removeOrgIDP(idp.id).then(() => {
-            this.toast.showInfo('IDP.TOAST.DELETED', true);
-            setTimeout(() => {
-              this.refreshPage();
-            }, 1000);
-          }, error => {
-            this.toast.showError(error);
-          });
+          (this.service as ManagementService).removeOrgIDP(idp.id).then(
+            () => {
+              this.toast.showInfo('IDP.TOAST.DELETED', true);
+              setTimeout(() => {
+                this.refreshPage();
+              }, 1000);
+            },
+            (error) => {
+              this.toast.showError(error);
+            },
+          );
         } else {
-          (this.service as AdminService).removeIDP(idp.id).then(() => {
-            this.toast.showInfo('IDP.TOAST.DELETED', true);
-            setTimeout(() => {
-              this.refreshPage();
-            }, 1000);
-          }, error => {
-            this.toast.showError(error);
-          });
+          (this.service as AdminService).removeIDP(idp.id).then(
+            () => {
+              this.toast.showInfo('IDP.TOAST.DELETED', true);
+              setTimeout(() => {
+                this.refreshPage();
+              }, 1000);
+            },
+            (error) => {
+              this.toast.showError(error);
+            },
+          );
         }
       }
     });
@@ -150,26 +154,31 @@ export class IdpTableComponent implements OnInit {
     this.loadingSubject.next(true);
 
     if (this.serviceType === PolicyComponentServiceType.MGMT) {
-      (this.service as ManagementService).listOrgIDPs(limit, offset).then(resp => {
-        this.idpResult = resp;
-        this.dataSource.data = resp.resultList;
-        this.loadingSubject.next(false);
-      }).catch(error => {
-        this.toast.showError(error);
-        this.loadingSubject.next(false);
-      });
+      (this.service as ManagementService)
+        .listOrgIDPs(limit, offset)
+        .then((resp) => {
+          this.idpResult = resp;
+          this.dataSource.data = resp.resultList;
+          this.loadingSubject.next(false);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+          this.loadingSubject.next(false);
+        });
     } else {
-      (this.service as AdminService).listIDPs(limit, offset).then(resp => {
-        this.idpResult = resp;
-        this.dataSource.data = resp.resultList;
+      (this.service as AdminService)
+        .listIDPs(limit, offset)
+        .then((resp) => {
+          this.idpResult = resp;
+          this.dataSource.data = resp.resultList;
 
-        this.loadingSubject.next(false);
-      }).catch(error => {
-        this.toast.showError(error);
-        this.loadingSubject.next(false);
-      });
+          this.loadingSubject.next(false);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+          this.loadingSubject.next(false);
+        });
     }
-
   }
 
   public refreshPage(): void {

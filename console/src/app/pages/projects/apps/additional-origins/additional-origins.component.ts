@@ -19,7 +19,7 @@ export class AdditionalOriginsComponent implements OnInit, OnDestroy {
   @ViewChild('originInput') input!: any;
   private sub: Subscription = new Subscription();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     if (this.canWrite) {

@@ -5,11 +5,11 @@
     display: flex;
     flex-direction: row;
     padding: 1rem;
-    border-radius: .5rem;
-    margin-bottom: .5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
 
     .ext {
-      margin-right: .5rem;
+      margin-right: 0.5rem;
       align-self: center;
       color: inherit;
     }
@@ -19,7 +19,7 @@
       max-height: 40px;
       object-fit: contain;
       filter: grayscale(1);
-      transition: filter .3s ease;
+      transition: filter 0.3s ease;
 
       &.dark {
         display: if($is-dark-theme, inline-block, none);
@@ -41,14 +41,14 @@
 
       .title {
         font-size: 16px;
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
       }
 
       .state {
         align-self: flex-start;
         border-radius: 50vw;
-        padding: 2px .5rem;
-        letter-spacing: .05em;
+        padding: 2px 0.5rem;
+        letter-spacing: 0.05em;
         font-size: 12px;
         background-color: if($is-dark-theme, #4f566b, #e4e7e4);
 

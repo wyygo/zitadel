@@ -31,9 +31,7 @@ export enum UserGrantListSearchKey {
   selector: 'cnsl-user-grants',
   templateUrl: './user-grants.component.html',
   styleUrls: ['./user-grants.component.scss'],
-  animations: [
-    enterAnimations,
-  ],
+  animations: [enterAnimations],
 })
 export class UserGrantsComponent implements OnInit, AfterViewInit {
   public userGrantListSearchKey: UserGrantListSearchKey | undefined = undefined;
@@ -66,16 +64,17 @@ export class UserGrantsComponent implements OnInit, AfterViewInit {
 
   public UserGrantContext: any = UserGrantContext;
 
-  constructor(
-    private userService: ManagementService,
-    private mgmtService: ManagementService,
-    private toast: ToastService,
-  ) { }
+  constructor(private userService: ManagementService, private mgmtService: ManagementService, private toast: ToastService) {}
 
-  @Input() public displayedColumns: string[] = ['select',
+  @Input() public displayedColumns: string[] = [
+    'select',
     'user',
     'org',
-    'projectId', 'creationDate', 'changeDate', 'roleNamesList'];
+    'projectId',
+    'creationDate',
+    'changeDate',
+    'roleNamesList',
+  ];
 
   public ngOnInit(): void {
     this.dataSource = new UserGrantsDataSource(this.userService);
@@ -106,11 +105,7 @@ export class UserGrantsComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.paginator.page
-      .pipe(
-        tap(() => this.loadGrantsPage()),
-      )
-      .subscribe();
+    this.paginator.page.pipe(tap(() => this.loadGrantsPage())).subscribe();
   }
 
   private loadGrantsPage(filterValue?: string): void {
@@ -142,7 +137,6 @@ export class UserGrantsComponent implements OnInit, AfterViewInit {
           ugRkQ.setMethod(TextQueryMethod.TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE);
           query.setRoleKeyQuery(ugRkQ);
           break;
-
       }
       queries = [query];
     }
@@ -167,9 +161,9 @@ export class UserGrantsComponent implements OnInit, AfterViewInit {
   }
 
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.grantsSubject.value.forEach(row => this.selection.select(row));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.grantsSubject.value.forEach((row) => this.selection.select(row));
   }
 
   public loadGrantOptions(grant: UserGrant.AsObject): void {
@@ -182,48 +176,56 @@ export class UserGrantsComponent implements OnInit, AfterViewInit {
   }
 
   private getGrantRoleOptions(id: string, projectId: string): void {
-    this.mgmtService.getGrantedProjectByID(projectId, id).then(resp => {
-      if (resp.grantedProject) {
-        this.loadedId = projectId;
-        this.grantRoleOptions = resp.grantedProject?.grantedRoleKeysList;
-      }
-    }).catch(error => {
-      this.grantToEdit = '';
-      this.toast.showError(error);
-    });
+    this.mgmtService
+      .getGrantedProjectByID(projectId, id)
+      .then((resp) => {
+        if (resp.grantedProject) {
+          this.loadedId = projectId;
+          this.grantRoleOptions = resp.grantedProject?.grantedRoleKeysList;
+        }
+      })
+      .catch((error) => {
+        this.grantToEdit = '';
+        this.toast.showError(error);
+      });
   }
 
   private getProjectRoleOptions(projectId: string): void {
-    this.mgmtService.listProjectRoles(projectId, 100, 0).then(resp => {
+    this.mgmtService.listProjectRoles(projectId, 100, 0).then((resp) => {
       this.loadedProjectId = projectId;
       this.projectRoleOptions = resp.resultList;
     });
   }
 
   updateRoles(grant: UserGrant.AsObject, selectionChange: MatSelectChange): void {
-    this.userService.updateUserGrant(grant.id, grant.userId, selectionChange.value)
+    this.userService
+      .updateUserGrant(grant.id, grant.userId, selectionChange.value)
       .then(() => {
         this.toast.showInfo('GRANTS.TOAST.UPDATED', true);
-      }).catch(error => {
+      })
+      .catch((error) => {
         this.toast.showError(error);
       });
   }
 
   deleteGrantSelection(): void {
-    this.userService.bulkRemoveUserGrant(this.selection.selected.map(grant => grant.id)).then(() => {
-      this.toast.showInfo('GRANTS.TOAST.BULKREMOVED', true);
-      const data = this.dataSource.grantsSubject.getValue();
-      this.selection.selected.forEach((item) => {
-        const index = data.findIndex(i => i.id === item.id);
-        if (index > -1) {
-          data.splice(index, 1);
-          this.dataSource.grantsSubject.next(data);
-        }
+    this.userService
+      .bulkRemoveUserGrant(this.selection.selected.map((grant) => grant.id))
+      .then(() => {
+        this.toast.showInfo('GRANTS.TOAST.BULKREMOVED', true);
+        const data = this.dataSource.grantsSubject.getValue();
+        this.selection.selected.forEach((item) => {
+          const index = data.findIndex((i) => i.id === item.id);
+          if (index > -1) {
+            data.splice(index, 1);
+            this.dataSource.grantsSubject.next(data);
+          }
+        });
+        this.selection.clear();
+      })
+      .catch((error) => {
+        this.toast.showError(error);
       });
-      this.selection.clear();
-    }).catch(error => {
-      this.toast.showError(error);
-    });
   }
 
   public changePage(event?: PageEvent): void {

@@ -23,11 +23,8 @@ export class ThemeService {
   }
 
   public updateTheme(colors: Color[], type: string, theme: string): void {
-    colors.forEach(color => {
-      document.documentElement.style.setProperty(
-        `--theme-${theme}-${type}-${color.name}`,
-        color.hex,
-      );
+    colors.forEach((color) => {
+      document.documentElement.style.setProperty(`--theme-${theme}-${type}-${color.name}`, color.hex);
       document.documentElement.style.setProperty(
         `--theme-${theme}-${type}-contrast-${color.name}`,
         color.darkContrast ? 'hsla(0, 0%, 0%, 0.87)' : '#ffffff',

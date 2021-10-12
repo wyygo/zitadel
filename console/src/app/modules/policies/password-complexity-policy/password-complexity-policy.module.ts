@@ -39,4 +39,4 @@ import { PasswordComplexityPolicyComponent } from './password-complexity-policy.
     InfoSectionModule,
   ],
 })
-export class PasswordComplexityPolicyModule { }
+export class PasswordComplexityPolicyModule {}

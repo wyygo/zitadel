@@ -43,15 +43,18 @@ export class AuthUserDetailComponent implements OnDestroy {
 
   refreshUser(): void {
     this.refreshChanges$.emit();
-    this.userService.getMyUser().then(resp => {
-      if (resp.user) {
-        this.user = resp.user;
-      }
-      this.loading = false;
-    }).catch(error => {
-      this.toast.showError(error);
-      this.loading = false;
-    });
+    this.userService
+      .getMyUser()
+      .then((resp) => {
+        if (resp.user) {
+          this.user = resp.user;
+        }
+        this.loading = false;
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+        this.loading = false;
+      });
   }
 
   public ngOnDestroy(): void {
@@ -75,7 +78,7 @@ export class AuthUserDetailComponent implements OnDestroy {
           this.toast.showInfo('USER.TOAST.SAVED', true);
           this.refreshChanges$.emit();
         })
-        .catch(error => {
+        .catch((error) => {
           this.toast.showError(error);
         });
     }
@@ -83,7 +86,8 @@ export class AuthUserDetailComponent implements OnDestroy {
 
   public saveEmail(email: string): void {
     this.userService
-      .setMyEmail(email).then(() => {
+      .setMyEmail(email)
+      .then(() => {
         this.toast.showInfo('USER.TOAST.EMAILSAVED', true);
         if (this.user.human) {
           const mailToSet = new Email();
@@ -91,18 +95,22 @@ export class AuthUserDetailComponent implements OnDestroy {
           this.user.human.email = mailToSet.toObject();
           this.refreshUser();
         }
-      }).catch(error => {
+      })
+      .catch((error) => {
         this.toast.showError(error);
       });
   }
 
   public enteredPhoneCode(code: string): void {
-    this.userService.verifyMyPhone(code).then(() => {
-      this.toast.showInfo('USER.TOAST.PHONESAVED', true);
-      this.refreshUser();
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.userService
+      .verifyMyPhone(code)
+      .then(() => {
+        this.toast.showInfo('USER.TOAST.PHONESAVED', true);
+        this.refreshUser();
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public changedLanguage(language: string): void {
@@ -110,40 +118,50 @@ export class AuthUserDetailComponent implements OnDestroy {
   }
 
   public resendPhoneVerification(): void {
-    this.userService.resendMyPhoneVerification().then(() => {
-      this.toast.showInfo('USER.TOAST.PHONEVERIFICATIONSENT', true);
-      this.refreshChanges$.emit();
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.userService
+      .resendMyPhoneVerification()
+      .then(() => {
+        this.toast.showInfo('USER.TOAST.PHONEVERIFICATIONSENT', true);
+        this.refreshChanges$.emit();
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public resendEmailVerification(): void {
-    this.userService.resendMyEmailVerification().then(() => {
-      this.toast.showInfo('USER.TOAST.EMAILVERIFICATIONSENT', true);
-      this.refreshChanges$.emit();
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.userService
+      .resendMyEmailVerification()
+      .then(() => {
+        this.toast.showInfo('USER.TOAST.EMAILVERIFICATIONSENT', true);
+        this.refreshChanges$.emit();
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public deletePhone(): void {
-    this.userService.removeMyPhone().then(() => {
-      this.toast.showInfo('USER.TOAST.PHONEREMOVED', true);
-      if (this.user.human?.phone) {
-        const phone = new Phone();
-        this.user.human.phone = phone.toObject();
-        this.refreshUser();
-      }
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.userService
+      .removeMyPhone()
+      .then(() => {
+        this.toast.showInfo('USER.TOAST.PHONEREMOVED', true);
+        if (this.user.human?.phone) {
+          const phone = new Phone();
+          this.user.human.phone = phone.toObject();
+          this.refreshUser();
+        }
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public savePhone(phone: string): void {
     if (this.user.human) {
       this.userService
-        .setMyPhone(phone).then(() => {
+        .setMyPhone(phone)
+        .then(() => {
           this.toast.showInfo('USER.TOAST.PHONESAVED', true);
           if (this.user.human) {
             const phoneToSet = new Phone();
@@ -151,7 +169,8 @@ export class AuthUserDetailComponent implements OnDestroy {
             this.user.human.phone = phoneToSet.toObject();
             this.refreshUser();
           }
-        }).catch(error => {
+        })
+        .catch((error) => {
           this.toast.showError(error);
         });
     }
@@ -173,7 +192,7 @@ export class AuthUserDetailComponent implements OnDestroy {
           width: '400px',
         });
 
-        dialogRefPhone.afterClosed().subscribe(resp => {
+        dialogRefPhone.afterClosed().subscribe((resp) => {
           if (resp) {
             this.savePhone(resp);
           }
@@ -193,7 +212,7 @@ export class AuthUserDetailComponent implements OnDestroy {
           width: '400px',
         });
 
-        dialogRefEmail.afterClosed().subscribe(resp => {
+        dialogRefEmail.afterClosed().subscribe((resp) => {
           if (resp) {
             this.saveEmail(resp);
           }

@@ -33,4 +33,4 @@ import { OrgIamPolicyComponent } from './org-iam-policy.component';
     PolicyGridModule,
   ],
 })
-export class OrgIamPolicyModule { }
+export class OrgIamPolicyModule {}

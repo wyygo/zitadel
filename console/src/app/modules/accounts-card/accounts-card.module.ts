@@ -10,20 +10,16 @@ import { AvatarModule } from '../avatar/avatar.module';
 import { AccountsCardComponent } from './accounts-card.component';
 
 @NgModule({
-    declarations: [
-        AccountsCardComponent,
-    ],
-    imports: [
-        CommonModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressBarModule,
-        OutsideClickModule,
-        AvatarModule,
-        TranslateModule,
-    ],
-    exports: [
-        AccountsCardComponent,
-    ],
+  declarations: [AccountsCardComponent],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    OutsideClickModule,
+    AvatarModule,
+    TranslateModule,
+  ],
+  exports: [AccountsCardComponent],
 })
-export class AccountsCardModule { }
+export class AccountsCardModule {}

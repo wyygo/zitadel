@@ -8,50 +8,49 @@ import { GrantedProjectDetailComponent } from './granted-project-detail/granted-
 import { GrantedProjectsComponent } from './granted-projects.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: GrantedProjectsComponent,
-        data: { animation: 'HomePage' },
+  {
+    path: '',
+    component: GrantedProjectsComponent,
+    data: { animation: 'HomePage' },
+  },
+  {
+    path: 'create',
+    loadChildren: () => import('../project-create/project-create.module').then((m) => m.ProjectCreateModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      roles: ['project.write'],
     },
-    {
-        path: 'create',
-        loadChildren: () => import('../project-create/project-create.module').then(m => m.ProjectCreateModule),
-        canActivate: [AuthGuard, RoleGuard],
-        data: {
-            roles: ['project.write'],
-        },
+  },
+  {
+    path: ':projectid/grant/:grantid/members',
+    data: {
+      type: ProjectType.PROJECTTYPE_GRANTED,
+      roles: ['project.grant.member.read'],
     },
-    {
-        path: ':projectid/grant/:grantid/members',
-        data: {
-            type: ProjectType.PROJECTTYPE_GRANTED,
-            roles: ['project.grant.member.read'],
-        },
-        loadChildren: () => import('src/app/modules/project-members/project-members.module')
-            .then(m => m.ProjectMembersModule),
+    loadChildren: () => import('src/app/modules/project-members/project-members.module').then((m) => m.ProjectMembersModule),
+  },
+  {
+    path: ':id/grant/:grantId',
+    component: GrantedProjectDetailComponent,
+    data: { animation: 'HomePage' },
+  },
+  {
+    path: ':projectid/roles/create',
+    loadChildren: () => import('../project-role-create/project-role-create.module').then((m) => m.ProjectRoleCreateModule),
+    canActivate: [RoleGuard],
+    data: {
+      roles: ['project.write'],
     },
-    {
-        path: ':id/grant/:grantId',
-        component: GrantedProjectDetailComponent,
-        data: { animation: 'HomePage' },
-    },
-    {
-        path: ':projectid/roles/create',
-        loadChildren: () => import('../project-role-create/project-role-create.module').then(m => m.ProjectRoleCreateModule),
-        canActivate: [RoleGuard],
-        data: {
-            roles: ['project.write'],
-        },
-    },
-    {
-        path: ':projectid/grants/create',
-        loadChildren: () => import('../project-grant-create/project-grant-create.module')
-            .then(m => m.ProjectGrantCreateModule),
-    },
+  },
+  {
+    path: ':projectid/grants/create',
+    loadChildren: () =>
+      import('../project-grant-create/project-grant-create.module').then((m) => m.ProjectGrantCreateModule),
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class GrantedProjectsRoutingModule { }
+export class GrantedProjectsRoutingModule {}

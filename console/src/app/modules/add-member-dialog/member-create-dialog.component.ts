@@ -33,7 +33,7 @@ export class MemberCreateDialogComponent {
    *  without ending $, to enable write event permission even if user is allowed
    *  to create members for only one specific project.
    */
-  public creationTypes: Array<{ type: CreationType, disabled$: Observable<boolean>; }> = [
+  public creationTypes: Array<{ type: CreationType; disabled$: Observable<boolean> }> = [
     { type: CreationType.IAM, disabled$: this.authService.isAllowed(['iam.member.write$']) },
     { type: CreationType.ORG, disabled$: this.authService.isAllowed(['org.member.write$']) },
     { type: CreationType.PROJECT_OWNED, disabled$: this.authService.isAllowed(['project.member.write']) },
@@ -73,25 +73,34 @@ export class MemberCreateDialogComponent {
   public loadRoles(): void {
     switch (this.creationType) {
       case CreationType.PROJECT_GRANTED:
-        this.mgmtService.listProjectGrantMemberRoles().then(resp => {
-          this.memberRoleOptions = resp.resultList;
-        }).catch(error => {
-          this.toastService.showError(error);
-        });
+        this.mgmtService
+          .listProjectGrantMemberRoles()
+          .then((resp) => {
+            this.memberRoleOptions = resp.resultList;
+          })
+          .catch((error) => {
+            this.toastService.showError(error);
+          });
         break;
       case CreationType.PROJECT_OWNED:
-        this.mgmtService.listProjectMemberRoles().then(resp => {
-          this.memberRoleOptions = resp.resultList;
-        }).catch(error => {
-          this.toastService.showError(error);
-        });
+        this.mgmtService
+          .listProjectMemberRoles()
+          .then((resp) => {
+            this.memberRoleOptions = resp.resultList;
+          })
+          .catch((error) => {
+            this.toastService.showError(error);
+          });
         break;
       case CreationType.IAM:
-        this.adminService.listIAMMemberRoles().then(resp => {
-          this.memberRoleOptions = resp.rolesList;
-        }).catch(error => {
-          this.toastService.showError(error);
-        });
+        this.adminService
+          .listIAMMemberRoles()
+          .then((resp) => {
+            this.memberRoleOptions = resp.rolesList;
+          })
+          .catch((error) => {
+            this.toastService.showError(error);
+          });
         break;
     }
   }

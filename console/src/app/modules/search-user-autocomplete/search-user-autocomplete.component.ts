@@ -53,7 +53,7 @@ export class SearchUserAutocompleteComponent implements OnInit, AfterContentChec
   @Input() public singleOutput: boolean = false;
 
   private unsubscribed$: Subject<void> = new Subject();
-  constructor(private userService: ManagementService, private toast: ToastService, private cdref: ChangeDetectorRef) { }
+  constructor(private userService: ManagementService, private toast: ToastService, private cdref: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     if (this.target === UserTarget.EXTERNAL) {
@@ -69,30 +69,33 @@ export class SearchUserAutocompleteComponent implements OnInit, AfterContentChec
   }
 
   private getFilteredResults(): void {
-    this.myControl.valueChanges.pipe(debounceTime(200),
-      takeUntil(this.unsubscribed$),
-      tap(() => this.isLoading = true),
-      switchMap(value => {
-        const query = new SearchQuery();
+    this.myControl.valueChanges
+      .pipe(
+        debounceTime(200),
+        takeUntil(this.unsubscribed$),
+        tap(() => (this.isLoading = true)),
+        switchMap((value) => {
+          const query = new SearchQuery();
 
-        const unQuery = new UserNameQuery();
-        unQuery.setMethod(TextQueryMethod.TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE);
-        unQuery.setUserName(value);
+          const unQuery = new UserNameQuery();
+          unQuery.setMethod(TextQueryMethod.TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE);
+          unQuery.setUserName(value);
 
-        query.setUserNameQuery(unQuery);
+          query.setUserNameQuery(unQuery);
 
-        if (this.target === UserTarget.SELF) {
-          return from(this.userService.listUsers(10, 0, [query]));
-        } else {
-          return of();
+          if (this.target === UserTarget.SELF) {
+            return from(this.userService.listUsers(10, 0, [query]));
+          } else {
+            return of();
+          }
+        }),
+      )
+      .subscribe((userresp: ListUsersResponse.AsObject | unknown) => {
+        this.isLoading = false;
+        if (this.target === UserTarget.SELF && userresp) {
+          this.filteredUsers = (userresp as ListUsersResponse.AsObject).resultList;
         }
-      }),
-    ).subscribe((userresp: ListUsersResponse.AsObject | unknown) => {
-      this.isLoading = false;
-      if (this.target === UserTarget.SELF && userresp) {
-        this.filteredUsers = (userresp as ListUsersResponse.AsObject).resultList;
-      }
-    });
+      });
   }
 
   public displayFn(user?: User.AsObject): string {
@@ -171,16 +174,19 @@ export class SearchUserAutocompleteComponent implements OnInit, AfterContentChec
   }
 
   public getGlobalUser(): void {
-    this.userService.getUserByLoginNameGlobal(this.globalLoginNameControl.value).then(resp => {
-      if (this.singleOutput && resp.user) {
-        this.users = [resp.user];
-        this.selectionChanged.emit(this.users[0]);
-      } else if (resp.user) {
-        this.users.push(resp.user);
-        this.selectionChanged.emit(this.users);
-      }
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.userService
+      .getUserByLoginNameGlobal(this.globalLoginNameControl.value)
+      .then((resp) => {
+        if (this.singleOutput && resp.user) {
+          this.users = [resp.user];
+          this.selectionChanged.emit(this.users[0]);
+        } else if (resp.user) {
+          this.users.push(resp.user);
+          this.selectionChanged.emit(this.users);
+        }
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 }

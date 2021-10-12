@@ -10,14 +10,9 @@ import { StatehandlerService } from './statehandler.service';
 export class AuthenticationService {
   private authConfig!: AuthConfig;
   private _authenticated: boolean = false;
-  private readonly _authenticationChanged: BehaviorSubject<
-    boolean
-  > = new BehaviorSubject(this.authenticated);
+  private readonly _authenticationChanged: BehaviorSubject<boolean> = new BehaviorSubject(this.authenticated);
 
-  constructor(
-    private oauthService: OAuthService,
-    private statehandler: StatehandlerService,
-  ) { }
+  constructor(private oauthService: OAuthService, private statehandler: StatehandlerService) {}
 
   public initConfig(data: AuthConfig): void {
     this.authConfig = data;
@@ -35,10 +30,7 @@ export class AuthenticationService {
     return from(this.oauthService.loadUserProfile());
   }
 
-  public async authenticate(
-    partialConfig?: Partial<AuthConfig>,
-    force: boolean = false,
-  ): Promise<boolean> {
+  public async authenticate(partialConfig?: Partial<AuthConfig>, force: boolean = false): Promise<boolean> {
     if (partialConfig) {
       Object.assign(this.authConfig, partialConfig);
     }
@@ -63,4 +55,3 @@ export class AuthenticationService {
     this._authenticationChanged.next(false);
   }
 }
-

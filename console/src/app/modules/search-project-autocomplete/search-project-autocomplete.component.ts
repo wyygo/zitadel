@@ -10,7 +10,6 @@ import { TextQueryMethod } from 'src/app/proto/generated/zitadel/object_pb';
 import { GrantedProject, Project, ProjectNameQuery, ProjectQuery } from 'src/app/proto/generated/zitadel/project_pb';
 import { ManagementService } from 'src/app/services/mgmt.service';
 
-
 export enum ProjectAutocompleteType {
   PROJECT_OWNED = 0,
   PROJECT_GRANTED = 1,
@@ -36,10 +35,7 @@ export class SearchProjectAutocompleteComponent implements OnDestroy {
   @Input() public singleOutput: boolean = false;
   @Input() public autocompleteType!: ProjectAutocompleteType;
   @Output() public selectionChanged: EventEmitter<
-    GrantedProject.AsObject[]
-    | GrantedProject.AsObject
-    | Project.AsObject
-    | Project.AsObject[]
+    GrantedProject.AsObject[] | GrantedProject.AsObject | Project.AsObject | Project.AsObject[]
   > = new EventEmitter();
 
   private unsubscribed$: Subject<void> = new Subject();
@@ -48,8 +44,8 @@ export class SearchProjectAutocompleteComponent implements OnDestroy {
       .pipe(
         takeUntil(this.unsubscribed$),
         debounceTime(200),
-        tap(() => this.isLoading = true),
-        switchMap(value => {
+        tap(() => (this.isLoading = true)),
+        switchMap((value) => {
           const query = new ProjectQuery();
           const nameQuery = new ProjectNameQuery();
           nameQuery.setName(value);
@@ -68,7 +64,8 @@ export class SearchProjectAutocompleteComponent implements OnDestroy {
               ]);
           }
         }),
-      ).subscribe((returnValue) => {
+      )
+      .subscribe((returnValue) => {
         switch (this.autocompleteType) {
           case ProjectAutocompleteType.PROJECT_GRANTED:
             this.isLoading = false;
@@ -81,10 +78,8 @@ export class SearchProjectAutocompleteComponent implements OnDestroy {
           default:
             this.isLoading = false;
             this.filteredProjects = [
-              ...(returnValue as (ListProjectsResponse.AsObject | ListProjectGrantsResponse.AsObject)[])[0]
-                .resultList,
-              ...(returnValue as (ListProjectsResponse.AsObject | ListProjectGrantsResponse.AsObject)[])[1]
-                .resultList,
+              ...(returnValue as (ListProjectsResponse.AsObject | ListProjectGrantsResponse.AsObject)[])[0].resultList,
+              ...(returnValue as (ListProjectsResponse.AsObject | ListProjectGrantsResponse.AsObject)[])[1].resultList,
             ];
             break;
         }
@@ -96,8 +91,7 @@ export class SearchProjectAutocompleteComponent implements OnDestroy {
   }
 
   public displayFn(project?: any): string {
-    return (project && project.projectName) ? `${project.projectName}` :
-      (project && project.name) ? `${project.name}` : '';
+    return project && project.projectName ? `${project.projectName}` : project && project.name ? `${project.name}` : '';
   }
 
   public add(event: MatChipInputEvent): void {

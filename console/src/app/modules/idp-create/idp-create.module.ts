@@ -34,4 +34,4 @@ import { IdpCreateComponent } from './idp-create.component';
     MatProgressBarModule,
   ],
 })
-export class IdpCreateModule { }
+export class IdpCreateModule {}

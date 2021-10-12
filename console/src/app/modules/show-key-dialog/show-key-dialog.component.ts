@@ -11,19 +11,16 @@ import { AddAppKeyResponse, AddMachineKeyResponse } from 'src/app/proto/generate
 export class ShowKeyDialogComponent {
   public keyResponse!: AddMachineKeyResponse.AsObject | AddAppKeyResponse.AsObject;
 
-  constructor(
-    public dialogRef: MatDialogRef<ShowKeyDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {
+  constructor(public dialogRef: MatDialogRef<ShowKeyDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.keyResponse = data.key;
   }
 
   public saveFile(): void {
     const json = atob(this.keyResponse.keyDetails.toString());
     const blob = new Blob([json], { type: 'text/plain;charset=utf-8' });
-    const name = (this.keyResponse as AddMachineKeyResponse.AsObject).keyId ?
-      (this.keyResponse as AddMachineKeyResponse.AsObject).keyId :
-      (this.keyResponse as AddAppKeyResponse.AsObject).id;
+    const name = (this.keyResponse as AddMachineKeyResponse.AsObject).keyId
+      ? (this.keyResponse as AddMachineKeyResponse.AsObject).keyId
+      : (this.keyResponse as AddAppKeyResponse.AsObject).id;
     saveAs(blob, `${name}.json`);
   }
 

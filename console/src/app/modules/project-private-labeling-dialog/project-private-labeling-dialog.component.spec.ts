@@ -6,12 +6,13 @@ describe('ProjectPrivateLabelingDialogComponent', () => {
   let component: ProjectPrivateLabelingDialogComponent;
   let fixture: ComponentFixture<ProjectPrivateLabelingDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProjectPrivateLabelingDialogComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProjectPrivateLabelingDialogComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectPrivateLabelingDialogComponent);

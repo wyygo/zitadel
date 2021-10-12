@@ -24,7 +24,7 @@ export class ApplicationsComponent implements AfterViewInit, OnInit {
 
   public displayedColumns: string[] = ['select', 'name', 'type'];
 
-  constructor(private mgmtService: ManagementService) { }
+  constructor(private mgmtService: ManagementService) {}
 
   public ngOnInit(): void {
     this.dataSource = new ProjectApplicationsDataSource(this.mgmtService);
@@ -33,18 +33,12 @@ export class ApplicationsComponent implements AfterViewInit, OnInit {
 
   public ngAfterViewInit(): void {
     merge(this.paginator.page)
-      .pipe(
-        tap(() => this.loadRolesPage()),
-      )
+      .pipe(tap(() => this.loadRolesPage()))
       .subscribe();
   }
 
   private loadRolesPage(): void {
-    this.dataSource.loadApps(
-      this.projectId,
-      this.paginator.pageIndex,
-      this.paginator.pageSize,
-    );
+    this.dataSource.loadApps(this.projectId, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
   public isAllSelected(): boolean {
@@ -54,9 +48,9 @@ export class ApplicationsComponent implements AfterViewInit, OnInit {
   }
 
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.appsSubject.value.forEach((row: App.AsObject) => this.selection.select(row));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.appsSubject.value.forEach((row: App.AsObject) => this.selection.select(row));
   }
 
   public refreshPage(): void {

@@ -51,4 +51,4 @@ import { LoginPolicyComponent } from './login-policy.component';
     PolicyGridModule,
   ],
 })
-export class LoginPolicyModule { }
+export class LoginPolicyModule {}

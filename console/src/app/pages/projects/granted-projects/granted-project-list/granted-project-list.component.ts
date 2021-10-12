@@ -16,13 +16,7 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './granted-project-list.component.html',
   styleUrls: ['./granted-project-list.component.scss'],
   animations: [
-    trigger('list', [
-      transition(':enter', [
-        query('@animate',
-          stagger(80, animateChild()),
-        ),
-      ]),
-    ]),
+    trigger('list', [transition(':enter', [query('@animate', stagger(80, animateChild()))])]),
     trigger('animate', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(-100%)' }),
@@ -39,8 +33,7 @@ export class GrantedProjectListComponent implements OnInit, OnDestroy {
   public totalResult: number = 0;
   public viewTimestamp!: Timestamp.AsObject;
 
-  public dataSource: MatTableDataSource<GrantedProject.AsObject> =
-    new MatTableDataSource<GrantedProject.AsObject>();
+  public dataSource: MatTableDataSource<GrantedProject.AsObject> = new MatTableDataSource<GrantedProject.AsObject>();
   @ViewChild(PaginatorComponent) public paginator!: PaginatorComponent;
 
   public grantedProjectList: GrantedProject.AsObject[] = [];
@@ -53,11 +46,12 @@ export class GrantedProjectListComponent implements OnInit, OnDestroy {
   public grid: boolean = true;
   private subscription?: Subscription;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     public translate: TranslateService,
     private mgmtService: ManagementService,
     private toast: ToastService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.getData(10, 0);
@@ -74,9 +68,7 @@ export class GrantedProjectListComponent implements OnInit, OnDestroy {
   }
 
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
   public changePage(event: PageEvent): void {
@@ -89,27 +81,30 @@ export class GrantedProjectListComponent implements OnInit, OnDestroy {
 
   private async getData(limit: number, offset: number): Promise<void> {
     this.loadingSubject.next(true);
-    this.mgmtService.listGrantedProjects(limit, offset).then(resp => {
-      this.grantedProjectList = resp.resultList;
-      if (resp.details?.totalResult) {
-        this.totalResult = resp.details.totalResult;
-      } else {
-        this.totalResult = 0;
-      }
-      if (resp.details?.viewTimestamp) {
-        this.viewTimestamp = resp.details?.viewTimestamp;
-      }
-      if (this.totalResult > 5) {
-        this.grid = false;
-      }
-      this.dataSource.data = this.grantedProjectList;
+    this.mgmtService
+      .listGrantedProjects(limit, offset)
+      .then((resp) => {
+        this.grantedProjectList = resp.resultList;
+        if (resp.details?.totalResult) {
+          this.totalResult = resp.details.totalResult;
+        } else {
+          this.totalResult = 0;
+        }
+        if (resp.details?.viewTimestamp) {
+          this.viewTimestamp = resp.details?.viewTimestamp;
+        }
+        if (this.totalResult > 5) {
+          this.grid = false;
+        }
+        this.dataSource.data = this.grantedProjectList;
 
-      this.loadingSubject.next(false);
-    }).catch(error => {
-      console.error(error);
-      this.toast.showError(error);
-      this.loadingSubject.next(false);
-    });
+        this.loadingSubject.next(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        this.toast.showError(error);
+        this.loadingSubject.next(false);
+      });
   }
 
   public refreshPage(): void {

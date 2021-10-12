@@ -6,12 +6,13 @@ describe('OrgDetailComponent', () => {
   let component: OrgDetailComponent;
   let fixture: ComponentFixture<OrgDetailComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [OrgDetailComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [OrgDetailComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrgDetailComponent);

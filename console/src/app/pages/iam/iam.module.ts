@@ -68,4 +68,4 @@ import { IamComponent } from './iam.component';
     PolicyGridModule,
   ],
 })
-export class IamModule { }
+export class IamModule {}

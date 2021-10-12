@@ -11,20 +11,18 @@ import { InputModule } from 'src/app/modules/input/input.module';
 import { OrgMemberRolesAutocompleteComponent } from './org-member-roles-autocomplete.component';
 
 @NgModule({
-    declarations: [OrgMemberRolesAutocompleteComponent],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        MatSelectModule,
-        InputModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatProgressSpinnerModule,
-        FormsModule,
-        TranslateModule,
-    ],
-    exports: [
-        OrgMemberRolesAutocompleteComponent,
-    ],
+  declarations: [OrgMemberRolesAutocompleteComponent],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatSelectModule,
+    InputModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    TranslateModule,
+  ],
+  exports: [OrgMemberRolesAutocompleteComponent],
 })
-export class OrgMemberRolesAutocompleteModule { }
+export class OrgMemberRolesAutocompleteModule {}

@@ -27,12 +27,8 @@ export class OrgMembersComponent {
   public changePage: EventEmitter<void> = new EventEmitter();
   public selection: Array<Member.AsObject> = [];
 
-  constructor(
-    private mgmtService: ManagementService,
-    private dialog: MatDialog,
-    private toast: ToastService,
-  ) {
-    this.mgmtService.getMyOrg().then(resp => {
+  constructor(private mgmtService: ManagementService, private dialog: MatDialog, private toast: ToastService) {
+    this.mgmtService.getMyOrg().then((resp) => {
       if (resp.org) {
         this.org = resp.org;
         this.dataSource = new OrgMembersDataSource(this.mgmtService);
@@ -43,38 +39,45 @@ export class OrgMembersComponent {
     this.getRoleOptions();
 
     this.changePageFactory = (event?: PageEvent) => {
-      return this.dataSource.loadMembers(
-        event?.pageIndex ?? 0,
-        event?.pageSize ?? this.INITIALPAGESIZE,
-      );
+      return this.dataSource.loadMembers(event?.pageIndex ?? 0, event?.pageSize ?? this.INITIALPAGESIZE);
     };
   }
 
   public getRoleOptions(): void {
-    this.mgmtService.listOrgMemberRoles().then(resp => {
-      this.memberRoleOptions = resp.resultList;
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.mgmtService
+      .listOrgMemberRoles()
+      .then((resp) => {
+        this.memberRoleOptions = resp.resultList;
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   updateRoles(member: Member.AsObject, selectionChange: MatSelectChange): void {
-    this.mgmtService.updateOrgMember(member.userId, selectionChange.value)
+    this.mgmtService
+      .updateOrgMember(member.userId, selectionChange.value)
       .then(() => {
         this.toast.showInfo('ORG.TOAST.MEMBERCHANGED', true);
-      }).catch(error => {
+      })
+      .catch((error) => {
         this.toast.showError(error);
       });
   }
 
   public removeOrgMemberSelection(): void {
-    Promise.all(this.selection.map(member => {
-      return this.mgmtService.removeOrgMember(member.userId).then(() => {
-        this.toast.showInfo('ORG.TOAST.MEMBERREMOVED', true);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
-    })).then(() => {
+    Promise.all(
+      this.selection.map((member) => {
+        return this.mgmtService
+          .removeOrgMember(member.userId)
+          .then(() => {
+            this.toast.showInfo('ORG.TOAST.MEMBERREMOVED', true);
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
+      }),
+    ).then(() => {
       setTimeout(() => {
         this.changePage.emit();
       }, 1000);
@@ -82,15 +85,18 @@ export class OrgMembersComponent {
   }
 
   public removeOrgMember(member: Member.AsObject): void {
-    this.mgmtService.removeOrgMember(member.userId).then(() => {
-      this.toast.showInfo('ORG.TOAST.MEMBERREMOVED', true);
+    this.mgmtService
+      .removeOrgMember(member.userId)
+      .then(() => {
+        this.toast.showInfo('ORG.TOAST.MEMBERREMOVED', true);
 
-      setTimeout(() => {
-        this.changePage.emit();
-      }, 1000);
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+        setTimeout(() => {
+          this.changePage.emit();
+        }, 1000);
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public openAddMember(): void {
@@ -101,22 +107,26 @@ export class OrgMembersComponent {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
         const users: User.AsObject[] = resp.users;
         const roles: string[] = resp.roles;
 
         if (users && users.length && roles && roles.length) {
-          Promise.all(users.map(user => {
-            return this.mgmtService.addOrgMember(user.id, roles);
-          })).then(() => {
-            this.toast.showInfo('ORG.TOAST.MEMBERADDED', true);
-            setTimeout(() => {
-              this.changePage.emit();
-            }, 1000);
-          }).catch(error => {
-            this.toast.showError(error);
-          });
+          Promise.all(
+            users.map((user) => {
+              return this.mgmtService.addOrgMember(user.id, roles);
+            }),
+          )
+            .then(() => {
+              this.toast.showInfo('ORG.TOAST.MEMBERADDED', true);
+              setTimeout(() => {
+                this.changePage.emit();
+              }, 1000);
+            })
+            .catch((error) => {
+              this.toast.showError(error);
+            });
         }
       }
     });

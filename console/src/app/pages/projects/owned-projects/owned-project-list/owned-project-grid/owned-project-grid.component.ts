@@ -16,24 +16,28 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./owned-project-grid.component.scss'],
   animations: [
     trigger('cardAnimation', [
-      transition('* => *', [
-        query('@animate', stagger('100ms', animateChild()), { optional: true }),
-      ]),
+      transition('* => *', [query('@animate', stagger('100ms', animateChild()), { optional: true })]),
     ]),
     trigger('animate', [
       transition(':enter', [
-        animate('.2s ease-in', keyframes([
-          style({ opacity: 0, transform: 'translateY(-50%)', offset: 0 }),
-          style({ opacity: .5, transform: 'translateY(-10px) scale(1.1)', offset: 0.3 }),
-          style({ opacity: 1, transform: 'translateY(0)', offset: 1 }),
-        ])),
+        animate(
+          '.2s ease-in',
+          keyframes([
+            style({ opacity: 0, transform: 'translateY(-50%)', offset: 0 }),
+            style({ opacity: 0.5, transform: 'translateY(-10px) scale(1.1)', offset: 0.3 }),
+            style({ opacity: 1, transform: 'translateY(0)', offset: 1 }),
+          ]),
+        ),
       ]),
       transition(':leave', [
-        animate('.2s ease-out', keyframes([
-          style({ opacity: 1, transform: 'scale(1.1)', offset: 0 }),
-          style({ opacity: .5, transform: 'scale(.5)', offset: 0.3 }),
-          style({ opacity: 0, transform: 'scale(0)', offset: 1 }),
-        ])),
+        animate(
+          '.2s ease-out',
+          keyframes([
+            style({ opacity: 1, transform: 'scale(1.1)', offset: 0 }),
+            style({ opacity: 0.5, transform: 'scale(.5)', offset: 0.3 }),
+            style({ opacity: 0, transform: 'scale(0)', offset: 1 }),
+          ]),
+        ),
       ]),
     ]),
   ],
@@ -58,12 +62,10 @@ export class OwnedProjectGridComponent implements OnChanges {
     private mgmtService: ManagementService,
     private toast: ToastService,
   ) {
-    this.selection.changed.subscribe(selection => {
-      this.setPrefixedItem('pinned-projects', JSON.stringify(
-        this.selection.selected.map(item => item.id),
-      )).then(() => {
-        selection.added.forEach(item => {
-          const index = this.notPinned.findIndex(i => i.id === item.id);
+    this.selection.changed.subscribe((selection) => {
+      this.setPrefixedItem('pinned-projects', JSON.stringify(this.selection.selected.map((item) => item.id))).then(() => {
+        selection.added.forEach((item) => {
+          const index = this.notPinned.findIndex((i) => i.id === item.id);
           this.notPinned.splice(index, 1);
         });
         this.notPinned.push(...selection.removed);
@@ -91,7 +93,7 @@ export class OwnedProjectGridComponent implements OnChanges {
   }
 
   public reorganizeItems(): void {
-    this.getPrefixedItem('pinned-projects').then(storageEntry => {
+    this.getPrefixedItem('pinned-projects').then((storageEntry) => {
       if (storageEntry) {
         const array: string[] = JSON.parse(storageEntry);
         const toSelect: Project.AsObject[] = this.items.filter((item) => {
@@ -143,27 +145,30 @@ export class OwnedProjectGridComponent implements OnChanges {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp && item.id !== this.zitadelProjectId) {
-        this.mgmtService.removeProject(item.id).then(() => {
-          this.toast.showInfo('PROJECT.TOAST.DELETED', true);
-          const index = this.items.findIndex(iter => iter.id === item.id);
-          if (index > -1) {
-            this.items.splice(index, 1);
-          }
+        this.mgmtService
+          .removeProject(item.id)
+          .then(() => {
+            this.toast.showInfo('PROJECT.TOAST.DELETED', true);
+            const index = this.items.findIndex((iter) => iter.id === item.id);
+            if (index > -1) {
+              this.items.splice(index, 1);
+            }
 
-          const indexSelection = this.selection.selected.findIndex(iter => iter.id === item.id);
-          if (indexSelection > -1) {
-            this.selection.selected.splice(indexSelection, 1);
-          }
+            const indexSelection = this.selection.selected.findIndex((iter) => iter.id === item.id);
+            if (indexSelection > -1) {
+              this.selection.selected.splice(indexSelection, 1);
+            }
 
-          const indexPinned = this.notPinned.findIndex(iter => iter.id === item.id);
-          if (indexPinned > -1) {
-            this.notPinned.splice(indexPinned, 1);
-          }
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+            const indexPinned = this.notPinned.findIndex((iter) => iter.id === item.id);
+            if (indexPinned > -1) {
+              this.notPinned.splice(indexPinned, 1);
+            }
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       }
     });
   }

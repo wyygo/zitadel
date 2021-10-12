@@ -1,11 +1,18 @@
-<p class="name">{{name}} (current {{color}})</p>
+<p class="name">{{ name }} (current {{ color }})</p>
 
 <div class="wrapper">
-  <button class="mat-elevation-z3" [style.background-color]="previewColor" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin" matTooltip="{{'ACTIONS.SET' | translate}}">  </button>
-  
+  <button
+    class="mat-elevation-z3"
+    [style.background-color]="previewColor"
+    (click)="isOpen = !isOpen"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+    matTooltip="{{ 'ACTIONS.SET' | translate }}"
+  ></button>
+
   <div class="hex-wrapper" (click)="isOpen = !isOpen">
     <i class="las la-hashtag"></i>
-    <span class="hex">{{previewColorCropped}}</span> 
+    <span class="hex">{{ previewColorCropped }}</span>
   </div>
 </div>
 
@@ -15,5 +22,5 @@
   [cdkConnectedOverlayOpen]="isOpen"
   (overlayOutsideClick)="isOpen = false"
 >
-<color-chrome class="picker" [color]="previewColor" (onChangeComplete)="changeComplete($event)"></color-chrome>
+  <color-chrome class="picker" [color]="previewColor" (onChangeComplete)="changeComplete($event)"></color-chrome>
 </ng-template>

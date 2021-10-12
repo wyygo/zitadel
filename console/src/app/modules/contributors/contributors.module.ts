@@ -9,21 +9,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AvatarModule } from '../avatar/avatar.module';
 import { ContributorsComponent } from './contributors.component';
 
-
-
 @NgModule({
-    declarations: [ContributorsComponent],
-    imports: [
-        CommonModule,
-        AvatarModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        TranslateModule,
-    ],
-    exports: [
-        ContributorsComponent,
-    ],
+  declarations: [ContributorsComponent],
+  imports: [
+    CommonModule,
+    AvatarModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    TranslateModule,
+  ],
+  exports: [ContributorsComponent],
 })
-export class ContributorsModule { }
+export class ContributorsModule {}

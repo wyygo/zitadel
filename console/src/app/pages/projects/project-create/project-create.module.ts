@@ -11,16 +11,16 @@ import { ProjectCreateRoutingModule } from './project-create-routing.module';
 import { ProjectCreateComponent } from './project-create.component';
 
 @NgModule({
-    declarations: [ProjectCreateComponent],
-    imports: [
-        A11yModule,
-        ProjectCreateRoutingModule,
-        CommonModule,
-        FormsModule,
-        InputModule,
-        MatButtonModule,
-        MatIconModule,
-        TranslateModule,
-    ],
+  declarations: [ProjectCreateComponent],
+  imports: [
+    A11yModule,
+    ProjectCreateRoutingModule,
+    CommonModule,
+    FormsModule,
+    InputModule,
+    MatButtonModule,
+    MatIconModule,
+    TranslateModule,
+  ],
 })
-export class ProjectCreateModule { }
+export class ProjectCreateModule {}

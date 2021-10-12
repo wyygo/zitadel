@@ -18,27 +18,25 @@ import { PaginatorModule } from '../paginator/paginator.module';
 import { IdpTableComponent } from './idp-table.component';
 
 @NgModule({
-    declarations: [IdpTableComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatTooltipModule,
-        TranslateModule,
-        LocalizedDatePipeModule,
-        TimestampToDatePipeModule,
-        MatTableModule,
-        PaginatorModule,
-        RouterModule,
-        RefreshTableModule,
-        HasRoleModule,
-        TruncatePipeModule,
-    ],
-    exports: [
-        IdpTableComponent,
-    ],
+  declarations: [IdpTableComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslateModule,
+    LocalizedDatePipeModule,
+    TimestampToDatePipeModule,
+    MatTableModule,
+    PaginatorModule,
+    RouterModule,
+    RefreshTableModule,
+    HasRoleModule,
+    TruncatePipeModule,
+  ],
+  exports: [IdpTableComponent],
 })
-export class IdpTableModule { }
+export class IdpTableModule {}

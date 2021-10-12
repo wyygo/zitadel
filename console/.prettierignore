@@ -1,0 +1,10 @@
+# compiled output
+dist/
+tmp/
+out-tsc/
+
+# dependencies
+node_modules/
+
+# Proto generated js files
+src/app/proto

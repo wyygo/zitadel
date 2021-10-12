@@ -29,12 +29,7 @@ export class UserCreateMachineComponent implements OnDestroy {
 
   private initForm(): void {
     this.userForm = this.fb.group({
-      userName: ['',
-        [
-          Validators.required,
-          Validators.minLength(2),
-        ],
-      ],
+      userName: ['', [Validators.required, Validators.minLength(2)]],
       name: ['', [Validators.required]],
       description: ['', []],
     });

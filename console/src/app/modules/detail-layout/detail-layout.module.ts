@@ -5,17 +5,9 @@ import { RouterModule } from '@angular/router';
 
 import { DetailLayoutComponent } from './detail-layout.component';
 
-
-
 @NgModule({
-    declarations: [DetailLayoutComponent],
-    imports: [
-        CommonModule,
-        MatIconModule,
-        RouterModule,
-    ],
-    exports: [
-        DetailLayoutComponent,
-    ],
+  declarations: [DetailLayoutComponent],
+  imports: [CommonModule, MatIconModule, RouterModule],
+  exports: [DetailLayoutComponent],
 })
-export class DetailLayoutModule { }
+export class DetailLayoutModule {}

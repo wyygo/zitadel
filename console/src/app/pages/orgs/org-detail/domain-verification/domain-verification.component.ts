@@ -37,17 +37,17 @@ export class DomainVerificationComponent {
   }
 
   async loadHttpToken(): Promise<void> {
-    this.mgmtService.generateOrgDomainValidation(
-      this.domain.domainName,
-      DomainValidationType.DOMAIN_VALIDATION_TYPE_HTTP).then((http) => {
+    this.mgmtService
+      .generateOrgDomainValidation(this.domain.domainName, DomainValidationType.DOMAIN_VALIDATION_TYPE_HTTP)
+      .then((http) => {
         this.http = http;
       });
   }
 
   async loadDnsToken(): Promise<void> {
-    this.mgmtService.generateOrgDomainValidation(
-      this.domain.domainName,
-      DomainValidationType.DOMAIN_VALIDATION_TYPE_DNS).then((dns) => {
+    this.mgmtService
+      .generateOrgDomainValidation(this.domain.domainName, DomainValidationType.DOMAIN_VALIDATION_TYPE_DNS)
+      .then((dns) => {
         this.dns = dns;
       });
   }
@@ -58,14 +58,17 @@ export class DomainVerificationComponent {
 
   public validate(): void {
     this.validating = true;
-    this.mgmtService.validateOrgDomain(this.domain.domainName).then(() => {
-      this.dialogRef.close(true);
-      this.toast.showInfo('ORG.PAGES.ORGDOMAIN.VERIFICATION_SUCCESSFUL', true);
-      this.validating = false;
-    }).catch((error) => {
-      this.toast.showError(error);
-      this.validating = false;
-    });
+    this.mgmtService
+      .validateOrgDomain(this.domain.domainName)
+      .then(() => {
+        this.dialogRef.close(true);
+        this.toast.showInfo('ORG.PAGES.ORGDOMAIN.VERIFICATION_SUCCESSFUL', true);
+        this.validating = false;
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+        this.validating = false;
+      });
   }
 
   public saveFile(): void {

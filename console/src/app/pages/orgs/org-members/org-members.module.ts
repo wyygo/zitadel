@@ -15,23 +15,22 @@ import { HasRolePipeModule } from 'src/app/pipes/has-role-pipe/has-role-pipe.mod
 import { OrgMembersRoutingModule } from './org-members-routing.module';
 import { OrgMembersComponent } from './org-members.component';
 
-
 @NgModule({
-    declarations: [OrgMembersComponent],
-    imports: [
-        OrgMembersRoutingModule,
-        CommonModule,
-        MatChipsModule,
-        MatButtonModule,
-        HasRoleModule,
-        MatIconModule,
-        MatTooltipModule,
-        TranslateModule,
-        DetailLayoutModule,
-        RefreshTableModule,
-        MembersTableModule,
-        HasRolePipeModule,
-        MemberCreateDialogModule,
-    ],
+  declarations: [OrgMembersComponent],
+  imports: [
+    OrgMembersRoutingModule,
+    CommonModule,
+    MatChipsModule,
+    MatButtonModule,
+    HasRoleModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslateModule,
+    DetailLayoutModule,
+    RefreshTableModule,
+    MembersTableModule,
+    HasRolePipeModule,
+    MemberCreateDialogModule,
+  ],
 })
-export class OrgMembersModule { }
+export class OrgMembersModule {}

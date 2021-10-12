@@ -22,35 +22,29 @@ import { UserListRoutingModule } from './user-list-routing.module';
 import { UserListComponent } from './user-list.component';
 import { UserTableComponent } from './user-table/user-table.component';
 
-
 @NgModule({
-    declarations: [
-        UserListComponent,
-        UserTableComponent,
-    ],
-    imports: [
-        AvatarModule,
-        UserListRoutingModule,
-        CommonModule,
-        FormsModule,
-        MatButtonModule,
-        MatDialogModule,
-        HasRoleModule,
-        CardModule,
-        MatTableModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        HasRolePipeModule,
-        TranslateModule,
-        SharedModule,
-        RefreshTableModule,
-        InputModule,
-        PaginatorModule,
-    ],
-    exports: [
-        UserListComponent,
-    ],
+  declarations: [UserListComponent, UserTableComponent],
+  imports: [
+    AvatarModule,
+    UserListRoutingModule,
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogModule,
+    HasRoleModule,
+    CardModule,
+    MatTableModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    HasRolePipeModule,
+    TranslateModule,
+    SharedModule,
+    RefreshTableModule,
+    InputModule,
+    PaginatorModule,
+  ],
+  exports: [UserListComponent],
 })
-export class UserListModule { }
+export class UserListModule {}

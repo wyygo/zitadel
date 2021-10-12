@@ -18,17 +18,20 @@ export class AccountsCardComponent implements OnInit {
   public sessions: Session.AsObject[] = [];
   public loadingUsers: boolean = false;
   constructor(public authService: AuthenticationService, private router: Router, private userService: GrpcAuthService) {
-    this.userService.listMyUserSessions().then(sessions => {
-      this.sessions = sessions.resultList;
-      const index = this.sessions.findIndex(user => user.loginName === this.user.preferredLoginName);
-      if (index > -1) {
-        this.sessions.splice(index, 1);
-      }
+    this.userService
+      .listMyUserSessions()
+      .then((sessions) => {
+        this.sessions = sessions.resultList;
+        const index = this.sessions.findIndex((user) => user.loginName === this.user.preferredLoginName);
+        if (index > -1) {
+          this.sessions.splice(index, 1);
+        }
 
-      this.loadingUsers = false;
-    }).catch(() => {
-      this.loadingUsers = false;
-    });
+        this.loadingUsers = false;
+      })
+      .catch(() => {
+        this.loadingUsers = false;
+      });
   }
 
   public ngOnInit(): void {

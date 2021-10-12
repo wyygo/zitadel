@@ -4,17 +4,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrgIamPolicyComponent } from './org-iam-policy.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: OrgIamPolicyComponent,
-        data: {
-            animation: 'DetailPage',
-        },
+  {
+    path: '',
+    component: OrgIamPolicyComponent,
+    data: {
+      animation: 'DetailPage',
     },
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class OrgIamPolicyRoutingModule { }
+export class OrgIamPolicyRoutingModule {}

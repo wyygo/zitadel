@@ -34,8 +34,12 @@ export class ClientKeysComponent implements OnInit {
 
   @Output() public changedSelection: EventEmitter<Array<Key.AsObject>> = new EventEmitter();
 
-  constructor(public translate: TranslateService, private mgmtService: ManagementService, private dialog: MatDialog,
-    private toast: ToastService) {
+  constructor(
+    public translate: TranslateService,
+    private mgmtService: ManagementService,
+    private dialog: MatDialog,
+    private toast: ToastService,
+  ) {
     this.selection.changed.subscribe(() => {
       this.changedSelection.emit(this.selection.selected);
     });
@@ -45,7 +49,6 @@ export class ClientKeysComponent implements OnInit {
     this.getData(10, 0);
   }
 
-
   public isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -53,24 +56,24 @@ export class ClientKeysComponent implements OnInit {
   }
 
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
-
 
   public changePage(event: PageEvent): void {
     this.getData(event.pageSize, event.pageIndex * event.pageSize);
   }
 
   public deleteKey(key: Key.AsObject): void {
-    this.mgmtService.removeAppKey(this.projectId, this.appId, key.id).then(() => {
-      this.selection.clear();
-      this.toast.showInfo('USER.TOAST.SELECTEDKEYSDELETED', true);
-      this.getData(10, 0);
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.mgmtService
+      .removeAppKey(this.projectId, this.appId, key.id)
+      .then(() => {
+        this.selection.clear();
+        this.toast.showInfo('USER.TOAST.SELECTEDKEYSDELETED', true);
+        this.getData(10, 0);
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public openAddKey(): void {
@@ -96,28 +99,26 @@ export class ClientKeysComponent implements OnInit {
         }
 
         if (type) {
-          this.mgmtService.addAppKey(
-            this.projectId,
-            this.appId,
-            type,
-            date ? date : undefined,
-          ).then((response) => {
-            if (response) {
-              setTimeout(() => {
-                this.refreshPage();
-              }, 1000);
+          this.mgmtService
+            .addAppKey(this.projectId, this.appId, type, date ? date : undefined)
+            .then((response) => {
+              if (response) {
+                setTimeout(() => {
+                  this.refreshPage();
+                }, 1000);
 
-              this.dialog.open(ShowKeyDialogComponent, {
-                data: {
-                  key: response,
-                  type: AddKeyDialogType.AUTHNKEY,
-                },
-                width: '400px',
-              });
-            }
-          }).catch((error: any) => {
-            this.toast.showError(error);
-          });
+                this.dialog.open(ShowKeyDialogComponent, {
+                  data: {
+                    key: response,
+                    type: AddKeyDialogType.AUTHNKEY,
+                  },
+                  width: '400px',
+                });
+              }
+            })
+            .catch((error: any) => {
+              this.toast.showError(error);
+            });
         }
       }
     });
@@ -126,14 +127,17 @@ export class ClientKeysComponent implements OnInit {
   private async getData(limit: number, offset: number): Promise<void> {
     this.loadingSubject.next(true);
     if (this.projectId && this.appId) {
-      this.mgmtService.listAppKeys(this.projectId, this.appId, limit, offset).then(resp => {
-        this.keyResult = resp;
-        this.dataSource.data = this.keyResult.resultList;
-        this.loadingSubject.next(false);
-      }).catch((error: any) => {
-        this.toast.showError(error);
-        this.loadingSubject.next(false);
-      });
+      this.mgmtService
+        .listAppKeys(this.projectId, this.appId, limit, offset)
+        .then((resp) => {
+          this.keyResult = resp;
+          this.dataSource.data = this.keyResult.resultList;
+          this.loadingSubject.next(false);
+        })
+        .catch((error: any) => {
+          this.toast.showError(error);
+          this.loadingSubject.next(false);
+        });
     }
   }
 

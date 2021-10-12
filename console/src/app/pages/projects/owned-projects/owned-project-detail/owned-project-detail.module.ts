@@ -36,12 +36,7 @@ import { OwnedProjectDetailComponent } from './owned-project-detail.component';
 import { ProjectGrantsComponent } from './project-grants/project-grants.component';
 
 @NgModule({
-  declarations: [
-    OwnedProjectDetailComponent,
-    ApplicationGridComponent,
-    ApplicationsComponent,
-    ProjectGrantsComponent,
-  ],
+  declarations: [OwnedProjectDetailComponent, ApplicationGridComponent, ApplicationsComponent, ProjectGrantsComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -76,4 +71,4 @@ import { ProjectGrantsComponent } from './project-grants/project-grants.componen
     LocalizedDatePipeModule,
   ],
 })
-export class OwnedProjectDetailModule { }
+export class OwnedProjectDetailModule {}

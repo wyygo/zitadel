@@ -21,32 +21,29 @@ import { PaginatorModule } from '../paginator/paginator.module';
 import { RefreshTableModule } from '../refresh-table/refresh-table.module';
 import { UserGrantsComponent } from './user-grants.component';
 
-
 @NgModule({
-    declarations: [UserGrantsComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        AvatarModule,
-        MatButtonModule,
-        HasRoleModule,
-        MatTableModule,
-        PaginatorModule,
-        MatIconModule,
-        RouterModule,
-        MatProgressSpinnerModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        MatSelectModule,
-        TranslateModule,
-        HasRolePipeModule,
-        TimestampToDatePipeModule,
-        RefreshTableModule,
-        LocalizedDatePipeModule,
-        InputModule,
-    ],
-    exports: [
-        UserGrantsComponent,
-    ],
+  declarations: [UserGrantsComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AvatarModule,
+    MatButtonModule,
+    HasRoleModule,
+    MatTableModule,
+    PaginatorModule,
+    MatIconModule,
+    RouterModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    MatSelectModule,
+    TranslateModule,
+    HasRolePipeModule,
+    TimestampToDatePipeModule,
+    RefreshTableModule,
+    LocalizedDatePipeModule,
+    InputModule,
+  ],
+  exports: [UserGrantsComponent],
 })
-export class UserGrantsModule { }
+export class UserGrantsModule {}

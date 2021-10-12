@@ -13,21 +13,20 @@ import { HasRolePipeModule } from 'src/app/pipes/has-role-pipe/has-role-pipe.mod
 import { IamMembersRoutingModule } from './iam-members-routing.module';
 import { IamMembersComponent } from './iam-members.component';
 
-
 @NgModule({
-    declarations: [IamMembersComponent],
-    imports: [
-        IamMembersRoutingModule,
-        DetailLayoutModule,
-        CommonModule,
-        HasRoleModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        TranslateModule,
-        MembersTableModule,
-        HasRolePipeModule,
-        MemberCreateDialogModule,
-    ],
+  declarations: [IamMembersComponent],
+  imports: [
+    IamMembersRoutingModule,
+    DetailLayoutModule,
+    CommonModule,
+    HasRoleModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslateModule,
+    MembersTableModule,
+    HasRolePipeModule,
+    MemberCreateDialogModule,
+  ],
 })
-export class IamMembersModule { }
+export class IamMembersModule {}

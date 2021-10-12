@@ -38,26 +38,29 @@ export class UserCreateComponent implements OnDestroy {
   ) {
     this.loading = true;
     this.loadOrg();
-    this.mgmtService.getOrgIAMPolicy().then((resp) => {
-      if (resp.policy?.userLoginMustBeDomain) {
-        this.userLoginMustBeDomain = resp.policy.userLoginMustBeDomain;
-      }
-      this.initForm();
-      this.loading = false;
-      this.envSuffixLabel = this.envSuffix();
-      this.changeDetRef.detectChanges();
-    }).catch(error => {
-      console.error(error);
-      this.initForm();
-      this.loading = false;
-      this.envSuffixLabel = this.envSuffix();
-      this.changeDetRef.detectChanges();
-    });
+    this.mgmtService
+      .getOrgIAMPolicy()
+      .then((resp) => {
+        if (resp.policy?.userLoginMustBeDomain) {
+          this.userLoginMustBeDomain = resp.policy.userLoginMustBeDomain;
+        }
+        this.initForm();
+        this.loading = false;
+        this.envSuffixLabel = this.envSuffix();
+        this.changeDetRef.detectChanges();
+      })
+      .catch((error) => {
+        console.error(error);
+        this.initForm();
+        this.loading = false;
+        this.envSuffixLabel = this.envSuffix();
+        this.changeDetRef.detectChanges();
+      });
   }
 
   private async loadOrg(): Promise<void> {
-    const domains = (await this.mgmtService.listOrgDomains());
-    const found = domains.resultList.find(resp => resp.isPrimary);
+    const domains = await this.mgmtService.listOrgDomains();
+    const found = domains.resultList.find((resp) => resp.isPrimary);
     if (found) {
       this.primaryDomain = found;
     }
@@ -66,12 +69,7 @@ export class UserCreateComponent implements OnDestroy {
   private initForm(): void {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      userName: ['',
-        [
-          Validators.required,
-          Validators.minLength(2),
-        ],
-      ],
+      userName: ['', [Validators.required, Validators.minLength(2)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       nickName: [''],
@@ -80,18 +78,16 @@ export class UserCreateComponent implements OnDestroy {
       phone: [''],
     });
 
-    this.userForm.controls['phone'].valueChanges.pipe(
-      takeUntil(this.destroyed$),
-      debounceTime(300)).subscribe(value => {
-        const phoneNumber = parsePhoneNumber(value ?? '', 'CH');
-        if (phoneNumber) {
-          const formmatted = phoneNumber.formatInternational();
-          const country = phoneNumber.country;
-          if (this.phone && country && this.phone.value && this.phone.value !== formmatted) {
-            this.phone.setValue(formmatted);
-          }
+    this.userForm.controls['phone'].valueChanges.pipe(takeUntil(this.destroyed$), debounceTime(300)).subscribe((value) => {
+      const phoneNumber = parsePhoneNumber(value ?? '', 'CH');
+      if (phoneNumber) {
+        const formmatted = phoneNumber.formatInternational();
+        const country = phoneNumber.country;
+        if (this.phone && country && this.phone.value && this.phone.value !== formmatted) {
+          this.phone.setValue(formmatted);
         }
-      });
+      }
+    });
   }
 
   public createUser(): void {
@@ -123,7 +119,7 @@ export class UserCreateComponent implements OnDestroy {
         this.toast.showInfo('USER.TOAST.CREATED', true);
         this.router.navigate(['users', data.userId]);
       })
-      .catch(error => {
+      .catch((error) => {
         this.loading = false;
         this.toast.showError(error);
       });

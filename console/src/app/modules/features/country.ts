@@ -375,7 +375,7 @@ export const COUNTRIES: Country[] = [
   {
     isoCode: 'CI',
     phoneCode: '225',
-    name: 'Côte d\'Ivoire',
+    name: "Côte d'Ivoire",
     iso3Code: 'CIV',
   },
   {

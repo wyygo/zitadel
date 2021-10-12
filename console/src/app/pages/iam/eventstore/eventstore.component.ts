@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './eventstore.component.html',
   styleUrls: ['./eventstore.component.scss'],
 })
-export class EventstoreComponent { }
+export class EventstoreComponent {}

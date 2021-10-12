@@ -4,9 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { GetLockoutPolicyResponse as AdminGetPasswordLockoutPolicyResponse } from 'src/app/proto/generated/zitadel/admin_pb';
-import {
-  GetLockoutPolicyResponse as MgmtGetPasswordLockoutPolicyResponse,
-} from 'src/app/proto/generated/zitadel/management_pb';
+import { GetLockoutPolicyResponse as MgmtGetPasswordLockoutPolicyResponse } from 'src/app/proto/generated/zitadel/management_pb';
 import { LockoutPolicy } from 'src/app/proto/generated/zitadel/policy_pb';
 import { AdminService } from 'src/app/services/admin.service';
 import { ManagementService } from 'src/app/services/mgmt.service';
@@ -30,27 +28,27 @@ export class PasswordLockoutPolicyComponent implements OnDestroy {
   public PolicyComponentServiceType: any = PolicyComponentServiceType;
   public InfoSectionType: any = InfoSectionType;
 
-  constructor(
-    private route: ActivatedRoute,
-    private toast: ToastService,
-    private injector: Injector,
-  ) {
-    this.sub = this.route.data.pipe(switchMap(data => {
-      this.serviceType = data.serviceType;
+  constructor(private route: ActivatedRoute, private toast: ToastService, private injector: Injector) {
+    this.sub = this.route.data
+      .pipe(
+        switchMap((data) => {
+          this.serviceType = data.serviceType;
 
-      switch (this.serviceType) {
-        case PolicyComponentServiceType.MGMT:
-          this.service = this.injector.get(ManagementService as Type<ManagementService>);
-          break;
-        case PolicyComponentServiceType.ADMIN:
-          this.service = this.injector.get(AdminService as Type<AdminService>);
-          break;
-      }
+          switch (this.serviceType) {
+            case PolicyComponentServiceType.MGMT:
+              this.service = this.injector.get(ManagementService as Type<ManagementService>);
+              break;
+            case PolicyComponentServiceType.ADMIN:
+              this.service = this.injector.get(AdminService as Type<AdminService>);
+              break;
+          }
 
-      return this.route.params;
-    })).subscribe(() => {
-      this.fetchData();
-    });
+          return this.route.params;
+        }),
+      )
+      .subscribe(() => {
+        this.fetchData();
+      });
   }
 
   public ngOnDestroy(): void {
@@ -58,15 +56,16 @@ export class PasswordLockoutPolicyComponent implements OnDestroy {
   }
 
   private fetchData(): void {
-    this.getData().then(resp => {
+    this.getData().then((resp) => {
       if (resp.policy) {
         this.lockoutData = resp.policy;
       }
     });
   }
 
-  private getData():
-    Promise<AdminGetPasswordLockoutPolicyResponse.AsObject | MgmtGetPasswordLockoutPolicyResponse.AsObject> {
+  private getData(): Promise<
+    AdminGetPasswordLockoutPolicyResponse.AsObject | MgmtGetPasswordLockoutPolicyResponse.AsObject
+  > {
     switch (this.serviceType) {
       case PolicyComponentServiceType.MGMT:
         return (this.service as ManagementService).getLockoutPolicy();
@@ -77,12 +76,15 @@ export class PasswordLockoutPolicyComponent implements OnDestroy {
 
   public resetPolicy(): void {
     if (this.service instanceof ManagementService) {
-      this.service.resetLockoutPolicyToDefault().then(() => {
-        this.toast.showInfo('POLICY.TOAST.RESETSUCCESS', true);
-        this.fetchData();
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      this.service
+        .resetLockoutPolicyToDefault()
+        .then(() => {
+          this.toast.showInfo('POLICY.TOAST.RESETSUCCESS', true);
+          this.fetchData();
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -101,33 +103,36 @@ export class PasswordLockoutPolicyComponent implements OnDestroy {
   public savePolicy(): void {
     let promise: Promise<any>;
     if (this.service instanceof AdminService) {
-      promise = this.service.updateLockoutPolicy(
-        this.lockoutData.maxPasswordAttempts,
-      ).then(() => {
-        this.toast.showInfo('POLICY.TOAST.SET', true);
-        this.fetchData();
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      promise = this.service
+        .updateLockoutPolicy(this.lockoutData.maxPasswordAttempts)
+        .then(() => {
+          this.toast.showInfo('POLICY.TOAST.SET', true);
+          this.fetchData();
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     } else {
       if ((this.lockoutData as LockoutPolicy.AsObject).isDefault) {
-        promise = this.service.addCustomLockoutPolicy(
-          this.lockoutData.maxPasswordAttempts,
-        ).then(() => {
-          this.toast.showInfo('POLICY.TOAST.SET', true);
-          this.fetchData();
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+        promise = this.service
+          .addCustomLockoutPolicy(this.lockoutData.maxPasswordAttempts)
+          .then(() => {
+            this.toast.showInfo('POLICY.TOAST.SET', true);
+            this.fetchData();
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       } else {
-        promise = this.service.updateCustomLockoutPolicy(
-          this.lockoutData.maxPasswordAttempts,
-        ).then(() => {
-          this.toast.showInfo('POLICY.TOAST.SET', true);
-          this.fetchData();
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+        promise = this.service
+          .updateCustomLockoutPolicy(this.lockoutData.maxPasswordAttempts)
+          .then(() => {
+            this.toast.showInfo('POLICY.TOAST.SET', true);
+            this.fetchData();
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       }
     }
   }

@@ -63,34 +63,43 @@ export class UserGrantCreateComponent implements OnDestroy {
       if (this.projectId && !this.grantId) {
         this.context = UserGrantContext.OWNED_PROJECT;
 
-        this.mgmtService.getProjectByID(this.projectId).then(resp => {
-          if (resp.project) {
-            this.project = resp.project;
-          }
-        }).catch((error: any) => {
-          this.toast.showError(error);
-        });
+        this.mgmtService
+          .getProjectByID(this.projectId)
+          .then((resp) => {
+            if (resp.project) {
+              this.project = resp.project;
+            }
+          })
+          .catch((error: any) => {
+            this.toast.showError(error);
+          });
       } else if (this.projectId && this.grantId) {
         this.context = UserGrantContext.GRANTED_PROJECT;
-        this.mgmtService.getGrantedProjectByID(this.projectId, this.grantId).then(resp => {
-          if (resp.grantedProject) {
-            this.project = resp.grantedProject;
-          }
-          if (resp.grantedProject?.grantedRoleKeysList) {
-            this.grantedRoleKeysList = resp.grantedProject?.grantedRoleKeysList;
-          }
-        }).catch((error: any) => {
-          this.toast.showError(error);
-        });
+        this.mgmtService
+          .getGrantedProjectByID(this.projectId, this.grantId)
+          .then((resp) => {
+            if (resp.grantedProject) {
+              this.project = resp.grantedProject;
+            }
+            if (resp.grantedProject?.grantedRoleKeysList) {
+              this.grantedRoleKeysList = resp.grantedProject?.grantedRoleKeysList;
+            }
+          })
+          .catch((error: any) => {
+            this.toast.showError(error);
+          });
       } else if (this.userId) {
         this.context = UserGrantContext.USER;
-        this.mgmtService.getUserByID(this.userId).then(resp => {
-          if (resp.user) {
-            this.user = resp.user;
-          }
-        }).catch((error: any) => {
-          this.toast.showError(error);
-        });
+        this.mgmtService
+          .getUserByID(this.userId)
+          .then((resp) => {
+            if (resp.user) {
+              this.user = resp.user;
+            }
+          })
+          .catch((error: any) => {
+            this.toast.showError(error);
+          });
       }
     });
 
@@ -107,29 +116,26 @@ export class UserGrantCreateComponent implements OnDestroy {
   public addGrant(): void {
     switch (this.context) {
       case UserGrantContext.OWNED_PROJECT:
-        this.userService.addUserGrant(
-          this.userId,
-          this.rolesList,
-          this.projectId,
-        ).then(() => {
-          this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTADDED', true);
-          this.close();
-        }).catch((error: any) => {
-          this.toast.showError(error);
-        });
+        this.userService
+          .addUserGrant(this.userId, this.rolesList, this.projectId)
+          .then(() => {
+            this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTADDED', true);
+            this.close();
+          })
+          .catch((error: any) => {
+            this.toast.showError(error);
+          });
         break;
       case UserGrantContext.GRANTED_PROJECT:
-        this.userService.addUserGrant(
-          this.userId,
-          this.rolesList,
-          this.projectId,
-          this.grantId,
-        ).then(() => {
-          this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTUSERGRANTADDED', true);
-          this.close();
-        }).catch((error: any) => {
-          this.toast.showError(error);
-        });
+        this.userService
+          .addUserGrant(this.userId, this.rolesList, this.projectId, this.grantId)
+          .then(() => {
+            this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTUSERGRANTADDED', true);
+            this.close();
+          })
+          .catch((error: any) => {
+            this.toast.showError(error);
+          });
         break;
       case UserGrantContext.USER:
         let grantId;
@@ -138,17 +144,15 @@ export class UserGrantCreateComponent implements OnDestroy {
           grantId = (this.project as GrantedProject.AsObject).grantId;
         }
 
-        this.userService.addUserGrant(
-          this.userId,
-          this.rolesList,
-          this.projectId,
-          grantId,
-        ).then(() => {
-          this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTUSERGRANTADDED', true);
-          this.close();
-        }).catch((error: any) => {
-          this.toast.showError(error);
-        });
+        this.userService
+          .addUserGrant(this.userId, this.rolesList, this.projectId, grantId)
+          .then(() => {
+            this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTUSERGRANTADDED', true);
+            this.close();
+          })
+          .catch((error: any) => {
+            this.toast.showError(error);
+          });
         break;
       case UserGrantContext.NONE:
         let tempGrantId;
@@ -157,17 +161,15 @@ export class UserGrantCreateComponent implements OnDestroy {
           tempGrantId = (this.project as GrantedProject.AsObject).grantId;
         }
 
-        this.userService.addUserGrant(
-          this.userId,
-          this.rolesList,
-          this.projectId,
-          tempGrantId,
-        ).then(() => {
-          this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTUSERGRANTADDED', true);
-          this.close();
-        }).catch((error: any) => {
-          this.toast.showError(error);
-        });
+        this.userService
+          .addUserGrant(this.userId, this.rolesList, this.projectId, tempGrantId)
+          .then(() => {
+            this.toast.showInfo('PROJECT.GRANT.TOAST.PROJECTGRANTUSERGRANTADDED', true);
+            this.close();
+          })
+          .catch((error: any) => {
+            this.toast.showError(error);
+          });
         break;
     }
   }
@@ -186,7 +188,7 @@ export class UserGrantCreateComponent implements OnDestroy {
   }
 
   public selectRoles(roles: Role.AsObject[]): void {
-    this.rolesList = roles.map(role => role.key);
+    this.rolesList = roles.map((role) => role.key);
   }
 
   public next(): void {

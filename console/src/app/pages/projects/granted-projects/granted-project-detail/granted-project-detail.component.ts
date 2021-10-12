@@ -35,8 +35,7 @@ export class GrantedProjectDetailComponent implements OnInit, OnDestroy {
 
   // members
   public totalMemberResult: number = 0;
-  public membersSubject: BehaviorSubject<Member.AsObject[]>
-    = new BehaviorSubject<Member.AsObject[]>([]);
+  public membersSubject: BehaviorSubject<Member.AsObject[]> = new BehaviorSubject<Member.AsObject[]>([]);
   private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
@@ -48,11 +47,10 @@ export class GrantedProjectDetailComponent implements OnInit, OnDestroy {
     private _location: Location,
     private router: Router,
     private dialog: MatDialog,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
-    this.subscription = this.route.params.subscribe(params => this.getData(params));
+    this.subscription = this.route.params.subscribe((params) => this.getData(params));
   }
 
   public ngOnDestroy(): void {
@@ -63,18 +61,21 @@ export class GrantedProjectDetailComponent implements OnInit, OnDestroy {
     this.projectId = id;
     this.grantId = grantId;
 
-    this.mgmtService.getIAM().then(iam => {
+    this.mgmtService.getIAM().then((iam) => {
       this.isZitadel = iam.iamProjectId === this.projectId;
     });
 
     if (this.projectId && this.grantId) {
-      this.mgmtService.getGrantedProjectByID(this.projectId, this.grantId).then(proj => {
-        if (proj.grantedProject) {
-          this.project = proj.grantedProject;
-        }
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      this.mgmtService
+        .getGrantedProjectByID(this.projectId, this.grantId)
+        .then((proj) => {
+          if (proj.grantedProject) {
+            this.project = proj.grantedProject;
+          }
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
 
       this.loadMembers();
     }
@@ -82,9 +83,9 @@ export class GrantedProjectDetailComponent implements OnInit, OnDestroy {
 
   public loadMembers(): void {
     this.loadingSubject.next(true);
-    from(this.mgmtService.listProjectGrantMembers(this.projectId,
-      this.grantId, 100, 0)).pipe(
-        map(resp => {
+    from(this.mgmtService.listProjectGrantMembers(this.projectId, this.grantId, 100, 0))
+      .pipe(
+        map((resp) => {
           if (resp.details?.totalResult) {
             this.totalMemberResult = resp.details.totalResult;
           } else {
@@ -94,7 +95,8 @@ export class GrantedProjectDetailComponent implements OnInit, OnDestroy {
         }),
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false)),
-      ).subscribe(members => {
+      )
+      .subscribe((members) => {
         this.membersSubject.next(members);
       });
   }
@@ -111,26 +113,24 @@ export class GrantedProjectDetailComponent implements OnInit, OnDestroy {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
         const users: User.AsObject[] = resp.users;
         const roles: string[] = resp.roles;
 
         if (users && users.length && roles && roles.length) {
-          users.forEach(user => {
-            return this.mgmtService.addProjectGrantMember(
-              this.projectId,
-              this.grantId,
-              user.id,
-              roles,
-            ).then(() => {
-              this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
-              setTimeout(() => {
-                this.loadMembers();
-              }, 1000);
-            }).catch(error => {
-              this.toast.showError(error);
-            });
+          users.forEach((user) => {
+            return this.mgmtService
+              .addProjectGrantMember(this.projectId, this.grantId, user.id, roles)
+              .then(() => {
+                this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
+                setTimeout(() => {
+                  this.loadMembers();
+                }, 1000);
+              })
+              .catch((error) => {
+                this.toast.showError(error);
+              });
           });
         }
       }

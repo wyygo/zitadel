@@ -13,23 +13,22 @@ import { AvatarModule } from '../avatar/avatar.module';
 import { InputModule } from '../input/input.module';
 import { SearchUserAutocompleteComponent } from './search-user-autocomplete.component';
 
-
 @NgModule({
-    declarations: [SearchUserAutocompleteComponent],
-    imports: [
-        CommonModule,
-        MatAutocompleteModule,
-        MatChipsModule,
-        MatButtonModule,
-        InputModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatProgressSpinnerModule,
-        FormsModule,
-        TranslateModule,
-        MatSelectModule,
-        AvatarModule,
-    ],
-    exports: [SearchUserAutocompleteComponent],
+  declarations: [SearchUserAutocompleteComponent],
+  imports: [
+    CommonModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatButtonModule,
+    InputModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    TranslateModule,
+    MatSelectModule,
+    AvatarModule,
+  ],
+  exports: [SearchUserAutocompleteComponent],
 })
-export class SearchUserAutocompleteModule { }
+export class SearchUserAutocompleteModule {}

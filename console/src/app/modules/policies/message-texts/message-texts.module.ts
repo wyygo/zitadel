@@ -47,4 +47,4 @@ import { MessageTextsComponent } from './message-texts.component';
     TextFieldModule,
   ],
 })
-export class MessageTextsPolicyModule { }
+export class MessageTextsPolicyModule {}

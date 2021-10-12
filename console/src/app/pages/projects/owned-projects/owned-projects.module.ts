@@ -25,20 +25,14 @@ import { LocalizedDatePipeModule } from 'src/app/pipes/localized-date-pipe/local
 import { TimestampToDatePipeModule } from 'src/app/pipes/timestamp-to-date-pipe/timestamp-to-date-pipe.module';
 
 import { NameDialogModule } from '../../../modules/name-dialog/name-dialog.module';
-import {
-  ProjectPrivateLabelingDialogModule,
-} from '../../../modules/project-private-labeling-dialog/project-private-labeling-dialog.module';
+import { ProjectPrivateLabelingDialogModule } from '../../../modules/project-private-labeling-dialog/project-private-labeling-dialog.module';
 import { OwnedProjectGridComponent } from './owned-project-list/owned-project-grid/owned-project-grid.component';
 import { OwnedProjectListComponent } from './owned-project-list/owned-project-list.component';
 import { OwnedProjectsRoutingModule } from './owned-projects-routing.module';
 import { OwnedProjectsComponent } from './owned-projects.component';
 
 @NgModule({
-  declarations: [
-    OwnedProjectsComponent,
-    OwnedProjectListComponent,
-    OwnedProjectGridComponent,
-  ],
+  declarations: [OwnedProjectsComponent, OwnedProjectListComponent, OwnedProjectGridComponent],
   imports: [
     CommonModule,
     OwnedProjectsRoutingModule,
@@ -71,4 +65,4 @@ import { OwnedProjectsComponent } from './owned-projects.component';
     RefreshTableModule,
   ],
 })
-export class OwnedProjectsModule { }
+export class OwnedProjectsModule {}

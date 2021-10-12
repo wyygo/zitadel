@@ -16,8 +16,7 @@ export class DialogAddTypeComponent {
   public LoginMethodComponentType: any = LoginMethodComponentType;
   public availableMfaTypes: Array<MultiFactorType | SecondFactorType> = [];
   public newMfaType!: MultiFactorType | SecondFactorType;
-  constructor(public dialogRef: MatDialogRef<DialogAddTypeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(public dialogRef: MatDialogRef<DialogAddTypeComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.availableMfaTypes = data.types;
   }
 

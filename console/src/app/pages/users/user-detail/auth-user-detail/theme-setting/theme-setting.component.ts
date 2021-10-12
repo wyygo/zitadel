@@ -16,7 +16,7 @@ export class ThemeSettingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.themeService.isDarkTheme.subscribe(d => this.isDarkTheme = d);
+    this.sub = this.themeService.isDarkTheme.subscribe((d) => (this.isDarkTheme = d));
   }
 
   ngOnDestroy(): void {

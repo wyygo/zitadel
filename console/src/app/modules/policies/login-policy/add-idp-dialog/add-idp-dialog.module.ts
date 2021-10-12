@@ -10,15 +10,7 @@ import { InputModule } from 'src/app/modules/input/input.module';
 import { AddIdpDialogComponent } from './add-idp-dialog.component';
 
 @NgModule({
-    declarations: [AddIdpDialogComponent],
-    imports: [
-        CommonModule,
-        MatDialogModule,
-        MatButtonModule,
-        TranslateModule,
-        InputModule,
-        MatSelectModule,
-        FormsModule,
-    ],
+  declarations: [AddIdpDialogComponent],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, TranslateModule, InputModule, MatSelectModule, FormsModule],
 })
-export class AddIdpDialogModule { }
+export class AddIdpDialogModule {}

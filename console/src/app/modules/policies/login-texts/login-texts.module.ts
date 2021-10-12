@@ -55,4 +55,4 @@ import { LoginTextsComponent } from './login-texts.component';
     LocalizedDatePipeModule,
   ],
 })
-export class LoginTextsPolicyModule { }
+export class LoginTextsPolicyModule {}

@@ -16,21 +16,21 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 
 @NgModule({
-    declarations: [HomeComponent],
-    imports: [
-        CommonModule,
-        MatIconModule,
-        HasRoleModule,
-        HomeRoutingModule,
-        MatButtonModule,
-        TranslateModule,
-        AvatarModule,
-        MatTooltipModule,
-        SharedModule,
-        MatProgressSpinnerModule,
-        CardModule,
-        MatRippleModule,
-        OnboardingModule,
-    ],
+  declarations: [HomeComponent],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    HasRoleModule,
+    HomeRoutingModule,
+    MatButtonModule,
+    TranslateModule,
+    AvatarModule,
+    MatTooltipModule,
+    SharedModule,
+    MatProgressSpinnerModule,
+    CardModule,
+    MatRippleModule,
+    OnboardingModule,
+  ],
 })
-export class HomeModule { }
+export class HomeModule {}

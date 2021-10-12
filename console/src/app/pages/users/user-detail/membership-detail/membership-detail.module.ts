@@ -51,4 +51,4 @@ const routes: Routes = [
     InfoSectionModule,
   ],
 })
-export class MembershipDetailModule { }
+export class MembershipDetailModule {}

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./granted-projects.component.scss'],
 })
 export class GrantedProjectsComponent {
-  constructor() { }
+  constructor() {}
 }

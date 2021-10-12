@@ -89,4 +89,4 @@ import { RedirectUrisComponent } from './redirect-uris/redirect-uris.component';
   ],
   exports: [TranslateModule],
 })
-export class AppsModule { }
+export class AppsModule {}

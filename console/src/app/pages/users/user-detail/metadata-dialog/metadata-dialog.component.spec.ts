@@ -6,12 +6,13 @@ describe('MetadataDialogComponent', () => {
   let component: MetadataDialogComponent;
   let fixture: ComponentFixture<MetadataDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MetadataDialogComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MetadataDialogComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataDialogComponent);

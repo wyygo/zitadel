@@ -6,12 +6,13 @@ describe('PrivateLabelingPolicyComponent', () => {
   let component: PrivateLabelingPolicyComponent;
   let fixture: ComponentFixture<PrivateLabelingPolicyComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PrivateLabelingPolicyComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PrivateLabelingPolicyComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PrivateLabelingPolicyComponent);

@@ -36,9 +36,13 @@ export class IdpComponent implements OnDestroy {
   public idpForm!: FormGroup;
   public oidcConfigForm!: FormGroup;
 
-  public canWrite: Observable<boolean> = this.authService.isAllowed([this.serviceType === PolicyComponentServiceType.ADMIN ?
-    'iam.idp.write' : this.serviceType === PolicyComponentServiceType.MGMT ?
-      'org.idp.write' : '']);
+  public canWrite: Observable<boolean> = this.authService.isAllowed([
+    this.serviceType === PolicyComponentServiceType.ADMIN
+      ? 'iam.idp.write'
+      : this.serviceType === PolicyComponentServiceType.MGMT
+      ? 'org.idp.write'
+      : '',
+  ]);
 
   constructor(
     private toast: ToastService,
@@ -63,37 +67,38 @@ export class IdpComponent implements OnDestroy {
       usernameMapping: new FormControl(0),
     });
 
-    this.route.data.pipe(
-      takeUntil(this.destroy$),
-      switchMap(data => {
-        this.serviceType = data.serviceType;
-        switch (this.serviceType) {
-          case PolicyComponentServiceType.MGMT:
-            this.service = this.injector.get(ManagementService as Type<ManagementService>);
+    this.route.data
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((data) => {
+          this.serviceType = data.serviceType;
+          switch (this.serviceType) {
+            case PolicyComponentServiceType.MGMT:
+              this.service = this.injector.get(ManagementService as Type<ManagementService>);
 
-            break;
-          case PolicyComponentServiceType.ADMIN:
-            this.service = this.injector.get(AdminService as Type<AdminService>);
+              break;
+            case PolicyComponentServiceType.ADMIN:
+              this.service = this.injector.get(AdminService as Type<AdminService>);
 
-            break;
-        }
+              break;
+          }
 
-        this.mappingFields = [
-          OIDCMappingField.OIDC_MAPPING_FIELD_PREFERRED_USERNAME,
-          OIDCMappingField.OIDC_MAPPING_FIELD_EMAIL];
-        this.styleFields = [
-          IDPStylingType.STYLING_TYPE_UNSPECIFIED,
-          IDPStylingType.STYLING_TYPE_GOOGLE];
+          this.mappingFields = [
+            OIDCMappingField.OIDC_MAPPING_FIELD_PREFERRED_USERNAME,
+            OIDCMappingField.OIDC_MAPPING_FIELD_EMAIL,
+          ];
+          this.styleFields = [IDPStylingType.STYLING_TYPE_UNSPECIFIED, IDPStylingType.STYLING_TYPE_GOOGLE];
 
-        return this.route.params.pipe(take(1));
-      })).subscribe((params) => {
+          return this.route.params.pipe(take(1));
+        }),
+      )
+      .subscribe((params) => {
         const { id } = params;
         if (id) {
           this.checkWrite();
 
           if (this.serviceType === PolicyComponentServiceType.MGMT) {
-
-            (this.service as ManagementService).getOrgIDPByID(id).then(resp => {
+            (this.service as ManagementService).getOrgIDPByID(id).then((resp) => {
               if (resp.idp) {
                 const idpObject = resp.idp;
                 this.idpForm.patchValue(idpObject);
@@ -103,7 +108,7 @@ export class IdpComponent implements OnDestroy {
               }
             });
           } else if (this.serviceType === PolicyComponentServiceType.ADMIN) {
-            (this.service as AdminService).getIDPByID(id).then(resp => {
+            (this.service as AdminService).getIDPByID(id).then((resp) => {
               if (resp.idp) {
                 const idpObject = resp.idp;
                 this.idpForm.patchValue(idpObject);
@@ -118,7 +123,7 @@ export class IdpComponent implements OnDestroy {
   }
 
   public checkWrite(): void {
-    this.canWrite.pipe(take(1)).subscribe(canWrite => {
+    this.canWrite.pipe(take(1)).subscribe((canWrite) => {
       if (canWrite) {
         this.idpForm.enable();
         this.oidcConfigForm.enable();
@@ -145,12 +150,15 @@ export class IdpComponent implements OnDestroy {
       req.setStylingType(this.stylingType?.value);
       req.setAutoRegister(this.autoRegister?.value);
 
-      (this.service as ManagementService).updateOrgIDP(req).then(() => {
-        this.toast.showInfo('IDP.TOAST.SAVED', true);
-        // this.router.navigate(['idp', ]);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      (this.service as ManagementService)
+        .updateOrgIDP(req)
+        .then(() => {
+          this.toast.showInfo('IDP.TOAST.SAVED', true);
+          // this.router.navigate(['idp', ]);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     } else if (this.serviceType === PolicyComponentServiceType.ADMIN) {
       const req = new UpdateIDPRequest();
 
@@ -159,12 +167,15 @@ export class IdpComponent implements OnDestroy {
       req.setStylingType(this.stylingType?.value);
       req.setAutoRegister(this.autoRegister?.value);
 
-      (this.service as AdminService).updateIDP(req).then(() => {
-        this.toast.showInfo('IDP.TOAST.SAVED', true);
-        // this.router.navigate(['idp', ]);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      (this.service as AdminService)
+        .updateIDP(req)
+        .then(() => {
+          this.toast.showInfo('IDP.TOAST.SAVED', true);
+          // this.router.navigate(['idp', ]);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -180,12 +191,15 @@ export class IdpComponent implements OnDestroy {
       req.setUsernameMapping(this.usernameMapping?.value);
       req.setDisplayNameMapping(this.displayNameMapping?.value);
 
-      (this.service as ManagementService).updateOrgIDPOIDCConfig(req).then((oidcConfig) => {
-        this.toast.showInfo('IDP.TOAST.SAVED', true);
-        // this.router.navigate(['idp', ]);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      (this.service as ManagementService)
+        .updateOrgIDPOIDCConfig(req)
+        .then((oidcConfig) => {
+          this.toast.showInfo('IDP.TOAST.SAVED', true);
+          // this.router.navigate(['idp', ]);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     } else if (this.serviceType === PolicyComponentServiceType.ADMIN) {
       const req = new UpdateIDPOIDCConfigRequest();
 
@@ -197,12 +211,15 @@ export class IdpComponent implements OnDestroy {
       req.setUsernameMapping(this.usernameMapping?.value);
       req.setDisplayNameMapping(this.displayNameMapping?.value);
 
-      (this.service as AdminService).updateIDPOIDCConfig(req).then((oidcConfig) => {
-        this.toast.showInfo('IDP.TOAST.SAVED', true);
-        // this.router.navigate(['idp', ]);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      (this.service as AdminService)
+        .updateIDPOIDCConfig(req)
+        .then((oidcConfig) => {
+          this.toast.showInfo('IDP.TOAST.SAVED', true);
+          // this.router.navigate(['idp', ]);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 

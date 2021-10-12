@@ -6,19 +6,9 @@ import { RouterModule } from '@angular/router';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { HasRoleModule } from 'src/app/directives/has-role/has-role.module';
 
-
-
 @NgModule({
-    declarations: [LinksComponent],
-    imports: [
-        CommonModule,
-        TranslateModule,
-        RouterModule,
-        MatButtonModule,
-        HasRoleModule,
-    ],
-    exports: [
-        LinksComponent,
-    ],
+  declarations: [LinksComponent],
+  imports: [CommonModule, TranslateModule, RouterModule, MatButtonModule, HasRoleModule],
+  exports: [LinksComponent],
 })
-export class LinksModule { }
+export class LinksModule {}

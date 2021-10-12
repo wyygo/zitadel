@@ -19,13 +19,7 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './owned-project-list.component.html',
   styleUrls: ['./owned-project-list.component.scss'],
   animations: [
-    trigger('list', [
-      transition(':enter', [
-        query('@animate',
-          stagger(80, animateChild()),
-        ),
-      ]),
-    ]),
+    trigger('list', [transition(':enter', [query('@animate', stagger(80, animateChild()))])]),
     trigger('animate', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(-100%)' }),
@@ -42,8 +36,7 @@ export class OwnedProjectListComponent implements OnInit, OnDestroy {
   public totalResult: number = 0;
   public viewTimestamp!: Timestamp.AsObject;
 
-  public dataSource: MatTableDataSource<Project.AsObject> =
-    new MatTableDataSource<Project.AsObject>();
+  public dataSource: MatTableDataSource<Project.AsObject> = new MatTableDataSource<Project.AsObject>();
 
   @ViewChild(PaginatorComponent) public paginator!: PaginatorComponent;
 
@@ -60,20 +53,21 @@ export class OwnedProjectListComponent implements OnInit, OnDestroy {
   public zitadelProjectId: string = '';
   public ProjectState: any = ProjectState;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
     public translate: TranslateService,
     private mgmtService: ManagementService,
     private toast: ToastService,
     private dialog: MatDialog,
   ) {
-    this.mgmtService.getIAM().then(iam => {
+    this.mgmtService.getIAM().then((iam) => {
       this.zitadelProjectId = iam.iamProjectId;
     });
   }
 
   public ngOnInit(): void {
-    this.route.queryParams.pipe(take(1)).subscribe(params => {
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.getData();
       if (params.deferredReload) {
         setTimeout(() => {
@@ -94,9 +88,7 @@ export class OwnedProjectListComponent implements OnInit, OnDestroy {
   }
 
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
   public changePage(event: PageEvent): void {
@@ -109,53 +101,59 @@ export class OwnedProjectListComponent implements OnInit, OnDestroy {
 
   private async getData(limit?: number, offset?: number): Promise<void> {
     this.loadingSubject.next(true);
-    this.mgmtService.listProjects(limit, offset).then(resp => {
-      this.ownedProjectList = resp.resultList;
-      if (resp.details?.totalResult) {
-        this.totalResult = resp.details.totalResult;
-      } else {
-        this.totalResult = 0;
-      }
-      if (this.totalResult > 10) {
-        this.grid = false;
-      }
-      if (resp.details?.viewTimestamp) {
-        this.viewTimestamp = resp.details?.viewTimestamp;
-      }
-      this.dataSource.data = this.ownedProjectList;
-      this.loadingSubject.next(false);
-    }).catch(error => {
-      console.error(error);
-      this.toast.showError(error);
-      this.loadingSubject.next(false);
-    });
+    this.mgmtService
+      .listProjects(limit, offset)
+      .then((resp) => {
+        this.ownedProjectList = resp.resultList;
+        if (resp.details?.totalResult) {
+          this.totalResult = resp.details.totalResult;
+        } else {
+          this.totalResult = 0;
+        }
+        if (this.totalResult > 10) {
+          this.grid = false;
+        }
+        if (resp.details?.viewTimestamp) {
+          this.viewTimestamp = resp.details?.viewTimestamp;
+        }
+        this.dataSource.data = this.ownedProjectList;
+        this.loadingSubject.next(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        this.toast.showError(error);
+        this.loadingSubject.next(false);
+      });
 
     this.ownedProjectList = [];
   }
 
   public reactivateSelectedProjects(): void {
-    const promises = this.selection.selected.map(project => {
+    const promises = this.selection.selected.map((project) => {
       this.mgmtService.reactivateProject(project.id);
     });
 
-    Promise.all(promises).then(() => {
-      this.toast.showInfo('PROJECT.TOAST.REACTIVATED', true);
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    Promise.all(promises)
+      .then(() => {
+        this.toast.showInfo('PROJECT.TOAST.REACTIVATED', true);
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
-
   public deactivateSelectedProjects(): void {
-    const promises = this.selection.selected.map(project => {
+    const promises = this.selection.selected.map((project) => {
       this.mgmtService.deactivateProject(project.id);
     });
 
-    Promise.all(promises).then(() => {
-      this.toast.showInfo('PROJECT.TOAST.DEACTIVATED', true);
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    Promise.all(promises)
+      .then(() => {
+        this.toast.showInfo('PROJECT.TOAST.DEACTIVATED', true);
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public refreshPage(): void {
@@ -174,16 +172,19 @@ export class OwnedProjectListComponent implements OnInit, OnDestroy {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (this.zitadelProjectId && resp && id !== this.zitadelProjectId) {
-        this.mgmtService.removeProject(id).then(() => {
-          this.toast.showInfo('PROJECT.TOAST.DELETED', true);
-          setTimeout(() => {
-            this.refreshPage();
-          }, 1000);
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+        this.mgmtService
+          .removeProject(id)
+          .then(() => {
+            this.toast.showInfo('PROJECT.TOAST.DELETED', true);
+            setTimeout(() => {
+              this.refreshPage();
+            }, 1000);
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       }
     });
   }

@@ -17,10 +17,7 @@ export class AddIdpDialogComponent {
   public serviceType: PolicyComponentServiceType = PolicyComponentServiceType.MGMT;
 
   public idpType!: IDPOwnerType;
-  public idpTypes: IDPOwnerType[] = [
-    IDPOwnerType.IDP_OWNER_TYPE_SYSTEM,
-    IDPOwnerType.IDP_OWNER_TYPE_ORG,
-  ];
+  public idpTypes: IDPOwnerType[] = [IDPOwnerType.IDP_OWNER_TYPE_SYSTEM, IDPOwnerType.IDP_OWNER_TYPE_ORG];
 
   public idp: IDP.AsObject | undefined = undefined;
   public availableIdps: IDP.AsObject[] = [];
@@ -49,8 +46,6 @@ export class AddIdpDialogComponent {
   public loadIdps(): void {
     this.idp = undefined;
 
-
-
     switch (this.idpType) {
       case IDPOwnerType.IDP_OWNER_TYPE_ORG:
         const query: IDPQuery = new IDPQuery();
@@ -62,12 +57,15 @@ export class AddIdpDialogComponent {
         const orgQ = new IDPOwnerTypeQuery();
         orgQ.setOwnerType(IDPOwnerType.IDP_OWNER_TYPE_ORG);
         orgQuery.setOwnerTypeQuery(orgQ);
-        this.mgmtService.listOrgIDPs(undefined, undefined, [orgQuery]).then(resp => {
-          this.availableIdps = resp.resultList;
-        }).catch(error => {
-          this.availableIdps = [];
-          this.toast.showError(error);
-        });
+        this.mgmtService
+          .listOrgIDPs(undefined, undefined, [orgQuery])
+          .then((resp) => {
+            this.availableIdps = resp.resultList;
+          })
+          .catch((error) => {
+            this.availableIdps = [];
+            this.toast.showError(error);
+          });
         break;
       case IDPOwnerType.IDP_OWNER_TYPE_SYSTEM:
         const iamQuery = new IDPQuery();
@@ -75,14 +73,16 @@ export class AddIdpDialogComponent {
         iamQ.setOwnerType(IDPOwnerType.IDP_OWNER_TYPE_SYSTEM);
         iamQuery.setOwnerTypeQuery(iamQ);
 
-        this.mgmtService.listOrgIDPs(undefined, undefined, [iamQuery]).then(resp => {
-          this.availableIdps = resp.resultList;
-        }).catch(error => {
-          this.availableIdps = [];
-          this.toast.showError(error);
-        });
+        this.mgmtService
+          .listOrgIDPs(undefined, undefined, [iamQuery])
+          .then((resp) => {
+            this.availableIdps = resp.resultList;
+          })
+          .catch((error) => {
+            this.availableIdps = [];
+            this.toast.showError(error);
+          });
         break;
-
     }
   }
 

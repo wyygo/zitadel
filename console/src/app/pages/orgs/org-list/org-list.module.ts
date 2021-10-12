@@ -18,23 +18,23 @@ import { OrgListRoutingModule } from './org-list-routing.module';
 import { OrgListComponent } from './org-list.component';
 
 @NgModule({
-    declarations: [OrgListComponent],
-    imports: [
-        CommonModule,
-        OrgListRoutingModule,
-        MatTableModule,
-        TranslateModule,
-        RefreshTableModule,
-        TimestampToDatePipeModule,
-        LocalizedDatePipeModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTooltipModule,
-        MatRadioModule,
-        InputModule,
-        FormsModule,
-    ],
+  declarations: [OrgListComponent],
+  imports: [
+    CommonModule,
+    OrgListRoutingModule,
+    MatTableModule,
+    TranslateModule,
+    RefreshTableModule,
+    TimestampToDatePipeModule,
+    LocalizedDatePipeModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatRadioModule,
+    InputModule,
+    FormsModule,
+  ],
 })
-export class OrgListModule { }
+export class OrgListModule {}

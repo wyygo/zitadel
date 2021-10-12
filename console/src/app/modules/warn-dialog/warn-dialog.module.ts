@@ -5,14 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { WarnDialogComponent } from './warn-dialog.component';
 
-
-
 @NgModule({
-    declarations: [WarnDialogComponent],
-    imports: [
-        CommonModule,
-        TranslateModule,
-        MatButtonModule,
-    ],
+  declarations: [WarnDialogComponent],
+  imports: [CommonModule, TranslateModule, MatButtonModule],
 })
-export class WarnDialogModule { }
+export class WarnDialogModule {}

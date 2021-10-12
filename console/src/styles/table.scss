@@ -11,7 +11,7 @@
   .mat-table,
   .mat-paginator {
     background-color: inherit !important;
-    transition: background-color .3s cubic-bezier(.645, .045, .355, 1);
+    transition: background-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   }
   /* stylelint-enable */
 
@@ -26,7 +26,7 @@
 
   th {
     text-transform: uppercase;
-    letter-spacing: .05em;
+    letter-spacing: 0.05em;
     font-weight: bold;
     white-space: nowrap;
 
@@ -72,7 +72,7 @@
     border-bottom-right-radius: 5px;
     display: flex;
     align-items: center;
-    padding: .5rem;
+    padding: 0.5rem;
     font-size: 14px;
     justify-content: center;
   }
@@ -84,8 +84,8 @@
 
   .state {
     border-radius: 50vw;
-    padding: 2px .5rem;
-    letter-spacing: .05em;
+    padding: 2px 0.5rem;
+    letter-spacing: 0.05em;
     font-size: 12px;
     background-color: if($is-dark-theme, #4f566b, #e4e7e4);
 

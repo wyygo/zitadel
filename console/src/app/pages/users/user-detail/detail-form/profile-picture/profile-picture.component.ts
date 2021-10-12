@@ -18,8 +18,7 @@ export class ProfilePictureComponent {
     private toast: ToastService,
     private assetService: AssetService,
     private sanitizer: DomSanitizer,
-  ) {
-  }
+  ) {}
 
   public onDrop(event: any): Promise<any> | void {
     const filelist: FileList = event.target.files;
@@ -33,25 +32,33 @@ export class ProfilePictureComponent {
   }
 
   public deletePic(): void {
-    this.authService.removeMyAvatar().then(() => {
-      this.toast.showInfo('USER.PROFILE.AVATAR.DELETESUCCESS', true);
-      this.data.profilePic = null;
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.authService
+      .removeMyAvatar()
+      .then(() => {
+        this.toast.showInfo('USER.PROFILE.AVATAR.DELETESUCCESS', true);
+        this.data.profilePic = null;
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   private handleUploadPromise(task: Promise<any>): Promise<any> {
-    return task.then(() => {
-      this.toast.showInfo('POLICY.TOAST.UPLOADSUCCESS', true);
-      this.assetService.load('users/me/avatar').then(data => {
-        const objectURL = URL.createObjectURL(data);
-        const pic = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        this.data.profilePic = pic;
-      }).catch(error => {
-        this.toast.showError(error);
-      });
-    }).catch(error => this.toast.showError(error));
+    return task
+      .then(() => {
+        this.toast.showInfo('POLICY.TOAST.UPLOADSUCCESS', true);
+        this.assetService
+          .load('users/me/avatar')
+          .then((data) => {
+            const objectURL = URL.createObjectURL(data);
+            const pic = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            this.data.profilePic = pic;
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
+      })
+      .catch((error) => this.toast.showError(error));
   }
 
   public closeDialog(): void {

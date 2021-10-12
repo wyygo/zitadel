@@ -21,7 +21,7 @@
     background-color: inherit;
     cursor: text;
     border-radius: 8px;
-    transform: all .2 linear;
+    transform: all 0.2 linear;
     font-size: 1rem;
     border: none;
     border: 1px solid if($is-dark-theme, #403e3e, #00000040);
@@ -29,8 +29,8 @@
     border-radius: 4px;
     height: 40px;
     padding: 10px;
-    transition: border-color .2s ease-in-out, background-color .3s cubic-bezier(.645, .045, .355, 1),
-      color .3s cubic-bezier(.645, .045, .355, 1);
+    transition: border-color 0.2s ease-in-out, background-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+      color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     width: 100%;
     color: mat.get-color-from-palette($foreground, text);
     margin-bottom: 2px;

@@ -11,9 +11,7 @@ import { Component, Input } from '@angular/core';
         style({ height: '0', opacity: 0 }),
         animate('150ms ease-in-out', style({ height: '*', opacity: 1 })),
       ]),
-      transition(':leave', [
-        animate('150ms ease-in-out', style({ height: '0', opacity: 0 })),
-      ]),
+      transition(':leave', [animate('150ms ease-in-out', style({ height: '0', opacity: 0 }))]),
     ]),
   ],
 })

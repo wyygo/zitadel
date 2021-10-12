@@ -4,15 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { IamMembersComponent } from './iam-members.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: IamMembersComponent,
-        data: { animation: 'AddPage' },
-    },
+  {
+    path: '',
+    component: IamMembersComponent,
+    data: { animation: 'AddPage' },
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class IamMembersRoutingModule { }
+export class IamMembersRoutingModule {}

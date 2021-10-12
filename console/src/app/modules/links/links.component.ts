@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-
 export interface CnslLinks {
   i18nTitle: string;
   i18nDesc: string;

@@ -21,7 +21,14 @@ export class IamViewsComponent implements AfterViewInit {
   @ViewChild(MatPaginator) public paginator!: MatPaginator;
   public dataSource!: MatTableDataSource<View.AsObject>;
 
-  public displayedColumns: string[] = ['viewName', 'database', 'sequence', 'eventTimestamp', 'lastSuccessfulSpoolerRun', 'actions'];
+  public displayedColumns: string[] = [
+    'viewName',
+    'database',
+    'sequence',
+    'eventTimestamp',
+    'lastSuccessfulSpoolerRun',
+    'actions',
+  ];
 
   private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public loading$: Observable<boolean> = this.loadingSubject.asObservable();
@@ -35,17 +42,19 @@ export class IamViewsComponent implements AfterViewInit {
 
   public loadViews(): void {
     this.loadingSubject.next(true);
-    from(this.adminService.listViews()).pipe(
-      map(resp => {
-        return resp.resultList;
-      }),
-      catchError(() => of([])),
-      finalize(() => this.loadingSubject.next(false)),
-    ).subscribe(views => {
-      this.dataSource = new MatTableDataSource(views);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    from(this.adminService.listViews())
+      .pipe(
+        map((resp) => {
+          return resp.resultList;
+        }),
+        catchError(() => of([])),
+        finalize(() => this.loadingSubject.next(false)),
+      )
+      .subscribe((views) => {
+        this.dataSource = new MatTableDataSource(views);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
   }
 
   public cancelView(viewname: string, db: string): void {
@@ -59,14 +68,17 @@ export class IamViewsComponent implements AfterViewInit {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
-        this.adminService.clearView(viewname, db).then(() => {
-          this.toast.showInfo('IAM.VIEWS.CLEARED', true);
-          this.loadViews();
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+        this.adminService
+          .clearView(viewname, db)
+          .then(() => {
+            this.toast.showInfo('IAM.VIEWS.CLEARED', true);
+            this.loadViews();
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       }
     });
   }

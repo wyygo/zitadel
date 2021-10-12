@@ -16,17 +16,18 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./memberships.component.scss'],
   animations: [
     trigger('cardAnimation', [
-      transition('* => *', [
-        query('@animate', stagger('40ms', animateChild()), { optional: true }),
-      ]),
+      transition('* => *', [query('@animate', stagger('40ms', animateChild()), { optional: true })]),
     ]),
     trigger('animate', [
       transition(':enter', [
-        animate('.2s ease-in', keyframes([
-          style({ opacity: 0, offset: 0 }),
-          style({ opacity: .5, transform: 'scale(1.05)', offset: 0.3 }),
-          style({ opacity: 1, transform: 'scale(1)', offset: 1 }),
-        ])),
+        animate(
+          '.2s ease-in',
+          keyframes([
+            style({ opacity: 0, offset: 0 }),
+            style({ opacity: 0.5, transform: 'scale(1.05)', offset: 0.3 }),
+            style({ opacity: 1, transform: 'scale(1)', offset: 1 }),
+          ]),
+        ),
       ]),
     ]),
   ],
@@ -47,7 +48,7 @@ export class MembershipsComponent implements OnInit {
     private dialog: MatDialog,
     private toast: ToastService,
     private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadManager(this.user.id);
@@ -55,13 +56,13 @@ export class MembershipsComponent implements OnInit {
 
   public async loadManager(userId: string): Promise<void> {
     if (this.auth) {
-      this.authService.listMyMemberships(100, 0, []).then(resp => {
+      this.authService.listMyMemberships(100, 0, []).then((resp) => {
         this.memberships = resp.resultList;
         this.totalResult = resp.details?.totalResult || 0;
         this.loading = false;
       });
     } else {
-      this.mgmtService.listUserMemberships(userId, 100, 0, []).then(resp => {
+      this.mgmtService.listUserMemberships(userId, 100, 0, []).then((resp) => {
         this.memberships = resp.resultList;
         this.totalResult = resp.details?.totalResult || 0;
         this.loading = false;
@@ -83,7 +84,7 @@ export class MembershipsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp && resp.creationType !== undefined) {
         switch (resp.creationType) {
           case CreationType.IAM:
@@ -108,16 +109,20 @@ export class MembershipsComponent implements OnInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      Promise.all(users.map(user => {
-        return this.adminService.addIAMMember(user.id, roles);
-      })).then(() => {
-        this.toast.showInfo('IAM.TOAST.MEMBERADDED', true);
-        setTimeout(() => {
-          this.loadManager(this.user.id);
-        }, 1000);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      Promise.all(
+        users.map((user) => {
+          return this.adminService.addIAMMember(user.id, roles);
+        }),
+      )
+        .then(() => {
+          this.toast.showInfo('IAM.TOAST.MEMBERADDED', true);
+          setTimeout(() => {
+            this.loadManager(this.user.id);
+          }, 1000);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -126,16 +131,20 @@ export class MembershipsComponent implements OnInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      Promise.all(users.map(user => {
-        return this.mgmtService.addOrgMember(user.id, roles);
-      })).then(() => {
-        this.toast.showInfo('ORG.TOAST.MEMBERADDED', true);
-        setTimeout(() => {
-          this.loadManager(this.user.id);
-        }, 1000);
-      }).catch(error => {
-        this.toast.showError(error);
-      });
+      Promise.all(
+        users.map((user) => {
+          return this.mgmtService.addOrgMember(user.id, roles);
+        }),
+      )
+        .then(() => {
+          this.toast.showInfo('ORG.TOAST.MEMBERADDED', true);
+          setTimeout(() => {
+            this.loadManager(this.user.id);
+          }, 1000);
+        })
+        .catch((error) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -144,20 +153,18 @@ export class MembershipsComponent implements OnInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      users.forEach(user => {
-        return this.mgmtService.addProjectGrantMember(
-          response.projectId,
-          response.grantId,
-          user.id,
-          roles,
-        ).then(() => {
-          this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
-          setTimeout(() => {
-            this.loadManager(this.user.id);
-          }, 1000);
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+      users.forEach((user) => {
+        return this.mgmtService
+          .addProjectGrantMember(response.projectId, response.grantId, user.id, roles)
+          .then(() => {
+            this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
+            setTimeout(() => {
+              this.loadManager(this.user.id);
+            }, 1000);
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       });
     }
   }
@@ -167,14 +174,16 @@ export class MembershipsComponent implements OnInit {
     const roles: string[] = response.roles;
 
     if (users && users.length && roles && roles.length) {
-      users.forEach(user => {
-        return this.mgmtService.addProjectMember(response.projectId, user.id, roles)
+      users.forEach((user) => {
+        return this.mgmtService
+          .addProjectMember(response.projectId, user.id, roles)
           .then(() => {
             this.toast.showInfo('PROJECT.TOAST.MEMBERADDED', true);
             setTimeout(() => {
               this.loadManager(this.user.id);
             }, 1000);
-          }).catch(error => {
+          })
+          .catch((error) => {
             this.toast.showError(error);
           });
       });
@@ -183,11 +192,7 @@ export class MembershipsComponent implements OnInit {
 
   getColor(type: Membership.AsObject | UserGrant.AsObject): string {
     const gen = type.toString();
-    const colors = [
-      'rgb(201, 115, 88)',
-      'rgb(226, 176, 50)',
-      'rgb(112, 89, 152)',
-    ];
+    const colors = ['rgb(201, 115, 88)', 'rgb(226, 176, 50)', 'rgb(112, 89, 152)'];
 
     let hash = 0;
     if (gen.length === 0) {

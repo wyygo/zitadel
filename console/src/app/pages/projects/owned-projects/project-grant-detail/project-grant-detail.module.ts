@@ -21,35 +21,33 @@ import { HasRolePipeModule } from 'src/app/pipes/has-role-pipe/has-role-pipe.mod
 
 import { ProjectGrantDetailRoutingModule } from './project-grant-detail-routing.module';
 import { ProjectGrantDetailComponent } from './project-grant-detail.component';
-import {
-    ProjectGrantMembersCreateDialogModule,
-} from './project-grant-members-create-dialog/project-grant-members-create-dialog.module';
+import { ProjectGrantMembersCreateDialogModule } from './project-grant-members-create-dialog/project-grant-members-create-dialog.module';
 
 @NgModule({
-    declarations: [ProjectGrantDetailComponent],
-    imports: [
-        CommonModule,
-        ProjectGrantDetailRoutingModule,
-        ProjectGrantMembersCreateDialogModule,
-        MatAutocompleteModule,
-        HasRoleModule,
-        MatChipsModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatTableModule,
-        MatPaginatorModule,
-        InputModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        MatProgressSpinnerModule,
-        FormsModule,
-        TranslateModule,
-        MatSelectModule,
-        DetailLayoutModule,
-        HasRolePipeModule,
-        MembersTableModule,
-        MatDialogModule,
-    ],
+  declarations: [ProjectGrantDetailComponent],
+  imports: [
+    CommonModule,
+    ProjectGrantDetailRoutingModule,
+    ProjectGrantMembersCreateDialogModule,
+    MatAutocompleteModule,
+    HasRoleModule,
+    MatChipsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    InputModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    TranslateModule,
+    MatSelectModule,
+    DetailLayoutModule,
+    HasRolePipeModule,
+    MembersTableModule,
+    MatDialogModule,
+  ],
 })
-export class ProjectGrantDetailModule { }
+export class ProjectGrantDetailModule {}

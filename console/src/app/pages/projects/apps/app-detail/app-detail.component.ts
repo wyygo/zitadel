@@ -96,10 +96,7 @@ export class AppDetailComponent implements OnInit, OnDestroy {
     OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT,
   ];
 
-  public oidcTokenTypes: OIDCTokenType[] = [
-    OIDCTokenType.OIDC_TOKEN_TYPE_BEARER,
-    OIDCTokenType.OIDC_TOKEN_TYPE_JWT,
-  ];
+  public oidcTokenTypes: OIDCTokenType[] = [OIDCTokenType.OIDC_TOKEN_TYPE_BEARER, OIDCTokenType.OIDC_TOKEN_TYPE_JWT];
 
   public AppState: any = AppState;
   public oidcForm!: FormGroup;
@@ -171,7 +168,7 @@ export class AppDetailComponent implements OnInit, OnDestroy {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(name => {
+    dialogRef.afterClosed().subscribe((name) => {
       if (name) {
         this.app.name = name;
         this.saveApp();
@@ -180,7 +177,7 @@ export class AppDetailComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.subscription = this.route.params.subscribe(params => this.getData(params));
+    this.subscription = this.route.params.subscribe((params) => this.getData(params));
   }
 
   public ngOnDestroy(): void {
@@ -200,7 +197,8 @@ export class AppDetailComponent implements OnInit, OnDestroy {
         i18nDesc: 'APP.PAGES.NEXTSTEPS.1.DESC',
         routerLink: ['/users', 'create'],
         iconClasses: 'las la-user-plus',
-      }, {
+      },
+      {
         i18nTitle: 'APP.PAGES.NEXTSTEPS.2.TITLE',
         i18nDesc: 'APP.PAGES.NEXTSTEPS.2.DESC',
         href: 'https://docs.zitadel.ch',
@@ -214,102 +212,105 @@ export class AppDetailComponent implements OnInit, OnDestroy {
 
     this.initLinks();
 
-    this.mgmtService.getIAM().then(iam => {
+    this.mgmtService.getIAM().then((iam) => {
       this.isZitadel = iam.iamProjectId === this.projectId;
     });
-    this.authService.isAllowed(['project.app.write$', 'project.app.write:' + projectid])
+    this.authService
+      .isAllowed(['project.app.write$', 'project.app.write:' + projectid])
       .pipe(take(1))
       .subscribe((allowed) => {
         this.canWrite = allowed;
-        this.mgmtService.getAppByID(projectid, id).then(app => {
-          if (app.app) {
-            this.app = app.app;
-            if (this.app.oidcConfig) {
-              this.getAuthMethodOptions('OIDC');
+        this.mgmtService
+          .getAppByID(projectid, id)
+          .then((app) => {
+            if (app.app) {
+              this.app = app.app;
+              if (this.app.oidcConfig) {
+                this.getAuthMethodOptions('OIDC');
 
-              this.initialAuthMethod = this.authMethodFromPartialConfig({ oidc: this.app.oidcConfig });
-              this.currentAuthMethod = this.initialAuthMethod;
-              if (this.initialAuthMethod === CUSTOM_METHOD.key) {
-                if (!this.authMethods.includes(CUSTOM_METHOD)) {
-                  this.authMethods.push(CUSTOM_METHOD);
+                this.initialAuthMethod = this.authMethodFromPartialConfig({ oidc: this.app.oidcConfig });
+                this.currentAuthMethod = this.initialAuthMethod;
+                if (this.initialAuthMethod === CUSTOM_METHOD.key) {
+                  if (!this.authMethods.includes(CUSTOM_METHOD)) {
+                    this.authMethods.push(CUSTOM_METHOD);
+                  }
+                } else {
+                  this.authMethods = this.authMethods.filter((element) => element !== CUSTOM_METHOD);
                 }
-              } else {
-                this.authMethods = this.authMethods.filter(element => element !== CUSTOM_METHOD);
-              }
-            } else if (this.app.apiConfig) {
-              this.getAuthMethodOptions('API');
+              } else if (this.app.apiConfig) {
+                this.getAuthMethodOptions('API');
 
-              this.initialAuthMethod = this.authMethodFromPartialConfig({ api: this.app.apiConfig });
-              this.currentAuthMethod = this.initialAuthMethod;
-              if (this.initialAuthMethod === CUSTOM_METHOD.key) {
-                if (!this.authMethods.includes(CUSTOM_METHOD)) {
-                  this.authMethods.push(CUSTOM_METHOD);
+                this.initialAuthMethod = this.authMethodFromPartialConfig({ api: this.app.apiConfig });
+                this.currentAuthMethod = this.initialAuthMethod;
+                if (this.initialAuthMethod === CUSTOM_METHOD.key) {
+                  if (!this.authMethods.includes(CUSTOM_METHOD)) {
+                    this.authMethods.push(CUSTOM_METHOD);
+                  }
+                } else {
+                  this.authMethods = this.authMethods.filter((element) => element !== CUSTOM_METHOD);
                 }
-              } else {
-                this.authMethods = this.authMethods.filter(element => element !== CUSTOM_METHOD);
-              }
-            }
-
-            if (allowed) {
-              this.oidcForm.enable();
-              this.apiForm.enable();
-            }
-
-            if (this.app.oidcConfig?.redirectUrisList) {
-              this.redirectUrisList = this.app.oidcConfig.redirectUrisList;
-            }
-            if (this.app.oidcConfig?.postLogoutRedirectUrisList) {
-              this.postLogoutRedirectUrisList = this.app.oidcConfig.postLogoutRedirectUrisList;
-            }
-            if (this.app.oidcConfig?.additionalOriginsList) {
-              this.additionalOriginsList = this.app.oidcConfig.additionalOriginsList;
-            }
-
-            if (this.app.oidcConfig?.clockSkew) {
-              const inSecs = this.app.oidcConfig?.clockSkew.seconds +
-                this.app.oidcConfig?.clockSkew.nanos / 100000;
-              this.oidcForm.controls['clockSkewSeconds'].setValue(inSecs);
-            }
-            if (this.app.oidcConfig) {
-              this.oidcForm.patchValue(this.app.oidcConfig);
-            }
-            if (this.app.apiConfig) {
-              this.apiForm.patchValue(this.app.apiConfig);
-            }
-
-            this.oidcForm.valueChanges.subscribe((oidcConfig) => {
-              this.initialAuthMethod = this.authMethodFromPartialConfig({ oidc: oidcConfig });
-              if (this.initialAuthMethod === CUSTOM_METHOD.key) {
-                if (!this.authMethods.includes(CUSTOM_METHOD)) {
-                  this.authMethods.push(CUSTOM_METHOD);
-                }
-              } else {
-                this.authMethods = this.authMethods.filter(element => element !== CUSTOM_METHOD);
               }
 
-              this.showSaveSnack();
-            });
-
-            this.apiForm.valueChanges.subscribe((apiConfig) => {
-              this.initialAuthMethod = this.authMethodFromPartialConfig({ api: apiConfig });
-              if (this.initialAuthMethod === CUSTOM_METHOD.key) {
-                if (!this.authMethods.includes(CUSTOM_METHOD)) {
-                  this.authMethods.push(CUSTOM_METHOD);
-                }
-              } else {
-                this.authMethods = this.authMethods.filter(element => element !== CUSTOM_METHOD);
+              if (allowed) {
+                this.oidcForm.enable();
+                this.apiForm.enable();
               }
 
-              this.showSaveSnack();
-            });
-          }
-        }).catch(error => {
-          console.error(error);
-          this.toast.showError(error);
-          this.errorMessage = error.message;
-        });
+              if (this.app.oidcConfig?.redirectUrisList) {
+                this.redirectUrisList = this.app.oidcConfig.redirectUrisList;
+              }
+              if (this.app.oidcConfig?.postLogoutRedirectUrisList) {
+                this.postLogoutRedirectUrisList = this.app.oidcConfig.postLogoutRedirectUrisList;
+              }
+              if (this.app.oidcConfig?.additionalOriginsList) {
+                this.additionalOriginsList = this.app.oidcConfig.additionalOriginsList;
+              }
+
+              if (this.app.oidcConfig?.clockSkew) {
+                const inSecs = this.app.oidcConfig?.clockSkew.seconds + this.app.oidcConfig?.clockSkew.nanos / 100000;
+                this.oidcForm.controls['clockSkewSeconds'].setValue(inSecs);
+              }
+              if (this.app.oidcConfig) {
+                this.oidcForm.patchValue(this.app.oidcConfig);
+              }
+              if (this.app.apiConfig) {
+                this.apiForm.patchValue(this.app.apiConfig);
+              }
+
+              this.oidcForm.valueChanges.subscribe((oidcConfig) => {
+                this.initialAuthMethod = this.authMethodFromPartialConfig({ oidc: oidcConfig });
+                if (this.initialAuthMethod === CUSTOM_METHOD.key) {
+                  if (!this.authMethods.includes(CUSTOM_METHOD)) {
+                    this.authMethods.push(CUSTOM_METHOD);
+                  }
+                } else {
+                  this.authMethods = this.authMethods.filter((element) => element !== CUSTOM_METHOD);
+                }
+
+                this.showSaveSnack();
+              });
+
+              this.apiForm.valueChanges.subscribe((apiConfig) => {
+                this.initialAuthMethod = this.authMethodFromPartialConfig({ api: apiConfig });
+                if (this.initialAuthMethod === CUSTOM_METHOD.key) {
+                  if (!this.authMethods.includes(CUSTOM_METHOD)) {
+                    this.authMethods.push(CUSTOM_METHOD);
+                  }
+                } else {
+                  this.authMethods = this.authMethods.filter((element) => element !== CUSTOM_METHOD);
+                }
+
+                this.showSaveSnack();
+              });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            this.toast.showError(error);
+            this.errorMessage = error.message;
+          });
       });
-    this.docs = (await this.mgmtService.getOIDCInformation());
+    this.docs = await this.mgmtService.getOIDCInformation();
   }
 
   private async showSaveSnack(): Promise<void> {
@@ -330,36 +331,22 @@ export class AppDetailComponent implements OnInit, OnDestroy {
     if (type === 'OIDC') {
       switch (this.app.oidcConfig?.appType) {
         case OIDCAppType.OIDC_APP_TYPE_NATIVE:
-          this.authMethods = [
-            PKCE_METHOD,
-            CUSTOM_METHOD,
-          ];
+          this.authMethods = [PKCE_METHOD, CUSTOM_METHOD];
           break;
         case OIDCAppType.OIDC_APP_TYPE_WEB:
-          this.authMethods = [
-            PKCE_METHOD,
-            CODE_METHOD,
-            PK_JWT_METHOD,
-            POST_METHOD,
-          ];
+          this.authMethods = [PKCE_METHOD, CODE_METHOD, PK_JWT_METHOD, POST_METHOD];
           break;
         case OIDCAppType.OIDC_APP_TYPE_USER_AGENT:
-          this.authMethods = [
-            PKCE_METHOD,
-            IMPLICIT_METHOD,
-          ];
+          this.authMethods = [PKCE_METHOD, IMPLICIT_METHOD];
           break;
       }
     }
     if (type === 'API') {
-      this.authMethods = [
-        PK_JWT_METHOD,
-        BASIC_AUTH_METHOD,
-      ];
+      this.authMethods = [PK_JWT_METHOD, BASIC_AUTH_METHOD];
     }
   }
 
-  public authMethodFromPartialConfig(config: { oidc?: OIDCConfig.AsObject, api?: APIConfig.AsObject; }): string {
+  public authMethodFromPartialConfig(config: { oidc?: OIDCConfig.AsObject; api?: APIConfig.AsObject }): string {
     const key = getAuthMethodFromPartialConfig(config);
     return key;
   }
@@ -367,23 +354,17 @@ export class AppDetailComponent implements OnInit, OnDestroy {
   public setPartialConfigFromAuthMethod(authMethod: string): void {
     const partialConfig = getPartialConfigFromAuthMethod(authMethod);
     if (partialConfig && partialConfig.oidc && this.app.oidcConfig) {
-      this.app.oidcConfig.responseTypesList =
-        (partialConfig.oidc as Partial<OIDCConfig.AsObject>).responseTypesList
-        ?? [];
+      this.app.oidcConfig.responseTypesList = (partialConfig.oidc as Partial<OIDCConfig.AsObject>).responseTypesList ?? [];
 
-      this.app.oidcConfig.grantTypesList =
-        (partialConfig.oidc as Partial<OIDCConfig.AsObject>).grantTypesList
-        ?? [];
+      this.app.oidcConfig.grantTypesList = (partialConfig.oidc as Partial<OIDCConfig.AsObject>).grantTypesList ?? [];
 
       this.app.oidcConfig.authMethodType =
-        (partialConfig.oidc as Partial<OIDCConfig.AsObject>).authMethodType
-        ?? OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE;
+        (partialConfig.oidc as Partial<OIDCConfig.AsObject>).authMethodType ?? OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE;
 
       this.oidcForm.patchValue(this.app.oidcConfig);
     } else if (partialConfig && partialConfig.api && this.app.apiConfig) {
       this.app.apiConfig.authMethodType =
-        (partialConfig.api as Partial<APIConfig.AsObject>).authMethodType
-        ?? APIAuthMethodType.API_AUTH_METHOD_TYPE_BASIC;
+        (partialConfig.api as Partial<APIConfig.AsObject>).authMethodType ?? APIAuthMethodType.API_AUTH_METHOD_TYPE_BASIC;
 
       this.apiForm.patchValue(this.app.apiConfig);
     }
@@ -399,34 +380,43 @@ export class AppDetailComponent implements OnInit, OnDestroy {
       },
       width: '400px',
     });
-    dialogRef.afterClosed().subscribe(resp => {
+    dialogRef.afterClosed().subscribe((resp) => {
       if (resp && this.projectId && this.app.id) {
-        this.mgmtService.removeApp(this.projectId, this.app.id).then(() => {
-          this.toast.showInfo('APP.TOAST.DELETED', true);
+        this.mgmtService
+          .removeApp(this.projectId, this.app.id)
+          .then(() => {
+            this.toast.showInfo('APP.TOAST.DELETED', true);
 
-          this.router.navigate(['/projects', this.projectId]);
-        }).catch(error => {
-          this.toast.showError(error);
-        });
+            this.router.navigate(['/projects', this.projectId]);
+          })
+          .catch((error) => {
+            this.toast.showError(error);
+          });
       }
     });
   }
 
   public changeState(state: AppState): void {
     if (state === AppState.APP_STATE_ACTIVE) {
-      this.mgmtService.reactivateApp(this.projectId, this.app.id).then(() => {
-        this.app.state = state;
-        this.toast.showInfo('APP.TOAST.REACTIVATED', true);
-      }).catch((error: any) => {
-        this.toast.showError(error);
-      });
+      this.mgmtService
+        .reactivateApp(this.projectId, this.app.id)
+        .then(() => {
+          this.app.state = state;
+          this.toast.showInfo('APP.TOAST.REACTIVATED', true);
+        })
+        .catch((error: any) => {
+          this.toast.showError(error);
+        });
     } else if (state === AppState.APP_STATE_INACTIVE) {
-      this.mgmtService.deactivateApp(this.projectId, this.app.id).then(() => {
-        this.app.state = state;
-        this.toast.showInfo('APP.TOAST.DEACTIVATED', true);
-      }).catch((error: any) => {
-        this.toast.showError(error);
-      });
+      this.mgmtService
+        .deactivateApp(this.projectId, this.app.id)
+        .then(() => {
+          this.app.state = state;
+          this.toast.showInfo('APP.TOAST.DEACTIVATED', true);
+        })
+        .catch((error: any) => {
+          this.toast.showError(error);
+        });
     }
   }
 
@@ -437,7 +427,7 @@ export class AppDetailComponent implements OnInit, OnDestroy {
         this.toast.showInfo('APP.TOAST.UPDATED', true);
         this.editState = false;
       })
-      .catch(error => {
+      .catch((error) => {
         this.toast.showError(error);
       });
   }
@@ -450,8 +440,9 @@ export class AppDetailComponent implements OnInit, OnDestroy {
         this.grantTypesList?.setValue([OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN, ...c]);
       }
     } else {
-      const index = (this.grantTypesList?.value as OIDCGrantType[])
-        .findIndex(gt => gt === OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN);
+      const index = (this.grantTypesList?.value as OIDCGrantType[]).findIndex(
+        (gt) => gt === OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN,
+      );
       if (index > -1) {
         const copy = Object.assign([], this.grantTypesList?.value);
         copy.splice(index, 1);
@@ -459,7 +450,6 @@ export class AppDetailComponent implements OnInit, OnDestroy {
       }
     }
   }
-
 
   public saveOIDCApp(): void {
     this.requestRedirectValuesSubject$.next();
@@ -496,7 +486,7 @@ export class AppDetailComponent implements OnInit, OnDestroy {
         if (this.clockSkewSeconds?.value) {
           const dur = new Duration();
           dur.setSeconds(Math.floor(this.clockSkewSeconds?.value));
-          dur.setNanos((Math.floor(this.clockSkewSeconds?.value % 1) * 10000));
+          dur.setNanos(Math.floor(this.clockSkewSeconds?.value % 1) * 10000);
           req.setClockSkew(dur);
         }
         this.mgmtService
@@ -508,7 +498,7 @@ export class AppDetailComponent implements OnInit, OnDestroy {
             }
             this.toast.showInfo('APP.TOAST.OIDCUPDATED', true);
           })
-          .catch(error => {
+          .catch((error) => {
             this.toast.showError(error);
           });
       }
@@ -533,41 +523,45 @@ export class AppDetailComponent implements OnInit, OnDestroy {
           }
           this.toast.showInfo('APP.TOAST.APIUPDATED', true);
         })
-        .catch(error => {
+        .catch((error) => {
           this.toast.showError(error);
         });
     }
   }
 
   public regenerateOIDCClientSecret(): void {
-    this.mgmtService.regenerateOIDCClientSecret(this.app.id, this.projectId).then(resp => {
-      this.toast.showInfo('APP.TOAST.CLIENTSECRETREGENERATED', true);
-      this.dialog.open(AppSecretDialogComponent, {
-        data: {
-          // clientId: data.toObject() as ClientSecret.AsObject.clientId,
-          clientSecret: resp.clientSecret,
-        },
-        width: '400px',
+    this.mgmtService
+      .regenerateOIDCClientSecret(this.app.id, this.projectId)
+      .then((resp) => {
+        this.toast.showInfo('APP.TOAST.CLIENTSECRETREGENERATED', true);
+        this.dialog.open(AppSecretDialogComponent, {
+          data: {
+            // clientId: data.toObject() as ClientSecret.AsObject.clientId,
+            clientSecret: resp.clientSecret,
+          },
+          width: '400px',
+        });
+      })
+      .catch((error) => {
+        this.toast.showError(error);
       });
-
-    }).catch(error => {
-      this.toast.showError(error);
-    });
   }
 
   public regenerateAPIClientSecret(): void {
-    this.mgmtService.regenerateAPIClientSecret(this.app.id, this.projectId).then(resp => {
-      this.toast.showInfo('APP.TOAST.CLIENTSECRETREGENERATED', true);
-      this.dialog.open(AppSecretDialogComponent, {
-        data: {
-          clientSecret: resp.clientSecret,
-        },
-        width: '400px',
+    this.mgmtService
+      .regenerateAPIClientSecret(this.app.id, this.projectId)
+      .then((resp) => {
+        this.toast.showInfo('APP.TOAST.CLIENTSECRETREGENERATED', true);
+        this.dialog.open(AppSecretDialogComponent, {
+          data: {
+            clientSecret: resp.clientSecret,
+          },
+          width: '400px',
+        });
+      })
+      .catch((error) => {
+        this.toast.showError(error);
       });
-
-    }).catch(error => {
-      this.toast.showError(error);
-    });
   }
 
   public navigateBack(): void {

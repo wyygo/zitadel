@@ -1,5 +1,5 @@
 .ar-button {
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
 .table-wrapper {
@@ -31,9 +31,9 @@ td {
     height: 30px;
     width: 30px;
     margin-left: 1rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     object-fit: contain;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 }
 
@@ -52,7 +52,7 @@ tr {
 
   &.disabled,
   &.disabled * {
-    opacity: .8;
+    opacity: 0.8;
     cursor: default;
   }
 }
@@ -80,7 +80,7 @@ tr {
   width: 250px;
 
   .key {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     font-size: 12px;
     flex: 1 0 50%;
     overflow: hidden;
@@ -95,16 +95,16 @@ tr {
   }
 
   &:first-child {
-    padding-top: .5rem;
+    padding-top: 0.5rem;
   }
 
   &:last-child {
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
   }
 }
 
 .date-block {
-  margin: .5rem 0;
+  margin: 0.5rem 0;
   display: block;
   min-width: 120px;
 

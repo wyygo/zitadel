@@ -33,4 +33,4 @@ import { PasswordLockoutPolicyComponent } from './password-lockout-policy.compon
     InfoSectionModule,
   ],
 })
-export class PasswordLockoutPolicyModule { }
+export class PasswordLockoutPolicyModule {}

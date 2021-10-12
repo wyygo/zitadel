@@ -10,17 +10,14 @@ describe('ProjectRolesComponent', () => {
   let component: ProjectRolesComponent;
   let fixture: ComponentFixture<ProjectRolesComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProjectRolesComponent],
-      imports: [
-        NoopAnimationsModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProjectRolesComponent],
+        imports: [NoopAnimationsModule, MatPaginatorModule, MatSortModule, MatTableModule],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectRolesComponent);

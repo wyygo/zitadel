@@ -4,7 +4,7 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angu
   selector: '[cnslOutsideClick]',
 })
 export class OutsideClickDirective {
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef) {}
 
   @Output() public clickOutside: EventEmitter<HTMLElement> = new EventEmitter();
 

@@ -29,10 +29,10 @@ export class ProjectGrantCreateComponent implements OnInit, OnDestroy {
     private mgmtService: ManagementService,
     private authService: GrpcAuthService,
     private _location: Location,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe(params => {
+    this.routeSubscription = this.route.params.subscribe((params) => {
       this.projectId = params.projectid;
     });
   }
@@ -42,19 +42,22 @@ export class ProjectGrantCreateComponent implements OnInit, OnDestroy {
   }
 
   public searchOrg(domain: string): void {
-    this.mgmtService.getOrgByDomainGlobal(domain).then((ret) => {
-      if (ret.org) {
-        const tmp = ret.org;
-        this.authService.getActiveOrg().then((org) => {
-          if (tmp !== org) {
-            this.org = tmp;
-          }
-        });
-        this.org = ret.org;
-      }
-    }).catch(error => {
-      this.toast.showError(error);
-    });
+    this.mgmtService
+      .getOrgByDomainGlobal(domain)
+      .then((ret) => {
+        if (ret.org) {
+          const tmp = ret.org;
+          this.authService.getActiveOrg().then((org) => {
+            if (tmp !== org) {
+              this.org = tmp;
+            }
+          });
+          this.org = ret.org;
+        }
+      })
+      .catch((error) => {
+        this.toast.showError(error);
+      });
   }
 
   public close(): void {
@@ -67,13 +70,13 @@ export class ProjectGrantCreateComponent implements OnInit, OnDestroy {
       .then(() => {
         this.close();
       })
-      .catch(error => {
+      .catch((error) => {
         this.toast.showError(error);
       });
   }
 
   public selectRoles(roles: Role.AsObject[]): void {
-    this.rolesKeyList = roles.map(role => role.key);
+    this.rolesKeyList = roles.map((role) => role.key);
   }
 
   public next(): void {
@@ -84,4 +87,3 @@ export class ProjectGrantCreateComponent implements OnInit, OnDestroy {
     this.currentCreateStep--;
   }
 }
-

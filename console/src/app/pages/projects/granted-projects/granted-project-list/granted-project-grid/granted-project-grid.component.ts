@@ -11,13 +11,7 @@ import { StorageKey, StorageLocation, StorageService } from 'src/app/services/st
   templateUrl: './granted-project-grid.component.html',
   styleUrls: ['./granted-project-grid.component.scss'],
   animations: [
-    trigger('list', [
-      transition(':enter', [
-        query('@animate',
-          stagger(100, animateChild()),
-        ),
-      ]),
-    ]),
+    trigger('list', [transition(':enter', [query('@animate', stagger(100, animateChild()))])]),
     trigger('animate', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(-100%)' }),
@@ -42,12 +36,13 @@ export class GrantedProjectGridComponent implements OnChanges {
   public ProjectGrantState: any = ProjectGrantState;
 
   constructor(private storage: StorageService, private router: Router) {
-    this.selection.changed.subscribe(selection => {
-      this.setPrefixedItem('pinned-granted-projects', JSON.stringify(
-        this.selection.selected.map(item => item.projectId),
-      )).then(() => {
-        selection.added.forEach(item => {
-          const index = this.notPinned.findIndex(i => i.projectId === item.projectId);
+    this.selection.changed.subscribe((selection) => {
+      this.setPrefixedItem(
+        'pinned-granted-projects',
+        JSON.stringify(this.selection.selected.map((item) => item.projectId)),
+      ).then(() => {
+        selection.added.forEach((item) => {
+          const index = this.notPinned.findIndex((i) => i.projectId === item.projectId);
           this.notPinned.splice(index, 1);
         });
         this.notPinned.push(...selection.removed);
@@ -67,7 +62,7 @@ export class GrantedProjectGridComponent implements OnChanges {
   }
 
   public reorganizeItems(): void {
-    this.getPrefixedItem('pinned-granted-projects').then(storageEntry => {
+    this.getPrefixedItem('pinned-granted-projects').then((storageEntry) => {
       if (storageEntry) {
         const array: string[] = JSON.parse(storageEntry);
         const toSelect: GrantedProject.AsObject[] = this.items.filter((item) => {

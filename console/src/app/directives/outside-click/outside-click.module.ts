@@ -3,18 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { OutsideClickDirective } from './outside-click.directive';
 
-
-
-
 @NgModule({
-    declarations: [
-        OutsideClickDirective,
-    ],
-    imports: [
-        CommonModule,
-    ],
-    exports: [
-        OutsideClickDirective,
-    ],
+  declarations: [OutsideClickDirective],
+  imports: [CommonModule],
+  exports: [OutsideClickDirective],
 })
-export class OutsideClickModule { }
+export class OutsideClickModule {}

@@ -6,12 +6,13 @@ describe('ProjectRoleCreateComponent', () => {
   let component: ProjectRoleCreateComponent;
   let fixture: ComponentFixture<ProjectRoleCreateComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProjectRoleCreateComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProjectRoleCreateComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectRoleCreateComponent);

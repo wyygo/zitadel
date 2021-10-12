@@ -7,12 +7,7 @@ import { OnboardingRoutingModule } from './onboarding-routing.module';
 import { OnboardingComponent } from './onboarding.component';
 
 @NgModule({
-    declarations: [OnboardingComponent],
-    imports: [
-        CommonModule,
-        TranslateModule,
-        OnboardingRoutingModule,
-        MatButtonModule,
-    ],
+  declarations: [OnboardingComponent],
+  imports: [CommonModule, TranslateModule, OnboardingRoutingModule, MatButtonModule],
 })
-export class OnboardingModule { }
+export class OnboardingModule {}

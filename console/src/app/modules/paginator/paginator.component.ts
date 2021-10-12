@@ -20,7 +20,7 @@ export class PaginatorComponent {
   @Input() public pageIndex: number = 0;
   @Input() public pageSizeOptions: Array<number> = [10, 25, 50];
   @Output() public page: EventEmitter<PageEvent> = new EventEmitter();
-  constructor() { }
+  constructor() {}
 
   public previous(): void {
     if (this.previousPossible) {
@@ -38,12 +38,12 @@ export class PaginatorComponent {
 
   get previousPossible(): boolean {
     const temp = this.pageIndex - 1;
-    return (temp >= 0);
+    return temp >= 0;
   }
 
   get nextPossible(): boolean {
     const temp = this.pageIndex + 1;
-    return (temp <= (this.length / this.pageSize));
+    return temp <= this.length / this.pageSize;
   }
 
   public emitChange(): void {

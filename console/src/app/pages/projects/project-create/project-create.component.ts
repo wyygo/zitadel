@@ -18,7 +18,7 @@ export class ProjectCreateComponent {
     private toast: ToastService,
     private mgmtService: ManagementService,
     private _location: Location,
-  ) { }
+  ) {}
 
   public createSteps: number = 1;
   public currentCreateStep: number = 1;
@@ -29,7 +29,7 @@ export class ProjectCreateComponent {
       .then((resp: AddProjectResponse.AsObject) => {
         this.router.navigate(['projects', resp.id]);
       })
-      .catch(error => {
+      .catch((error) => {
         this.toast.showError(error);
       });
   }

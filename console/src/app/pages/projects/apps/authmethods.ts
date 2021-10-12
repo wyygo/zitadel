@@ -92,13 +92,15 @@ export const CUSTOM_METHOD: RadioItemAuthType = {
   background: '#333',
 };
 
-export function getPartialConfigFromAuthMethod(authMethod: string): {
-  oidc?: Partial<OIDCConfig.AsObject>;
-  api?: Partial<APIConfig.AsObject>;
-} | undefined {
+export function getPartialConfigFromAuthMethod(authMethod: string):
+  | {
+      oidc?: Partial<OIDCConfig.AsObject>;
+      api?: Partial<APIConfig.AsObject>;
+    }
+  | undefined {
   let config: {
-    oidc?: Partial<OIDCConfig.AsObject>,
-    api?: Partial<APIConfig.AsObject>,
+    oidc?: Partial<OIDCConfig.AsObject>;
+    api?: Partial<APIConfig.AsObject>;
   };
   switch (authMethod) {
     case CODE_METHOD.key:
@@ -167,107 +169,98 @@ export function getPartialConfigFromAuthMethod(authMethod: string): {
   }
 }
 
-export function getAuthMethodFromPartialConfig(
-  config: {
-    oidc?: Partial<OIDCConfig.AsObject>,
-    api?: Partial<APIConfig.AsObject>,
-  },
-): string {
+export function getAuthMethodFromPartialConfig(config: {
+  oidc?: Partial<OIDCConfig.AsObject>;
+  api?: Partial<APIConfig.AsObject>;
+}): string {
   if (config?.oidc) {
     const toCheck = [config.oidc.responseTypesList, config.oidc.grantTypesList?.sort(), config.oidc.authMethodType];
-    const code = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_BASIC,
-      ],
-    );
+    const code = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_BASIC,
+    ]);
 
-    const codeWithRefresh = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_BASIC,
-      ],
-    );
+    const codeWithRefresh = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_BASIC,
+    ]);
 
-    const pkce = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE,
-      ],
-    );
+    const pkce = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE,
+    ]);
 
-    const pkceWithRefresh = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE,
-      ],
-    );
+    const pkceWithRefresh = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE,
+    ]);
 
-    const post = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_POST,
-      ],
-    );
+    const post = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_POST,
+    ]);
 
-    const postWithRefresh = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_POST,
-      ],
-    );
+    const postWithRefresh = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_POST,
+    ]);
 
-    const pkjwt = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT,
-      ],
-    );
+    const pkjwt = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE],
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT,
+    ]);
 
-    const pkjwtWithRefresh = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
-        [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT,
-      ],
-    );
+    const pkjwtWithRefresh = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_CODE],
+      [OIDCGrantType.OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDCGrantType.OIDC_GRANT_TYPE_REFRESH_TOKEN].sort(),
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT,
+    ]);
 
-    const implicit = JSON.stringify(
-      [
-        [OIDCResponseType.OIDC_RESPONSE_TYPE_ID_TOKEN_TOKEN],
-        [OIDCGrantType.OIDC_GRANT_TYPE_IMPLICIT],
-        OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE,
-      ],
-    );
+    const implicit = JSON.stringify([
+      [OIDCResponseType.OIDC_RESPONSE_TYPE_ID_TOKEN_TOKEN],
+      [OIDCGrantType.OIDC_GRANT_TYPE_IMPLICIT],
+      OIDCAuthMethodType.OIDC_AUTH_METHOD_TYPE_NONE,
+    ]);
 
     switch (JSON.stringify(toCheck)) {
-      case code: return CODE_METHOD.key;
-      case codeWithRefresh: return CODE_METHOD.key;
+      case code:
+        return CODE_METHOD.key;
+      case codeWithRefresh:
+        return CODE_METHOD.key;
 
-      case pkce: return PKCE_METHOD.key;
-      case pkceWithRefresh: return PKCE_METHOD.key;
+      case pkce:
+        return PKCE_METHOD.key;
+      case pkceWithRefresh:
+        return PKCE_METHOD.key;
 
-      case post: return POST_METHOD.key;
-      case postWithRefresh: return POST_METHOD.key;
+      case post:
+        return POST_METHOD.key;
+      case postWithRefresh:
+        return POST_METHOD.key;
 
-      case pkjwt: return PK_JWT_METHOD.key;
-      case pkjwtWithRefresh: return PK_JWT_METHOD.key;
+      case pkjwt:
+        return PK_JWT_METHOD.key;
+      case pkjwtWithRefresh:
+        return PK_JWT_METHOD.key;
 
-      case implicit: return IMPLICIT_METHOD.key;
+      case implicit:
+        return IMPLICIT_METHOD.key;
       default:
         return CUSTOM_METHOD.key;
     }
   } else if (config.api && config.api.authMethodType !== undefined) {
     switch (config.api.authMethodType.toString()) {
-      case APIAuthMethodType.API_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT.toString(): return PK_JWT_METHOD.key;
-      case APIAuthMethodType.API_AUTH_METHOD_TYPE_BASIC.toString(): return BASIC_AUTH_METHOD.key;
+      case APIAuthMethodType.API_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT.toString():
+        return PK_JWT_METHOD.key;
+      case APIAuthMethodType.API_AUTH_METHOD_TYPE_BASIC.toString():
+        return BASIC_AUTH_METHOD.key;
       default:
         return CUSTOM_METHOD.key;
     }

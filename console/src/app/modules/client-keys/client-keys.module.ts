@@ -23,36 +23,31 @@ import { RefreshTableModule } from '../refresh-table/refresh-table.module';
 import { ShowKeyDialogModule } from '../show-key-dialog/show-key-dialog.module';
 import { ClientKeysComponent } from './client-keys.component';
 
-
 @NgModule({
-    declarations: [
-        ClientKeysComponent,
-    ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        MatButtonModule,
-        MatDialogModule,
-        HasRoleModule,
-        CardModule,
-        MatTableModule,
-        PaginatorModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        HasRolePipeModule,
-        TimestampToDatePipeModule,
-        LocalizedDatePipeModule,
-        TranslateModule,
-        RefreshTableModule,
-        InputModule,
-        ShowKeyDialogModule,
-        AddKeyDialogModule,
-    ],
-    exports: [
-        ClientKeysComponent,
-    ],
+  declarations: [ClientKeysComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogModule,
+    HasRoleModule,
+    CardModule,
+    MatTableModule,
+    PaginatorModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    HasRolePipeModule,
+    TimestampToDatePipeModule,
+    LocalizedDatePipeModule,
+    TranslateModule,
+    RefreshTableModule,
+    InputModule,
+    ShowKeyDialogModule,
+    AddKeyDialogModule,
+  ],
+  exports: [ClientKeysComponent],
 })
-export class ClientKeysModule { }
+export class ClientKeysModule {}

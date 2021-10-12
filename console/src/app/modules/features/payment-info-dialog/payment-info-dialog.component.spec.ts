@@ -6,12 +6,13 @@ describe('PaymentInfoDialogComponent', () => {
   let component: PaymentInfoDialogComponent;
   let fixture: ComponentFixture<PaymentInfoDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PaymentInfoDialogComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PaymentInfoDialogComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentInfoDialogComponent);

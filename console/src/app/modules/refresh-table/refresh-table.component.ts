@@ -21,11 +21,7 @@ const rotate = animation([
   selector: 'cnsl-refresh-table',
   templateUrl: './refresh-table.component.html',
   styleUrls: ['./refresh-table.component.scss'],
-  animations: [
-    trigger('rotate', [
-      transition('* => *', [useAnimation(rotate, { params: { time: '1s' } })]),
-    ]),
-  ],
+  animations: [trigger('rotate', [transition('* => *', [useAnimation(rotate, { params: { time: '1s' } })])])],
 })
 export class RefreshTableComponent implements OnInit {
   @Input() public selection: SelectionModel<any> = new SelectionModel<any>(true, []);
@@ -37,7 +33,7 @@ export class RefreshTableComponent implements OnInit {
   @Output() public refreshed: EventEmitter<void> = new EventEmitter();
   @Input() public hideRefresh: boolean = false;
 
-  constructor(private refreshService: RefreshService) { }
+  constructor(private refreshService: RefreshService) {}
 
   ngOnInit(): void {
     if (this.emitRefreshAfterTimeoutInMs) {
@@ -46,8 +42,10 @@ export class RefreshTableComponent implements OnInit {
       }, this.emitRefreshAfterTimeoutInMs);
     }
 
-    if (this.emitRefreshOnPreviousRoutes.length && this.refreshService.previousUrls
-      .some(url => this.emitRefreshOnPreviousRoutes.includes(url))) {
+    if (
+      this.emitRefreshOnPreviousRoutes.length &&
+      this.refreshService.previousUrls.some((url) => this.emitRefreshOnPreviousRoutes.includes(url))
+    ) {
       setTimeout(() => {
         this.emitRefresh();
       }, 1000);
