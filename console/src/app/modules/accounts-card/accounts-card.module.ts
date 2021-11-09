@@ -1,29 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { TranslateModule } from '@ngx-translate/core';
 import { OutsideClickModule } from 'src/app/directives/outside-click/outside-click.module';
 
 import { AvatarModule } from '../avatar/avatar.module';
+import { CommonElementsModule } from '../common-elements/common-elements.module';
 import { AccountsCardComponent } from './accounts-card.component';
 
 @NgModule({
-    declarations: [
-        AccountsCardComponent,
-    ],
-    imports: [
-        CommonModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressBarModule,
-        OutsideClickModule,
-        AvatarModule,
-        TranslateModule,
-    ],
-    exports: [
-        AccountsCardComponent,
-    ],
+  declarations: [AccountsCardComponent],
+  imports: [MatProgressBarModule, OutsideClickModule, AvatarModule, CommonElementsModule],
+  exports: [AccountsCardComponent],
 })
-export class AccountsCardModule { }
+export class AccountsCardModule {}
